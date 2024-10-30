@@ -9,7 +9,7 @@ import { COMPONENTS_VERSION } from '@site/src/constants/kubernetes/componentsVer
 
 ### Инструкция StaticPod
 ```bash
-cat <<EOF > ${BASE_K8S_PATH}/manifests/kube-controller-manager.yaml
+cat <<EOF > ${BASE_K8S_PATH}/manifests/kube-controller-manager.yaml2
 apiVersion: v1
 kind: Pod
 metadata:
@@ -23,42 +23,28 @@ spec:
   containers:
   - command:
     - kube-controller-manager
-    - --allocate-node-cidrs=false
     - --authentication-kubeconfig=${BASE_K8S_PATH}/controller-manager.conf
+    - --authorization-always-allow-paths=/healthz,/readyz,/livez,/metrics
     - --authorization-kubeconfig=${BASE_K8S_PATH}/controller-manager.conf
-    - --kubeconfig=${BASE_K8S_PATH}/controller-manager.conf
+    - --bind-address=0.0.0.0
     - --client-ca-file=${KUBERNETES_CA_CRT_PATH}
+    - --cluster-name=${CLUSTER_NAME}
     - --cluster-signing-cert-file=${KUBERNETES_CA_CRT_PATH}
+    - --cluster-signing-duration=720h
     - --cluster-signing-key-file=${KUBERNETES_CA_KEY_PATH}
+    - --concurrent-replicaset-syncs=20
+    - --controllers=*,bootstrapsigner,tokencleaner
+    - --feature-gates=RotateKubeletServerCertificate=true
+    - --kube-api-burst=120
+    - --kube-api-qps=100
+    - --kubeconfig=${BASE_K8S_PATH}/controller-manager.conf
+    - --leader-elect=true
+    - --namespace-sync-period=2m0s
+    - --node-startup-grace-period=10s
     - --requestheader-client-ca-file=${FRONT_PROXY_CA_CRT_PATH}
     - --root-ca-file=${KUBERNETES_CA_CRT_PATH}
     - --service-account-private-key-file=${KUBERNETES_SERVICE_ACCOUNT_KEY_PATH}
-    - --authorization-always-allow-paths=/healthz,/metrics
-    - --bind-address=0.0.0.0
-    - --cloud-provider=external
-    - --cluster-name=${CLUSTER_NAME}
-    - --cluster-signing-duration=720h
-    - --concurrent-deployment-syncs=5
-    - --concurrent-endpoint-syncs=5
-    - --concurrent-namespace-syncs=10
-    - --concurrent-replicaset-syncs=20
-    - --concurrent-resource-quota-syncs=5
-    - --controllers=*,bootstrapsigner,tokencleaner
-    - --feature-gates=RotateKubeletServerCertificate=true
-    - --horizontal-pod-autoscaler-sync-period=30s
-    - --kube-api-burst=120
-    - --kube-api-qps=100
-    - --leader-elect=true
-    - --leader-elect-lease-duration=15s
-    - --leader-elect-renew-deadline=10s
-    - --leader-elect-retry-period=2s
-    - --namespace-sync-period=2m0s
-    - --node-monitor-grace-period=40s
-    - --node-monitor-period=5s
-    - --node-startup-grace-period=10s
-    - --profiling=false
-    - --resource-quota-sync-period=5m0s
-    - --terminated-pod-gc-threshold=0
+    - --terminated-pod-gc-threshold=12500
     - --use-service-account-credentials=true
     - --v=2
     image: registry.k8s.io/kube-controller-manager:${KUBERNETES_VERSION}
@@ -149,7 +135,6 @@ spec:
       type: DirectoryOrCreate
     name: usr-share-ca-certificates
 status: {}
-
 EOF
 ```
 </details>

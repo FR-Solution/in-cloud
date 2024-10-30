@@ -133,8 +133,8 @@ import {KUBE_API_ARGS}          from '@site/src/constants/kubernetes/kubeAPIArgs
       v: "2"
 
   scheduler:
-    extraArgs: {}
-
+    extraArgs:
+      bind-address: 0.0.0.0
   EOF
 `}
 </CodeBlock>

@@ -8,16 +8,14 @@ import { FancyboxDiagram }      from '@site/src/components/commonBlocks/Fancybox
 import TabItem                  from '@theme/TabItem'
 import Tabs                     from '@theme/Tabs'
 
-import K8sDownloads             from '@site/src/snippets/kubernetes/downloads.mdx'
+import K8sDownloads             from '@site/src/snippets/kubernetes/components/downloads.mdx'
 import K8sSystem                from '@site/src/snippets/kubernetes/system.mdx'
-import CertsSchema              from '@site/src/snippets/kubernetes/certs/schema.mdx'
-
-import SetCertsCA               from '@site/src/snippets/kubernetes/setCertsCA.mdx'
-import SetCerts                 from '@site/src/snippets/kubernetes/setCerts.mdx'
+import CertsSetup               from '@site/src/snippets/kubernetes/certs/certsSetup.mdx'
+ 
 import StaticPods               from '@site/src/snippets/kubernetes/staticPods.mdx'
 import StartCluster             from '@site/src/snippets/kubernetes/startCluster.mdx'
 import StatusCluster            from '@site/src/snippets/kubernetes/statusCluster.mdx'
-import PhaseKubeadm             from '@site/src/snippets/kubernetes/phaseKubeadm.mdx'
+import PhaseKubeadm             from '@site/src/snippets/kubernetes/components/kubeadm/phaseKubeadm.mdx'
 
 import ComponentsInfo           from '@site/src/snippets/kubernetes/components/components.mdx'
 import ComponentsSetings        from '@site/src/snippets/kubernetes/components/componentsSetings.mdx'
@@ -36,10 +34,9 @@ import StagesOfCreation         from '@site/src/snippets/kubernetes/stagesOfCrea
 
 import AboutK8S                 from '@site/src/snippets/kubernetes/aboutK8S.mdx'
 import Introduction             from '@site/src/snippets/kubernetes/introduction.mdx'
-import {KUBE_API_ARGS}        from '@site/src/constants/kubernetes/kubeAPIArgs'
+import {KUBE_API_ARGS}          from '@site/src/constants/kubernetes/kubeAPIArgs'
 
 ![Описание изображения](/img/rick-20m.png)
-
 
 ## Введение
 <Introduction />
@@ -72,13 +69,7 @@ import {KUBE_API_ARGS}        from '@site/src/constants/kubernetes/kubeAPIArgs'
 <ComponentsSetings />
 
 ## Настройка сертификатов
-<CertsSchema />
-
-### Center Authority
-<SetCertsCA />
-
-### Certificates
-<SetCerts />
+<CertsSetup />
 
 ## Настройка Static Pods
 <StaticPods />
@@ -101,10 +92,13 @@ import {KUBE_API_ARGS}        from '@site/src/constants/kubernetes/kubeAPIArgs'
   <TabItem value='HardWay'>
     > Данный блок маркирует узлы управляющего контура, что бы пользовательская нагрузка на них не падала.
     ```bash
-    kubectl label node ${NODE} node-role.kubernetes.io/control-plane=""
+    kubectl label node ${FULL_HOST_NAME} node-role.kubernetes.io/control-plane="" \
+      --kubeconfig=${BASE_K8S_PATH}/super-admin.conf
     ```
     ```bash
-    kubectl taint node ${NODE} node-role.kubernetes.io/control-plane="":NoSchedule --overwrite
+    kubectl taint node ${FULL_HOST_NAME} node-role.kubernetes.io/control-plane="":NoSchedule \
+      --overwrite \
+      --kubeconfig=${BASE_K8S_PATH}/super-admin.conf
     ```
   </TabItem>
 
@@ -133,7 +127,51 @@ import {KUBE_API_ARGS}        from '@site/src/constants/kubernetes/kubeAPIArgs'
     ```bash
     export AUTH_EXTRA_GROUPS="system:bootstrappers:kubeadm:default-node-token"
 
-    kubectl apply -f - <<EOF
+    kubectl --kubeconfig=${BASE_K8S_PATH}/super-admin.conf apply -f - <<EOF
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      name: kubeadm:get-nodes
+    rules:
+    - apiGroups:
+      - ""
+      resources:
+      - nodes
+      verbs:
+      - get
+
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: Role
+    metadata:
+      name: kubeadm:bootstrap-signer-clusterinfo
+      namespace: kube-public
+    rules:
+    - apiGroups:
+      - ""
+      resourceNames:
+      - cluster-info
+      resources:
+      - configmaps
+      verbs:
+      - get
+
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: RoleBinding
+    metadata:
+      name: kubeadm:bootstrap-signer-clusterinfo
+      namespace: kube-public
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: Role
+      name: kubeadm:bootstrap-signer-clusterinfo
+    subjects:
+    - apiGroup: rbac.authorization.k8s.io
+      kind: User
+      name: system:anonymous
+
     ---
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRoleBinding
@@ -242,7 +280,7 @@ EOF
     <details>
     <summary>Cluster-Info</summary>
     <CodeBlock>
-{`kubectl apply -f - <<EOF
+{`kubectl --kubeconfig=$\{BASE_K8S_PATH\}/super-admin.conf apply -f - <<EOF
   ---
   apiVersion: v1
   kind: ConfigMap

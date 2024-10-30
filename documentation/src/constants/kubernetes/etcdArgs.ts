@@ -48,7 +48,7 @@ export const ETCD_ARGS: TCustomValueItems = {
     value: "https://${MACHINE_LOCAL_ADDRESS}:${ETCD_PEER_PORT}"
   },
   listenMetricsUrls: {
-    value: "http://127.0.0.1:${ETCD_METRICS_PORT},http://${MACHINE_LOCAL_ADDRESS}:${ETCD_METRICS_PORT}"
+    value: "http://127.0.0.1:${ETCD_METRICS_PORT}"
   },
 
   dataDir: {
