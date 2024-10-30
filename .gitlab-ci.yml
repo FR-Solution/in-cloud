@@ -10,7 +10,7 @@ test:
   stage: test
   script:
   - cd documentation
-  - npm install --registry=https://nexus.sberbank.kz/#browse/browse:npm-bank
+  - npm install --registry=https://nexus.berekebank.kz/#browse/browse:npm-bank
   - export DOC_INCLUDE_CURRENT_VERSION=false
   - npm run build
   rules:
@@ -22,7 +22,7 @@ pages:
   stage: deploy
   script:
   - cd documentation
-  - npm install --registry=https://nexus.sberbank.kz/#browse/browse:npm-bank
+  - npm install --registry=https://nexus.berekebank.kz/#browse/browse:npm-bank
   - export DOC_INCLUDE_CURRENT_VERSION=false
   - npm run build
   - mv ./build ../public
