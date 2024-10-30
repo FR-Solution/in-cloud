@@ -7,7 +7,7 @@ stages:
 
 test:
   tags:
-    - experimental
+    - experimental-prod
   stage: test
   script:
   - cd documentation
@@ -19,7 +19,7 @@ test:
 
 pages:
   tags:
-    - experimental
+    - experimental-prod
   stage: deploy
   script:
   - cd documentation
