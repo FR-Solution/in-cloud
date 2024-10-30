@@ -1,0 +1,338 @@
+---
+id: k8s-hello
+---
+
+# Kubernetes The Hard Way
+
+import { FancyboxDiagram }      from '@site/src/components/commonBlocks/FancyboxDiagram'
+import TabItem                  from '@theme/TabItem'
+import Tabs                     from '@theme/Tabs'
+
+import K8sDownloads             from '@site/src/snippets/kubernetes/downloads.mdx'
+import K8sSystem                from '@site/src/snippets/kubernetes/system.mdx'
+import CertsSchema              from '@site/src/snippets/kubernetes/certs/schema.mdx'
+
+import SetCertsCA               from '@site/src/snippets/kubernetes/setCertsCA.mdx'
+import SetCerts                 from '@site/src/snippets/kubernetes/setCerts.mdx'
+import StaticPods               from '@site/src/snippets/kubernetes/staticPods.mdx'
+import StartCluster             from '@site/src/snippets/kubernetes/startCluster.mdx'
+import StatusCluster            from '@site/src/snippets/kubernetes/statusCluster.mdx'
+import PhaseKubeadm             from '@site/src/snippets/kubernetes/phaseKubeadm.mdx'
+
+import ComponentsInfo           from '@site/src/snippets/kubernetes/components/components.mdx'
+import ComponentsSetings        from '@site/src/snippets/kubernetes/components/componentsSetings.mdx'
+
+import CodeBlock                from '@theme/CodeBlock';
+
+import { CUSTOM_VALUE }         from '@site/src/constants/kubernetes/customValue'
+import { CERTIFICATES }         from '@site/src/constants/kubernetes/certs'
+import { PORTS }                from '@site/src/constants/kubernetes/ports'
+
+import Arch                     from '@site/src/snippets/kubernetes/flowcharts/arch.mdx'
+import TopologyInfra            from '@site/src/snippets/kubernetes/flowcharts/topologyInfra.mdx'
+
+import PreparingTheEnvironment  from '@site/src/snippets/kubernetes/preparingTheEnvironment.mdx'
+import StagesOfCreation         from '@site/src/snippets/kubernetes/stagesOfCreation.mdx'
+
+import AboutK8S                 from '@site/src/snippets/kubernetes/aboutK8S.mdx'
+import Introduction             from '@site/src/snippets/kubernetes/introduction.mdx'
+import {KUBE_API_ARGS}        from '@site/src/constants/kubernetes/kubeAPIArgs'
+
+![Описание изображения](/img/rick-20m.png)
+
+
+## Введение
+<Introduction />
+
+## Для чего нужен Kubernetes
+<AboutK8S />
+
+## Основные компоненты
+<ComponentsInfo />
+
+## Архитектура 
+<Arch />
+
+## Этапы создания кластера
+<StagesOfCreation />
+
+## Подготовка окружения
+<PreparingTheEnvironment />
+
+## Загрузка компонентов
+<K8sDownloads />
+
+## Настройка ОС
+<K8sSystem />
+
+## Фазы Kubeadm
+<PhaseKubeadm />
+
+## Настройка компонентов
+<ComponentsSetings />
+
+## Настройка сертификатов
+<CertsSchema />
+
+### Center Authority
+<SetCertsCA />
+
+### Certificates
+<SetCerts />
+
+## Настройка Static Pods
+<StaticPods />
+
+## Запуск кластера
+<StartCluster />
+
+## Статус кластера
+<StatusCluster />
+
+## Kubeadm доп настройки
+1. Маркировка узла
+2. Настройка ролевой модели
+3. Загрузка `kubelet-conf` и `kubeadm-conf` в кластер
+4. Загрузка корневых сертификатов в кластер
+
+#### Маркировка ноды и навешивание tain
+<Tabs groupId="install-type">
+
+  <TabItem value='HardWay'>
+    > Данный блок маркирует узлы управляющего контура, что бы пользовательская нагрузка на них не падала.
+    ```bash
+    kubectl label node ${NODE} node-role.kubernetes.io/control-plane=""
+    ```
+    ```bash
+    kubectl taint node ${NODE} node-role.kubernetes.io/control-plane="":NoSchedule --overwrite
+    ```
+  </TabItem>
+
+  <TabItem value='Kubeadm'>
+    > Данный блок маркирует узлы управляющего контура, что бы пользовательская нагрузка на них не падала.
+    ```bash
+    kubeadm init phase mark-control-plane
+    ```
+    :::note
+    ```
+    [mark-control-plane] Marking the node master-1.example.prorobotech.ru as control-plane by adding the labels: [node-role.kubernetes.io/control-plane node.kubernetes.io/exclude-from-external-load-balancers]
+    [mark-control-plane] Marking the node master-1.example.prorobotech.ru as control-plane by adding the taints [node-role.kubernetes.io/control-plane:NoSchedule]
+    ```
+    :::
+  </TabItem>
+
+</Tabs>
+
+#### Настройка ролевой модели
+<Tabs groupId="install-type">
+
+  <TabItem value='HardWay'>
+    > Данный блок настраивает ролевую модель и создает бутстрап токен, для того, что бы можно было добавить следующий узел в кластер.
+    <details>
+    <summary>Role bindings</summary>
+    ```bash
+    export AUTH_EXTRA_GROUPS="system:bootstrappers:kubeadm:default-node-token"
+
+    kubectl apply -f - <<EOF
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      name: kubeadm:cluster-admins
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: cluster-admin
+    subjects:
+    - apiGroup: rbac.authorization.k8s.io
+      kind: Group
+      name: kubeadm:cluster-admins
+
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      name: kubeadm:get-nodes
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: kubeadm:get-nodes
+    subjects:
+    - apiGroup: rbac.authorization.k8s.io
+      kind: Group
+      name: ${AUTH_EXTRA_GROUPS}
+
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      name: kubeadm:kubelet-bootstrap
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: system:node-bootstrapper
+    subjects:
+    - apiGroup: rbac.authorization.k8s.io
+      kind: Group
+      name: ${AUTH_EXTRA_GROUPS}
+
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      name: kubeadm:node-autoapprove-bootstrap
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: system:certificates.k8s.io:certificatesigningrequests:nodeclient
+    subjects:
+    - apiGroup: rbac.authorization.k8s.io
+      kind: Group
+      name: ${AUTH_EXTRA_GROUPS}
+
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      name: kubeadm:node-autoapprove-certificate-rotation
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: system:certificates.k8s.io:certificatesigningrequests:selfnodeclient
+    subjects:
+    - apiGroup: rbac.authorization.k8s.io
+      kind: Group
+      name: system:nodes
+    EOF
+    ```
+    </details>
+
+    <details>
+    <summary>Bootstrap tokens</summary>
+    <CodeBlock>
+{`export AUTH_EXTRA_GROUPS="system:bootstrappers:kubeadm:default-node-token"
+  export DESCRIPTION="kubeadm bootstrap token"
+  export EXPIRATION=$(date -d '24 hours' "+%Y-%m-%dT%H:%M:%SZ")
+  export TOKEN_ID="fjt9ex"
+  export TOKEN_SECRET="lwzqgdlvoxtqk4yw"
+  export USAGE_BOOTSTRAP_AUTHENTIFICATION="true"
+  export USAGE_BOOTSTRAP_SIGNING="true"
+  
+  kubectl apply -f - <<EOF
+  ---
+  apiVersion: v1
+  kind: Secret
+  metadata:
+    name: bootstrap-token-$\{TOKEN_ID\}
+    namespace: kube-system
+  data:
+    auth-extra-groups:              $(echo -n "$AUTH_EXTRA_GROUPS"                | base64)
+    description:                    $(echo -n "$DESCRIPTION"                      | base64)
+    expiration:                     $(echo -n "$EXPIRATION"                       | base64)
+    token-id:                       $(echo -n "$TOKEN_ID"                         | base64)
+    token-secret:                   $(echo -n "$TOKEN_SECRET"                     | base64)
+    usage-bootstrap-authentication: $(echo -n "$USAGE_BOOTSTRAP_AUTHENTIFICATION" | base64)
+    usage-bootstrap-signing:        $(echo -n "$USAGE_BOOTSTRAP_SIGNING"          | base64)
+  type: bootstrap.kubernetes.io/token
+EOF
+`}
+    </CodeBlock>
+    </details>
+
+    <details>
+    <summary>Cluster-Info</summary>
+    <CodeBlock>
+{`kubectl apply -f - <<EOF
+  ---
+  apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: cluster-info
+    namespace: kube-public
+  data:
+    kubeconfig: |
+      apiVersion: v1
+      clusters:
+      - cluster:
+          certificate-authority-data: $(cat /etc/kubernetes/pki/ca.crt | base64 | tr -d '\n')
+          server: https://api.$\{CLUSTER_NAME\}.$\{BASE_DOMAIN\}:${KUBE_API_ARGS.securePort.value}
+        name: ""
+      contexts: null
+      current-context: ""
+      kind: Config
+      preferences: {}
+      users: null
+EOF
+`}
+    </CodeBlock>
+    </details>
+  </TabItem>
+
+  <TabItem value='Kubeadm'>
+  > Данный блок настраивает ролевую модель и создает бутстрап токен, для того, что бы можно было добавить следующий узел в кластер.
+  ```bash
+  kubeadm init phase bootstrap-token \
+    --config=${BASE_K8S_PATH}/kubeadm.conf
+  ```
+  :::note
+  ```bash
+  [bootstrap-token] Using token: fjt9ex.lwzqgdlvoxtqk4yw
+  [bootstrap-token] Configuring bootstrap tokens, cluster-info ConfigMap, RBAC Roles
+  [bootstrap-token] Configured RBAC rules to allow Node Bootstrap tokens to get nodes
+  [bootstrap-token] Configured RBAC rules to allow Node Bootstrap tokens to post CSRs in order for nodes to get long term certificate credentials
+  [bootstrap-token] Configured RBAC rules to allow the csrapprover controller automatically approve CSRs from a Node Bootstrap Token
+  [bootstrap-token] Configured RBAC rules to allow certificate rotation for all node client certificates in the cluster
+  [bootstrap-token] Creating the "cluster-info" ConfigMap in the "kube-public" namespace
+  ```
+  :::
+  </TabItem>
+
+</Tabs>
+
+
+#### Загрузка `kubelet-conf` и `kubeadm-conf` в кластер
+<Tabs groupId="install-type">
+
+  <TabItem value='HardWay'>
+  </TabItem>
+
+  <TabItem value='Kubeadm'>
+  > Данный блок загружает актуальный kubeadm config и kubelet config, что бы последующие узлы брали актуальный из кластера.
+  ```bash
+  kubeadm init phase upload-config all \
+    --config=${BASE_K8S_PATH}/kubeadm.conf
+  ```
+  :::note
+  ```bash
+  [upload-config] Storing the configuration used in ConfigMap "kubeadm-config" in the "kube-system" Namespace
+  [kubelet] Creating a ConfigMap "kubelet-config" in namespace kube-system with the configuration for the kubelets in the cluster
+  ```
+  :::
+  </TabItem>
+
+</Tabs>
+
+#### Загрузка корневых сертификатов в кластер
+<Tabs groupId="install-type">
+
+  <TabItem value='HardWay'>
+  > Данный блок загружает корневые сертификаты и шифрует ключем, указанный в kubeadm config `certificateKey`, для того, что бы можно было выгрузить на следующем узле управляющего контура.
+
+  </TabItem>
+
+  <TabItem value='Kubeadm'>
+  > Данный блок загружает корневые сертификаты и шифрует ключем, указанный в kubeadm config `certificateKey`, для того, что бы можно было выгрузить на следующем узле управляющего контура.
+  ```bash
+  kubeadm init phase upload-certs \
+    --config=${BASE_K8S_PATH}/kubeadm.conf \
+    --upload-certs
+  ```
+  :::note
+  ```bash
+  [upload-certs] Storing the certificates in Secret "kubeadm-certs" in the "kube-system" Namespace
+  [upload-certs] Using certificate key: `0c00c2fd5c67c37656c00d78a9d7e1f2eb794ef8e4fc3e2a4b532eb14323cd59`
+  ```
+  :::
+  </TabItem>
+
+</Tabs>

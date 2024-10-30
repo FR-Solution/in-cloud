@@ -1,0 +1,263 @@
+
+import React from 'react';
+import CodeBlock from '@theme/CodeBlock';
+
+import { PORTS }                from '@site/src/constants/kubernetes/ports'
+import { CUSTOM_VALUE }         from '@site/src/constants/kubernetes/customValue'
+import { COMPONENTS_VERSION }   from '@site/src/constants/kubernetes/componentsVersion'
+import { CERTIFICATES }         from '@site/src/constants/kubernetes/certs'
+
+<details>
+<summary>Environments</summary>
+
+### Базовые переменные окружения:
+
+Для начала зададим переменные окружния, определяющие расположение файлов и сам кластер
+
+<CodeBlock language="bash">
+{`export BASE_K8S_PATH="${CUSTOM_VALUE.kuberneteBaseFolderPath.value}"
+  export BASE_KUBELET_PATH="${CUSTOM_VALUE.kuberneteKubeletFolderPath.value}"
+  export CLUSTER_NAME="${CUSTOM_VALUE.kubernetesClusterName.value}"
+  export CRI_ENDPOINT="${CUSTOM_VALUE.criEndpoint.value}"
+  export BASE_DOCKER_REGISTRY="${CUSTOM_VALUE.baseDockerRegistry.value}"
+  export PAUSED_IMAGE="${CUSTOM_VALUE.pausedImage.value}"
+  export BASE_DOMAIN="${CUSTOM_VALUE.kubernetesBaseDomain.value}"
+
+  export BASE_CLUSTER_DOMAIN=$\{CLUSTER_NAME\}.$\{BASE_DOMAIN\}
+  export FULL_HOST_NAME=$\{HOST_NAME\}.$\{BASE_CLUSTER_DOMAIN\}
+
+`}
+</CodeBlock>
+
+### Переменные окружения сертификатов:
+<CodeBlock language="bash">
+{`export ETCD_CA_CN="${CERTIFICATES.etcdCA.cname}"
+  export ETCD_CA_CRT_PATH="${CERTIFICATES.etcdCA.crtPath}"
+  export ETCD_CA_CSR_CONF="${CERTIFICATES.etcdCA.crtConf}"
+  export ETCD_CA_KEY_PATH="${CERTIFICATES.etcdCA.keyPath}"
+  export ETCD_CA_KEY_SIZE=${CERTIFICATES.etcdCA.keySize}
+
+  export FRONT_PROXY_CA_CN="${CERTIFICATES.frontProxyCA.cname}"
+  export FRONT_PROXY_CA_CRT_PATH="${CERTIFICATES.frontProxyCA.crtPath}"
+  export FRONT_PROXY_CA_CSR_CONF="${CERTIFICATES.frontProxyCA.crtConf}"
+  export FRONT_PROXY_CA_KEY_PATH="${CERTIFICATES.frontProxyCA.keyPath}"
+  export FRONT_PROXY_CA_KEY_SIZE=${CERTIFICATES.frontProxyCA.keySize}
+
+  export KUBERNETES_CA_CN="${CERTIFICATES.kubernetesCA.cname}"
+  export KUBERNETES_CA_CRT_PATH="${CERTIFICATES.kubernetesCA.crtPath}"
+  export KUBERNETES_CA_CSR_CONF="${CERTIFICATES.kubernetesCA.crtConf}"
+  export KUBERNETES_CA_KEY_PATH="${CERTIFICATES.kubernetesCA.keyPath}"
+  export KUBERNETES_CA_KEY_SIZE=${CERTIFICATES.kubernetesCA.keySize}
+
+  export CONTROLLER_MANAGER_CLIENT_CN="${CERTIFICATES.controllerManagerClient.cname}"
+  export CONTROLLER_MANAGER_CLIENT_CRT_CONF="${CERTIFICATES.controllerManagerClient.crtConf}"
+  export CONTROLLER_MANAGER_CLIENT_CRT_PATH="${CERTIFICATES.controllerManagerClient.crtPath}"
+  export CONTROLLER_MANAGER_CLIENT_CSR_PATH="${CERTIFICATES.controllerManagerClient.csrPath}"
+  export CONTROLLER_MANAGER_CLIENT_KEY_PATH="${CERTIFICATES.controllerManagerClient.keyPath}"
+  export CONTROLLER_MANAGER_CLIENT_KEY_SIZE=${CERTIFICATES.controllerManagerClient.keySize}
+
+  export ETCD_CLIENT_CN="${CERTIFICATES.etcdClient.cname}"
+  export ETCD_CLIENT_CRT_CONF="${CERTIFICATES.etcdClient.crtConf}"
+  export ETCD_CLIENT_CRT_PATH="${CERTIFICATES.etcdClient.crtPath}"
+  export ETCD_CLIENT_CSR_PATH="${CERTIFICATES.etcdClient.csrPath}"
+  export ETCD_CLIENT_KEY_PATH="${CERTIFICATES.etcdClient.keyPath}"
+  export ETCD_CLIENT_KEY_SIZE=${CERTIFICATES.etcdClient.keySize}
+
+  export ETCD_PEER_CRT_CONF="${CERTIFICATES.etcdPeer.crtConf}"
+  export ETCD_PEER_CRT_PATH="${CERTIFICATES.etcdPeer.crtPath}"
+  export ETCD_PEER_CSR_PATH="${CERTIFICATES.etcdPeer.csrPath}"
+  export ETCD_PEER_KEY_PATH="${CERTIFICATES.etcdPeer.keyPath}"
+  export ETCD_PEER_KEY_SIZE=${CERTIFICATES.etcdPeer.keySize}
+
+  export ETCD_SERVER_CRT_CONF="${CERTIFICATES.etcdServer.crtConf}"
+  export ETCD_SERVER_CRT_PATH="${CERTIFICATES.etcdServer.crtPath}"
+  export ETCD_SERVER_CSR_PATH="${CERTIFICATES.etcdServer.csrPath}"
+  export ETCD_SERVER_KEY_PATH="${CERTIFICATES.etcdServer.keyPath}"
+  export ETCD_SERVER_KEY_SIZE=${CERTIFICATES.etcdServer.keySize}
+
+  export KUBELET_CLIENT_CRT_CONF="${CERTIFICATES.kubeletClient.crtConf}"
+  export KUBELET_CLIENT_CRT_PATH="${CERTIFICATES.kubeletClient.crtPath}"
+  export KUBELET_CLIENT_CSR_PATH="${CERTIFICATES.kubeletClient.csrPath}"
+  export KUBELET_CLIENT_KEY_PATH="${CERTIFICATES.kubeletClient.keyPath}"
+  export KUBELET_CLIENT_KEY_SIZE=${CERTIFICATES.kubeletClient.keySize}
+
+  export KUBELET_SERVER_CRT_CONF="${CERTIFICATES.kubeletServer.crtConf}"
+  export KUBELET_SERVER_CRT_PATH="${CERTIFICATES.kubeletServer.crtPath}"
+  export KUBELET_SERVER_CSR_PATH="${CERTIFICATES.kubeletServer.csrPath}"
+  export KUBELET_SERVER_KEY_PATH="${CERTIFICATES.kubeletServer.keyPath}"
+  export KUBELET_SERVER_KEY_SIZE=${CERTIFICATES.kubeletServer.keySize}
+
+  export KUBERNETES_ADMIN_CLIENT_CN="${CERTIFICATES.kubernetesAdminClient.cname}"
+  export KUBERNETES_ADMIN_CLIENT_CRT_CONF="${CERTIFICATES.kubernetesAdminClient.crtConf}"
+  export KUBERNETES_ADMIN_CLIENT_CRT_PATH="${CERTIFICATES.kubernetesAdminClient.crtPath}"
+  export KUBERNETES_ADMIN_CLIENT_CSR_PATH="${CERTIFICATES.kubernetesAdminClient.csrPath}"
+  export KUBERNETES_ADMIN_CLIENT_KEY_PATH="${CERTIFICATES.kubernetesAdminClient.keyPath}"
+  export KUBERNETES_ADMIN_CLIENT_KEY_SIZE=${CERTIFICATES.kubernetesAdminClient.keySize}
+
+  export KUBERNETES_ETCD_CLIENT_CN="${CERTIFICATES.kubernetesEtcdClient.cname}"
+  export KUBERNETES_ETCD_CLIENT_CRT_CONF="${CERTIFICATES.kubernetesEtcdClient.crtConf}"
+  export KUBERNETES_ETCD_CLIENT_CRT_PATH="${CERTIFICATES.kubernetesEtcdClient.crtPath}"
+  export KUBERNETES_ETCD_CLIENT_CSR_PATH="${CERTIFICATES.kubernetesEtcdClient.csrPath}"
+  export KUBERNETES_ETCD_CLIENT_KEY_PATH="${CERTIFICATES.kubernetesEtcdClient.keyPath}"
+  export KUBERNETES_ETCD_CLIENT_KEY_SIZE=${CERTIFICATES.kubernetesEtcdClient.keySize}
+
+  export KUBERNETES_FRONT_PROXY_CLIENT_CN="${CERTIFICATES.kubernetesFrontProxyClient.cname}"
+  export KUBERNETES_FRONT_PROXY_CLIENT_CRT_CONF="${CERTIFICATES.kubernetesFrontProxyClient.crtConf}"
+  export KUBERNETES_FRONT_PROXY_CLIENT_CRT_PATH="${CERTIFICATES.kubernetesFrontProxyClient.crtPath}"
+  export KUBERNETES_FRONT_PROXY_CLIENT_CSR_PATH="${CERTIFICATES.kubernetesFrontProxyClient.csrPath}"
+  export KUBERNETES_FRONT_PROXY_CLIENT_KEY_PATH="${CERTIFICATES.kubernetesFrontProxyClient.keyPath}"
+  export KUBERNETES_FRONT_PROXY_CLIENT_KEY_SIZE=${CERTIFICATES.kubernetesFrontProxyClient.keySize}
+
+  export KUBERNETES_KUBELET_CLIENT_CN="${CERTIFICATES.kubernetesKubeletClient.cname}"
+  export KUBERNETES_KUBELET_CLIENT_CRT_CONF="${CERTIFICATES.kubernetesKubeletClient.crtConf}"
+  export KUBERNETES_KUBELET_CLIENT_CRT_PATH="${CERTIFICATES.kubernetesKubeletClient.crtPath}"
+  export KUBERNETES_KUBELET_CLIENT_CSR_PATH="${CERTIFICATES.kubernetesKubeletClient.csrPath}"
+  export KUBERNETES_KUBELET_CLIENT_KEY_PATH="${CERTIFICATES.kubernetesKubeletClient.keyPath}"
+  export KUBERNETES_KUBELET_CLIENT_KEY_SIZE=${CERTIFICATES.kubernetesKubeletClient.keySize}
+
+  export KUBERNETES_SERVER_CN="${CERTIFICATES.kubernetesServer.cname}"
+  export KUBERNETES_SERVER_CRT_CONF="${CERTIFICATES.kubernetesServer.crtConf}"
+  export KUBERNETES_SERVER_CRT_PATH="${CERTIFICATES.kubernetesServer.crtPath}"
+  export KUBERNETES_SERVER_CSR_PATH="${CERTIFICATES.kubernetesServer.csrPath}"
+  export KUBERNETES_SERVER_KEY_PATH="${CERTIFICATES.kubernetesServer.keyPath}"
+  export KUBERNETES_SERVER_KEY_SIZE=${CERTIFICATES.kubernetesServer.keySize}
+
+  export KUBERNETES_SUPER_ADMIN_CLIENT_CN="${CERTIFICATES.kubernetesSuperAdminClient.cname}"
+  export KUBERNETES_SUPER_ADMIN_CLIENT_CRT_CONF="${CERTIFICATES.kubernetesSuperAdminClient.crtConf}"
+  export KUBERNETES_SUPER_ADMIN_CLIENT_CRT_PATH="${CERTIFICATES.kubernetesSuperAdminClient.crtPath}"
+  export KUBERNETES_SUPER_ADMIN_CLIENT_CSR_PATH="${CERTIFICATES.kubernetesSuperAdminClient.csrPath}"
+  export KUBERNETES_SUPER_ADMIN_CLIENT_KEY_PATH="${CERTIFICATES.kubernetesSuperAdminClient.keyPath}"
+  export KUBERNETES_SUPER_ADMIN_CLIENT_KEY_SIZE=${CERTIFICATES.kubernetesSuperAdminClient.keySize}
+
+  export SCHEDULER_CLIENT_CN="${CERTIFICATES.schedulerClient.cname}"
+  export SCHEDULER_CLIENT_CRT_CONF="${CERTIFICATES.schedulerClient.crtConf}"
+  export SCHEDULER_CLIENT_CRT_PATH="${CERTIFICATES.schedulerClient.crtPath}"
+  export SCHEDULER_CLIENT_CSR_PATH="${CERTIFICATES.schedulerClient.csrPath}"
+  export SCHEDULER_CLIENT_KEY_PATH="${CERTIFICATES.schedulerClient.keyPath}"
+  export SCHEDULER_CLIENT_KEY_SIZE=${CERTIFICATES.schedulerClient.keySize}
+
+  export KUBERNETES_SERVICE_ACCOUNT_CRT_PATH="${CERTIFICATES.kubernetesSA.crtPath}"
+  export KUBERNETES_SERVICE_ACCOUNT_KEY_PATH="${CERTIFICATES.kubernetesSA.keyPath}"
+
+  export KUBELET_CURRENT_CLIENT_CRT_PATH="${CERTIFICATES.kubernetesCureentClient.crtPath}"
+  export KUBELET_CURRENT_SERVER_CRT_PATH="${CERTIFICATES.kubernetesCureentServer.crtPath}"
+
+`}
+</CodeBlock>
+
+
+### Переменные окружения сети:
+
+:::warning
+Просьба обратить внимание, что я не указал тут подсеть для подов, тк по моему мнению этим должен управлять сетевой плагин, а не компоненты управляющего контура.
+:::
+
+<CodeBlock language="bash">
+{`export SERVICE_CIDR="${CUSTOM_VALUE.kubernetesServiceCIDR.value}"
+  export SERVICE_DNS="${CUSTOM_VALUE.kubernetesDNSAddress.value}"
+  export SERVICE_KUBE_API="${CUSTOM_VALUE.kubernetesDefaultInternalAddress.value}"
+  export MACHINE_LOCAL_ADDRESS=${CUSTOM_VALUE.virtualMachineLocalAddress.value}
+`}
+</CodeBlock>
+
+Заранее определяем список слушающих портов, будут нам полезны для понимания кто что использует
+
+<CodeBlock language="bash">
+{`export ETCD_METRICS_PORT=${PORTS.etcdMetricServer.portNumber}
+  export ETCD_PEER_PORT=${PORTS.etcdPeer.portNumber}
+  export ETCD_SERVER_PORT=${PORTS.etcdServer.portNumber}
+  export KUBE_APISERVER_PORT=${PORTS.kubeAPIServer.portNumber}
+  export KUBE_CONTROLLER_MANAGER_PORT=${PORTS.kubeControllerManager.portNumber}
+  export KUBELET_HEALTHZ_PORT=${PORTS.kubeletHealthz.portNumber}
+  export KUBELET_READ_ONLY_PORT=${PORTS.kubeletReadOnlyPort.portNumber}
+  export KUBELET_SERVER_PORT=${PORTS.kubeletServer.portNumber}
+  export KUBE_SCHEDULER_PORT=${PORTS.kubeScheduler.portNumber}
+`}
+</CodeBlock>
+
+### Версии компонентов
+
+<CodeBlock language="bash">
+{`export RUNC_VERSION="${COMPONENTS_VERSION.runc.value}"
+  export KUBERNETES_VERSION="${COMPONENTS_VERSION.kubernetes.value}"
+  export ETCD_TOOL_VERSION="${COMPONENTS_VERSION.etcdctl.value}"
+  export ETCD_VERSION="${COMPONENTS_VERSION.etcd.value}"
+  export CONTAINERD_VERSION="${COMPONENTS_VERSION.containerd.value}"
+  export CRICTL_VERSION="${COMPONENTS_VERSION.crictl.value}"
+`}
+</CodeBlock>
+
+
+### Переменные окружения ETCD
+
+```bash
+export ETCD_INITIAL_CLUSTER="${FULL_HOST_NAME}=https://${MACHINE_LOCAL_ADDRESS}:${ETCD_PEER_PORT}"
+export ETCD_SERVERS="https://127.0.0.1:${ETCD_SERVER_PORT}"
+```
+
+### Создание директорий
+
+<CodeBlock language="bash">
+{`mkdir -p $\{BASE_K8S_PATH\}
+  mkdir -p $\{BASE_K8S_PATH\}/kubeconfig
+  mkdir -p $\{BASE_K8S_PATH\}/manifests
+  mkdir -p $\{BASE_K8S_PATH\}/openssl
+  mkdir -p $\{BASE_K8S_PATH\}/openssl/csr
+  mkdir -p $\{BASE_K8S_PATH\}/pki
+  mkdir -p $\{BASE_K8S_PATH\}/pki/etcd
+  mkdir -p $\{BASE_KUBELET_PATH\}
+  mkdir -p $\{BASE_KUBELET_PATH\}/pki
+  mkdir -p /usr/lib/systemd/system/kubelet.service.d
+  mkdir -p /tmp/containerd
+  mkdir -p /etc/containerd
+  mkdir -p /etc/containerd/conf.d
+  mkdir -p $HOME/.kube
+`}
+</CodeBlock>
+
+### Настройка инструмента взаимодействия с ETCD
+<CodeBlock language="bash">
+{`cat <<'EOF' >> ~/.bashrc
+  export BASE_K8S_PATH="${CUSTOM_VALUE.kuberneteBaseFolderPath.value}"
+  export ETCDCTL_CERT="${CERTIFICATES.etcdPeer.crtPath}"
+  export ETCDCTL_KEY="${CERTIFICATES.etcdPeer.keyPath}"
+  export ETCDCTL_CACERT="${CERTIFICATES.etcdCA.crtPath}"
+  export ETCD_SERVER_PORT="${PORTS.etcdServer.portNumber}"
+
+  etcd_endpoints () {
+  export ENDPOINTS=$(
+  etcdctl \
+  --endpoints=127.0.0.1:$\{ETCD_SERVER_PORT\} member list | 
+  awk '{print $5}' | 
+  sed "s/,//" | 
+  sed "s/ /,/g"
+  )
+  }
+
+  estat () {
+  etcd_endpoints
+  etcdctl \
+  --write-out=table \
+  --endpoints=$ENDPOINTS \
+  endpoint status
+  }
+  EOF
+
+  source ~/.bashrc
+`}
+</CodeBlock>
+
+### Настройка инструмента взаимодействия с KubeAPI
+Для подключения к кластеру нам потребуется переменная окружения `KUBECONFIG`
+<CodeBlock language="bash">
+{`
+ln -s /etc/kubernetes/admin.conf $HOME/.kube/config
+`}
+</CodeBlock>
+
+
+</details>
+
+:::note
+Если вы когда-либо заглядывали в документацию от [Келси Хайтауэра](https://github.com/kelseyhightower/kubernetes-the-hard-way), то, возможно, заметили, что в конфигурационных файлах часто используются IP-адреса узлов. Этот метод, безусловно, работает, но есть более удобный способ. Чтобы упростить обслуживание и сделать дальнейшую шаблонизацию более гибкой, лучше использовать заранее известные FQDN-маски, как я уже упоминал для мастеров выше ```master-${INDEX}.${CLUSTER_NAME}.${BASE_DOMAIN}```.
+:::

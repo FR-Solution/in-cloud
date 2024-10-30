@@ -1,0 +1,68 @@
+
+import CodeBlock                from '@theme/CodeBlock';
+import { CERTIFICATES }         from '@site/src/constants/kubernetes/certs'
+import { PORTS }                from '@site/src/constants/kubernetes/ports'
+import { CUSTOM_VALUE }         from '@site/src/constants/kubernetes/customValue'
+
+
+:::note
+Чтобы убедиться, что установка проходит успешно, давайте выполним несколько важных проверок:
+- Проверим состояние ETCD.
+- Проверим состояние API-сервера.
+- Убедимся, что нода зарегистрировалась в кластере.
+:::
+
+### Проверка состояния ETCD
+:::warning
+Чтобы проверить состояние базы данных, используйте утилиту `etcdctl` для взаимодействия с ней. Для более удобного взаимодействия с etcd, воспользуйтесь настройкой bashrc указанной ниже.
+
+```bash
+root@compute:/home/user# estat
+
++----------------------------------------------+------------------+---------+---------+-----------+------------+-----------+------------+--------------------+--------+
+|                   ENDPOINT                   |        ID        | VERSION | DB SIZE | IS LEADER | IS LEARNER | RAFT TERM | RAFT INDEX | RAFT APPLIED INDEX | ERRORS |
++----------------------------------------------+------------------+---------+---------+-----------+------------+-----------+------------+--------------------+--------+
+| https://master-1.example.prorobotech.ru:2379 | 7190fc20ca138014 |   3.5.3 |  5.4 MB |      true |      false |         2 |     191880 |             191880 |        |
++----------------------------------------------+------------------+---------+---------+-----------+------------+-----------+------------+--------------------+--------+
+```
+:::
+
+### Проверка состояния Kube API
+:::note
+Для подключения к кластеру нам потребуется переменная окружения `KUBECONFIG`
+:::
+
+#### Проверяем, что добавился узел
+```bash
+kubectl get nodes -o wide
+```
+
+```bash
+NAME                              STATUS     ROLES     AGE   VERSION   INTERNAL-IP     EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION     CONTAINER-RUNTIME
+master-1.example.prorobotech.ru   NotReady   <none>    16m   v1.30.4   192.168.10.26   <none>        Ubuntu 24.04.1 LTS   6.8.0-47-generic   containerd://1.7.19
+```
+
+
+В этой конфигурации узел находится в состоянии `NotReady` из-за отсутствия установленного `CNI-плагина`. После его установки узел автоматически перейдет в состояние Ready.
+
+:::note
+Чтобы узнать причину текущего состояния ноды, вы можете использовать команду `describe` и обратить внимание на блок `Conditions`, как показано в примере ниже.
+
+```bash
+export FULL_HOST_NAME=${HOST_NAME}.${BASE_CLUSTER_DOMAIN}
+
+kubectl describe no ${FULL_HOST_NAME}
+```
+
+После выполнения команд мы получаем следующий вывод.
+```bash
+********
+Conditions:
+  Type             Status  LastHeartbeatTime                 LastTransitionTime                Reason                       Message
+  ----             ------  -----------------                 ------------------                ------                       -------
+  MemoryPressure   False   Wed, 23 Oct 2024 22:32:12 +0000   Wed, 23 Oct 2024 22:11:17 +0000   KubeletHasSufficientMemory   kubelet has sufficient memory available
+  DiskPressure     False   Wed, 23 Oct 2024 22:32:12 +0000   Wed, 23 Oct 2024 22:11:17 +0000   KubeletHasNoDiskPressure     kubelet has no disk pressure
+  PIDPressure      False   Wed, 23 Oct 2024 22:32:12 +0000   Wed, 23 Oct 2024 22:11:17 +0000   KubeletHasSufficientPID      kubelet has sufficient PID available
+  Ready            False   Wed, 23 Oct 2024 22:32:12 +0000   Wed, 23 Oct 2024 22:11:17 +0000   KubeletNotReady              container runtime network not ready: NetworkReady=false reason:NetworkPluginNotReady message:Network plugin returns error: cni plugin not initialized
+```
+:::
