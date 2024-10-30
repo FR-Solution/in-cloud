@@ -1,9 +1,9 @@
 
 import { FancyboxDiagram }      from '@site/src/components/commonBlocks/FancyboxDiagram'
 
-<div className="center">
+<div className="left">
 
-**Топология созданной инфраструктуры**
+### DNS Записи для узлов управляющего контура
 
 ```mermaid
 ---
@@ -12,8 +12,7 @@ config:
   theme: dark  
 ---
 
-flowchart LR
-
+flowchart TB
   master1[node:master-1]
   master2[node:master-2]
   master3[node:master-3]
@@ -22,17 +21,16 @@ flowchart LR
   dnsMaster2[dns:master-2.example.prorobotech.ru]
   dnsMaster3[dns:master-3.example.prorobotech.ru]
 
-  subgraph control plane
-    dnsMaster1-->master1
-    dnsMaster2-->master2
-    dnsMaster3-->master3
-  end
 
+
+  subgraph control plane
+      dnsMaster1-->master1
+      dnsMaster2-->master2
+      dnsMaster3-->master3
+   end
 ```
 
-   <div className="center">
-**В итоге должны получить примерно вот такую вот картину**
-  <FancyboxDiagram>
+### DNS Запись плюс балансировщик для узлов управляющего контура
 ```mermaid
 ---
 config:
@@ -40,46 +38,19 @@ config:
   theme: dark  
 ---
 
-flowchart TD
+flowchart TB
+  loadBalancer[loadBalancer]
+  master1[node:master-1]
+  master2[node:master-2]
+  master3[node:master-3]
 
-  subgraph Control-Plane
-   subgraph Master-1
-      newLines["`
-         containerd
-         kubectl
-         kubelet
-         etcdctl
-         crictl
-         cfssl
-         runc
-      `"]
+  subgraph control plane
+      api.example.prorobotech.ru-->loadBalancer
+      loadBalancer-->master1
+      loadBalancer-->master2
+      loadBalancer-->master3
    end
-   subgraph Master-2
-      newLines2["`
-         containerd
-         kubectl
-         kubelet
-         etcdctl
-         crictl
-         cfssl
-         runc
-      `"]
-   end
-
-   subgraph Master-3
-      newLines3["`
-         containerd
-         kubectl
-         kubelet
-         etcdctl
-         crictl
-         cfssl
-         runc
-      `"]
-   end
-  end
 
 ```
-      </FancyboxDiagram>
-   </div>
+
 </div>
