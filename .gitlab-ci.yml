@@ -22,7 +22,7 @@ pages:
   stage: deploy
   script:
   - cd documentation
-  - npm install
+  - npm install --registry=https://nexus.sberbank.kz/#browse/browse:npm-bank
   - export DOC_INCLUDE_CURRENT_VERSION=false
   - npm run build
   - mv ./build ../public
