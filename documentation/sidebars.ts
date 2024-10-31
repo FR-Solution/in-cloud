@@ -1,6 +1,6 @@
 /* eslint-disable import/no-default-export */
-import { kubernetesTHW } from './src/sidebars/technical-docs/kubernetes-thw'
-
+import { kubernetesTHW }      from './src/sidebars/technical-docs/kubernetes-thw'
+import { kubernetesNetworks } from './src/sidebars/technical-docs/kubernetes-networks'
 
 const sidebars = {
 
@@ -8,8 +8,15 @@ const sidebars = {
     {
       type: 'category',
       label: 'Kubernetes-The-Hard-Way',
-      items: kubernetesTHW
-    }
+      collapsed: false,
+      items: kubernetesTHW,
+    },
+    {
+      type: 'category',
+      label: 'Сеть',
+      collapsed: false,
+      items: kubernetesNetworks,
+    },
   ]
 }
 
