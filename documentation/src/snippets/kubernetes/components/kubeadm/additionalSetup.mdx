@@ -1,24 +1,11 @@
----
-id: k8s-hello
----
-
-# Kubernetes The Hard Way
 
 import { FancyboxDiagram }      from '@site/src/components/commonBlocks/FancyboxDiagram'
 import TabItem                  from '@theme/TabItem'
 import Tabs                     from '@theme/Tabs'
 
-import K8sDownloads             from '@site/src/snippets/kubernetes/components/downloads.mdx'
-import K8sSystem                from '@site/src/snippets/kubernetes/system.mdx'
-import CertsSetup               from '@site/src/snippets/kubernetes/certs/certsSetup.mdx'
  
-import StaticPods               from '@site/src/snippets/kubernetes/staticPods.mdx'
-import StartCluster             from '@site/src/snippets/kubernetes/startCluster.mdx'
 import StatusCluster            from '@site/src/snippets/kubernetes/statusCluster.mdx'
-import PhaseKubeadm             from '@site/src/snippets/kubernetes/components/kubeadm/phaseKubeadm.mdx'
 
-import ComponentsInfo           from '@site/src/snippets/kubernetes/components/components.mdx'
-import ComponentsSetings        from '@site/src/snippets/kubernetes/components/componentsSetings.mdx'
 
 import CodeBlock                from '@theme/CodeBlock';
 
@@ -29,64 +16,17 @@ import { PORTS }                from '@site/src/constants/kubernetes/ports'
 import Arch                     from '@site/src/snippets/kubernetes/flowcharts/arch.mdx'
 import TopologyInfra            from '@site/src/snippets/kubernetes/flowcharts/topologyInfra.mdx'
 
-import PreparingTheEnvironment  from '@site/src/snippets/kubernetes/preparingTheEnvironment.mdx'
 import StagesOfCreation         from '@site/src/snippets/kubernetes/stagesOfCreation.mdx'
 
-import AboutK8S                 from '@site/src/snippets/kubernetes/aboutK8S.mdx'
-import Introduction             from '@site/src/snippets/kubernetes/introduction.mdx'
 import {KUBE_API_ARGS}          from '@site/src/constants/kubernetes/kubeAPIArgs'
 
-![Описание изображения](/img/rick-20m.png)
 
-## Введение
-<Introduction />
-
-## Для чего нужен Kubernetes
-<AboutK8S />
-
-## Основные компоненты
-<ComponentsInfo />
-
-## Архитектура 
-<Arch />
-
-## Этапы создания кластера
-<StagesOfCreation />
-
-## Подготовка окружения
-<PreparingTheEnvironment />
-
-## Загрузка компонентов
-<K8sDownloads />
-
-## Настройка ОС
-<K8sSystem />
-
-## Фазы Kubeadm
-<PhaseKubeadm />
-
-## Настройка компонентов
-<ComponentsSetings />
-
-## Настройка сертификатов
-<CertsSetup />
-
-## Настройка Static Pods
-<StaticPods />
-
-## Запуск кластера
-<StartCluster />
-
-## Статус кластера
-<StatusCluster />
-
-## Kubeadm доп настройки
 1. Маркировка узла
 2. Настройка ролевой модели
 3. Загрузка `kubelet-conf` и `kubeadm-conf` в кластер
 4. Загрузка корневых сертификатов в кластер
 
-#### Маркировка ноды и навешивание tain
+## Маркировка ноды и навешивание tain
 <Tabs groupId="install-type">
 
   <TabItem value='HardWay'>
@@ -117,7 +57,7 @@ import {KUBE_API_ARGS}          from '@site/src/constants/kubernetes/kubeAPIArgs
 
 </Tabs>
 
-#### Настройка ролевой модели
+## Настройка ролевой модели
 <Tabs groupId="install-type">
 
   <TabItem value='HardWay'>
@@ -328,7 +268,7 @@ EOF
 </Tabs>
 
 
-#### Загрузка `kubelet-conf` и `kubeadm-conf` в кластер
+## Загрузка `kubelet-conf` и `kubeadm-conf` в кластер
 <Tabs groupId="install-type">
 
   <TabItem value='HardWay'>
@@ -350,7 +290,7 @@ EOF
 
 </Tabs>
 
-#### Загрузка корневых сертификатов в кластер
+## Загрузка корневых сертификатов в кластер
 <Tabs groupId="install-type">
 
   <TabItem value='HardWay'>

@@ -108,8 +108,8 @@ flowchart TD
         Чтобы проверить правильность установки всех базовых компонентов, выполните команду:
 
         ```bash
-        kubeadm join phase preflight \
-          --config=/etc/kubernetes/kubeadm-join.conf
+        kubeadm init phase preflight \
+          --dry-run
         ```
         Если все установлено корректно, команда выполнится без ошибок, и вы увидите следующий вывод:
         ```bash
@@ -156,8 +156,7 @@ flowchart TD
         Чтобы проверить правильность установки всех базовых компонентов, выполните команду:
 
         ```bash
-        kubeadm join phase preflight \
-          --config=/etc/kubernetes/kubeadm-join.conf \
+        kubeadm init phase preflight \
           --dry-run
         ```
         Если все установлено корректно, команда выполнится без ошибок, и вы увидите следующий вывод:
