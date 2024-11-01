@@ -7,7 +7,7 @@ const config: Config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'http://localhost',
+  url: 'http://projects.pages.berekebank.kz',
   baseUrl: '/',
 
   onBrokenLinks: 'throw',
