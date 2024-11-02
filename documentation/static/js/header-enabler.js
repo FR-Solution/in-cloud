@@ -1,12 +1,12 @@
 const createMedusScript = () => {
   const element = document.createElement('script')
-  element.src = '/js/header.bundle.js'
+  element.src = '/infrastructure/bcloud-docs/js/header.bundle.js'
   element.type = 'text/javascript'
   document.querySelector('body').appendChild(element)
 }
 
 const injectOnLandingLoad = () => {
-  if (document.location.pathname === '/') {
+  if (document.location.pathname === '/infrastructure/bcloud-docs/') {
     document.querySelector('footer').style.display = 'none'
     createMedusScript()
   }
@@ -20,7 +20,7 @@ const observeUrlChange = () => {
   const observer = new MutationObserver(mutations => {
     if (oldHref !== document.location.href) {
       oldHref = document.location.href
-      if (document.location.pathname === '/') {
+      if (document.location.pathname === '/infrastructure/bcloud-docs/') {
         document.getElementById('medusa-root').style.display = 'block'
         document.querySelector('footer').style.display = 'none'
         if (!scriptInjected) {
