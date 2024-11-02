@@ -1,12 +1,12 @@
 export const bcloudComponents = [
     {
       type: 'category',
-      label: 'Проект',
+      label: 'Project controller',
       collapsed: true,
       items: [
         {
           type: 'doc',
-          label: 'Ресурс',
+          label: 'Ресурс Project',
           id: 'tech-docs/b-cloud/project/resource',
         },
         {
@@ -28,17 +28,17 @@ export const bcloudComponents = [
     },
     {
       type: 'doc',
-      label: 'Инстанс',
+      label: 'Instance controller',
       id: 'tech-docs/b-cloud/instance-controller',
     },
     {
       type: 'doc',
-      label: 'Квота',
+      label: 'ProjectQuota controller',
       id: 'tech-docs/b-cloud/project-quota-controller',
     },
     {
       type: 'doc',
-      label: 'Интеграции',
+      label: 'Terraform controller',
       id: 'tech-docs/b-cloud/terraform-controller',
     }
   ]

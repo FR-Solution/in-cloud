@@ -81,7 +81,7 @@ const config: Config = {
   themeConfig: {
     navbar: {
       logo: {
-        src: 'img/logo.jpg',
+        src: 'img/logo.png',
       },
       title: 'B-Cloud',
       items: [
