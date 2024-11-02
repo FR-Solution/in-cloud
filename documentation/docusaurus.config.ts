@@ -8,7 +8,7 @@ const config: Config = {
 
   // Set the production url of your site here
   url: 'http://projects.pages.berekebank.kz',
-  baseUrl: '/infrastructure/bcloud-docs/',
+  baseUrl: '/',
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',

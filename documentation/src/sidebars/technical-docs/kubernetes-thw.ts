@@ -46,7 +46,7 @@ export const kubernetesTHW = [
   },
   {
     type: 'doc',
-    label: 'Trubleshooting',
-    id: 'tech-docs/kubernetes-thw/k8s-trubleshooting',
+    label: 'troubleshooting',
+    id: 'tech-docs/kubernetes-thw/k8s-troubleshooting',
   },
 ]
