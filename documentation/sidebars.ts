@@ -1,7 +1,7 @@
 /* eslint-disable import/no-default-export */
 import { kubernetesTHW }      from './src/sidebars/technical-docs/kubernetes-thw'
 import { kubernetesNetworks } from './src/sidebars/technical-docs/kubernetes-networks'
-import { bcloudComponents }   from './src/sidebars/technical-docs/b-cloud'
+import { bcloudControllers }  from './src/sidebars/technical-docs/b-cloud-controllers'
 
 const sidebars = {
 
@@ -20,9 +20,9 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'B-Cloud',
+      label: 'Контроллеры',
       collapsed: false,
-      items: bcloudComponents,
+      items: bcloudControllers,
     },
   ]
 }
