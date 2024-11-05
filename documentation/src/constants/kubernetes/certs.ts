@@ -76,32 +76,32 @@ export const CERTIFICATES: TCertsItems = {
   kubernetesEtcdClient: {
     keyPath: "${BASE_K8S_PATH}/pki/apiserver-etcd-client.key",
     crtPath: "${BASE_K8S_PATH}/pki/apiserver-etcd-client.crt", 
-    csrPath: "${BASE_K8S_PATH}/openssl/apiserver-etcd-client.conf",
-    crtConf: "${BASE_K8S_PATH}/openssl/csr/apiserver-etcd-client.csr",
+    csrPath: "${BASE_K8S_PATH}/openssl/csr/apiserver-etcd-client.csr",
+    crtConf: "${BASE_K8S_PATH}/openssl/apiserver-etcd-client.conf",
     keySize: "2048",
     cname: "kube-apiserver-etcd-client"
   },
   kubernetesServer: {
     keyPath: "${BASE_K8S_PATH}/pki/apiserver.key",
     crtPath: "${BASE_K8S_PATH}/pki/apiserver.crt", 
-    csrPath: "${BASE_K8S_PATH}/openssl/apiserver.conf",
-    crtConf: "${BASE_K8S_PATH}/openssl/csr/apiserver.csr",
+    csrPath: "${BASE_K8S_PATH}/openssl/csr/apiserver.csr",
+    crtConf: "${BASE_K8S_PATH}/openssl/apiserver.conf",
     keySize: "2048",
     cname: "kube-apiserver"
   },
   kubernetesSuperAdminClient: {
     keyPath: "${BASE_K8S_PATH}/kubeconfig/super-admin.key",
     crtPath: "${BASE_K8S_PATH}/kubeconfig/super-admin.crt", 
-    csrPath: "${BASE_K8S_PATH}/openssl/super-admin.conf",
-    crtConf: "${BASE_K8S_PATH}/openssl/csr/super-admin.csr",
+    csrPath: "${BASE_K8S_PATH}/openssl/csr/super-admin.csr",
+    crtConf: "${BASE_K8S_PATH}/openssl/super-admin.conf",
     keySize: "2048",
     cname: "kubernetes-super-admin"
   },
   kubernetesAdminClient: {
     keyPath: "${BASE_K8S_PATH}/kubeconfig/admin.key",
     crtPath: "${BASE_K8S_PATH}/kubeconfig/admin.crt", 
-    csrPath: "${BASE_K8S_PATH}/openssl/admin.conf",
-    crtConf: "${BASE_K8S_PATH}/openssl/csr/admin.csr",
+    csrPath: "${BASE_K8S_PATH}/openssl/csr/admin.csr",
+    crtConf: "${BASE_K8S_PATH}/openssl/admin.conf",
     keySize: "2048",
     cname: "kubernetes-admin"
   },
@@ -116,16 +116,16 @@ export const CERTIFICATES: TCertsItems = {
   kubeletClient: {
     keyPath: "${BASE_KUBELET_PATH}/pki/kubelet-client-key.pem",
     crtPath: "${BASE_KUBELET_PATH}/pki/kubelet-client.pem", 
-    csrPath: "${BASE_K8S_PATH}/openssl/kubelet-client.conf",
-    crtConf: "${BASE_K8S_PATH}/openssl/csr/kubelet-client.csr",
+    csrPath: "${BASE_K8S_PATH}/openssl/csr/kubelet-client.csr",
+    crtConf: "${BASE_K8S_PATH}/openssl/kubelet-client.conf",
     keySize: "2048",
     cname: ""
   },
   kubeletServer: {
     keyPath: "${BASE_K8S_PATH}/pki/kubelet-server-key.pem",
     crtPath: "${BASE_K8S_PATH}/pki/kubelet-server.pem", 
-    csrPath: "${BASE_K8S_PATH}/openssl/kubelet-server.conf",
-    crtConf: "${BASE_K8S_PATH}/openssl/csr/kubelet-server.csr",
+    csrPath: "${BASE_K8S_PATH}/openssl/csr/kubelet-server.csr",
+    crtConf: "${BASE_K8S_PATH}/openssl/kubelet-server.conf",
     keySize: "2048",
     cname: ""
   },
