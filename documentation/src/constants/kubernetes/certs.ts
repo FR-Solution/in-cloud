@@ -36,40 +36,40 @@ export const CERTIFICATES: TCertsItems = {
   etcdClient: {
     keyPath: "${BASE_K8S_PATH}/pki/etcd/healthcheck-client.key",
     crtPath: "${BASE_K8S_PATH}/pki/etcd/healthcheck-client.crt", 
-    csrPath: "${BASE_K8S_PATH}/openssl/healthcheck-client.conf",
-    crtConf: "${BASE_K8S_PATH}/openssl/csr/etcd-client.csr",
+    csrPath: "${BASE_K8S_PATH}/openssl/csr/etcd-client.csr",
+    crtConf: "${BASE_K8S_PATH}/openssl/healthcheck-client.conf",
     keySize: "2048",
     cname: "kube-etcd-healthcheck-client"
   },
   etcdServer: {
     keyPath: "${BASE_K8S_PATH}/pki/etcd/server.key",
     crtPath: "${BASE_K8S_PATH}/pki/etcd/server.crt", 
-    csrPath: "${BASE_K8S_PATH}/openssl/etcd-server.conf",
-    crtConf: "${BASE_K8S_PATH}/openssl/csr/etcd-server.csr",
+    csrPath: "${BASE_K8S_PATH}/openssl/csr/etcd-server.csr",
+    crtConf: "${BASE_K8S_PATH}/openssl/etcd-server.conf",
     keySize: "2048",
     cname: "" // dynamic
   },
   etcdPeer: {
     keyPath: "${BASE_K8S_PATH}/pki/etcd/peer.key",
     crtPath: "${BASE_K8S_PATH}/pki/etcd/peer.crt", 
-    csrPath: "${BASE_K8S_PATH}/openssl/etcd-peer.conf",
-    crtConf: "${BASE_K8S_PATH}/openssl/csr/etcd-peer.csr",
+    csrPath: "${BASE_K8S_PATH}/openssl/csr/etcd-peer.csr",
+    crtConf: "${BASE_K8S_PATH}/openssl/etcd-peer.conf",
     keySize: "2048",
     cname: "" // dynamic
   },
   kubernetesKubeletClient: {
     keyPath: "${BASE_K8S_PATH}/pki/apiserver-kubelet-client.key",
     crtPath: "${BASE_K8S_PATH}/pki/apiserver-kubelet-client.crt", 
-    csrPath: "${BASE_K8S_PATH}/openssl/apiserver-kubelet-client.conf",
-    crtConf: "${BASE_K8S_PATH}/openssl/csr/apiserver-kubelet-client.csr",
+    csrPath: "${BASE_K8S_PATH}/openssl/csr/apiserver-kubelet-client.csr",
+    crtConf: "${BASE_K8S_PATH}/openssl/apiserver-kubelet-client.conf",
     keySize: "2048",
     cname: "kube-apiserver-kubelet-client"
   },
   kubernetesFrontProxyClient: {
     keyPath: "${BASE_K8S_PATH}/pki/front-proxy-client.key",
     crtPath: "${BASE_K8S_PATH}/pki/front-proxy-client.crt", 
-    csrPath: "${BASE_K8S_PATH}/openssl/front-proxy-client.conf",
-    crtConf: "${BASE_K8S_PATH}/openssl/csr/front-proxy-client.csr",
+    csrPath: "${BASE_K8S_PATH}/openssl/csr/front-proxy-client.csr",
+    crtConf: "${BASE_K8S_PATH}/openssl/front-proxy-client.conf",
     keySize: "2048",
     cname: "front-proxy-client"
   },
