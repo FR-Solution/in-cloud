@@ -92,8 +92,8 @@ import dedent                       from 'dedent';
             kind: Namespace
             metadata:
               labels:
-                kubernetes.io/metadata.name: $\{RESOURCE_PROJECT.metadata.name\}
-              name: $\{RESOURCE_PROJECT.metadata.name\}
+                kubernetes.io/metadata.name: '$\{RESOURCE_PROJECT.metadata.name}'
+              name: '$\{RESOURCE_PROJECT.metadata.name}'
             spec: {}
           `}
         </CodeBlock>
@@ -110,7 +110,7 @@ import dedent                       from 'dedent';
             kind: RoleBinding
             metadata:
               name: developer-instances-edit
-              namespace: $\{RESOURCE_PROJECT.metadata.name\}
+              namespace: '$\{RESOURCE_PROJECT.metadata.name}'
             roleRef:
               apiGroup: rbac.authorization.k8s.io
               kind: ClusterRole
@@ -118,7 +118,7 @@ import dedent                       from 'dedent';
             subjects:
             - apiGroup: rbac.authorization.k8s.io
               kind: Group
-              name: g-developer-$\{RESOURCE_PROJECT.metadata.name\}
+              name: 'g-developer-$\{RESOURCE_PROJECT.metadata.name}'
           `}
         </CodeBlock>
 
@@ -130,7 +130,7 @@ import dedent                       from 'dedent';
             kind: RoleBinding
             metadata:
               name: devops-instances-edit
-              namespace: $\{RESOURCE_PROJECT.metadata.name\}
+              namespace: '$\{RESOURCE_PROJECT.metadata.name}'
             roleRef:
               apiGroup: rbac.authorization.k8s.io
               kind: ClusterRole
@@ -138,7 +138,7 @@ import dedent                       from 'dedent';
             subjects:
             - apiGroup: rbac.authorization.k8s.io
               kind: Group
-              name: g-devops-$\{RESOURCE_PROJECT.metadata.name\}
+              name: 'g-devops-$\{RESOURCE_PROJECT.metadata.name}'
           `}
         </CodeBlock>
 
@@ -150,7 +150,7 @@ import dedent                       from 'dedent';
             kind: RoleBinding
             metadata:
               name: qa-instances-edit
-              namespace: $\{RESOURCE_PROJECT.metadata.name\}
+              namespace: '$\{RESOURCE_PROJECT.metadata.name}'
             roleRef:
               apiGroup: rbac.authorization.k8s.io
               kind: ClusterRole
@@ -158,7 +158,7 @@ import dedent                       from 'dedent';
             subjects:
             - apiGroup: rbac.authorization.k8s.io
               kind: Group
-              name: g-qa-$\{RESOURCE_PROJECT.metadata.name\}
+              name: 'g-qa-$\{RESOURCE_PROJECT.metadata.name}'
           `}
         </CodeBlock>
 
@@ -172,17 +172,17 @@ import dedent                       from 'dedent';
             apiVersion: b-cloud.io/v1alpha
             kind: ProjectQuota
             metadata:
-              name: $\{RESOURCE_PROJECT.metadata.name\}
+              name: '$\{RESOURCE_PROJECT.metadata.name}'
             spec:
               quotas:
                 k8s:
                   limits:
-                    cpu: $\{RESOURCE_PROJECT.spec.quotas.k8s.limits.cpu\}
-                    memory: $\{RESOURCE_PROJECT.spec.quotas.k8s.limits.memory\}
+                    cpu: '$\{RESOURCE_PROJECT.spec.quotas.k8s.limits.cpu}'
+                    memory: '$\{RESOURCE_PROJECT.spec.quotas.k8s.limits.memory}'
                   requests:
-                    cpu: $\{RESOURCE_PROJECT.spec.quotas.k8s.requests.cpu\}
-                    memory: $\{RESOURCE_PROJECT.spec.quotas.k8s.requests.memory\}
-                    storage: $\{RESOURCE_PROJECT.spec.quotas.k8s.requests.storage\}
+                    cpu: '$\{RESOURCE_PROJECT.spec.quotas.k8s.requests.cpu}'
+                    memory: '$\{RESOURCE_PROJECT.spec.quotas.k8s.requests.memory}'
+                    storage: '$\{RESOURCE_PROJECT.spec.quotas.k8s.requests.storage}'
           `}
         </CodeBlock>
     </TabItem>
@@ -195,12 +195,12 @@ import dedent                       from 'dedent';
             apiVersion: b-cloud.io/v1alpha
             kind: ProjectLegacy
             metadata:
-              name: $\{RESOURCE_PROJECT.metadata.name\}
+              name: '$\{RESOURCE_PROJECT.metadata.name}'
             spec:
-              businessName: $\{RESOURCE_PROJECT.spec.businessName\}
-              description: $\{RESOURCE_PROJECT.spec.description\}
-              prefix: $\{RESOURCE_PROJECT.spec.prefix\}
-              state: $\{RESOURCE_PROJECT.spec.state\}
+              businessName: '$\{RESOURCE_PROJECT.spec.businessName}'
+              description: '$\{RESOURCE_PROJECT.spec.description}'
+              prefix: '$\{RESOURCE_PROJECT.spec.prefix}'
+              state: '$\{RESOURCE_PROJECT.spec.state}'
           `}
         </CodeBlock>
     </TabItem>

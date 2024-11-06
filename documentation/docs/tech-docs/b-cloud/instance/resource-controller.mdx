@@ -85,7 +85,7 @@ import dedent                       from 'dedent';
             kind: Instance
             metadata:
               name: bcloud-sandbox-instance
-              namespace: $\{RESOURCE_PROJECT.metadata.name}
+              namespace: '$\{RESOURCE_PROJECT.metadata.name}'
             spec:
               description: Тестовый Instance в Project: bcloud-sandbox
               quotas:
@@ -114,13 +114,13 @@ import dedent                       from 'dedent';
             kind: Namespace
             metadata:
               labels:
-                kubernetes.io/metadata.name: $\{RESOURCE_PROJECT.metadata.name}
+                kubernetes.io/metadata.name: '$\{RESOURCE_PROJECT.metadata.name}'
                 chat_id: ""
-                instance: $\{RESOURCE_INSTANCE.metadata.name} # BUG
-                project: $\{RESOURCE_PROJECT.metadata.name}
-                team_name: $\{RESOURCE_INSTANCE.metadata.name}
-                tenant: $\{HELM_VALUES.tenant} # TODO 
-              name: $\{RESOURCE_INSTANCE.metadata.name}
+                instance: '$\{RESOURCE_INSTANCE.metadata.name}' # BUG
+                project: '$\{RESOURCE_PROJECT.metadata.name}'
+                team_name: '$\{RESOURCE_INSTANCE.metadata.name}'
+                tenant: '$\{HELM_VALUES.tenant}'
+              name: '$\{RESOURCE_INSTANCE.metadata.name}'
             spec: {}
           `}
         </CodeBlock>
@@ -137,7 +137,7 @@ import dedent                       from 'dedent';
             kind: RoleBinding
             metadata:
               name: all-architect-namespacescope-view
-              namespace: $\{RESOURCE_INSTANCE.metadata.name}
+              namespace: '$\{RESOURCE_INSTANCE.metadata.name}'
             roleRef:
               apiGroup: rbac.authorization.k8s.io
               kind: ClusterRole
@@ -157,7 +157,7 @@ import dedent                       from 'dedent';
             kind: RoleBinding
             metadata:
               name: all-namespacescope-view
-              namespace: $\{RESOURCE_INSTANCE.metadata.name}
+              namespace: '$\{RESOURCE_INSTANCE.metadata.name}'
             roleRef:
               apiGroup: rbac.authorization.k8s.io
               kind: ClusterRole
@@ -165,7 +165,7 @@ import dedent                       from 'dedent';
             subjects:
             - apiGroup: rbac.authorization.k8s.io
               kind: Group
-              name: g-all-$\{RESOURCE_PROJECT.metadata.name}
+              name: 'g-all-$\{RESOURCE_PROJECT.metadata.name}'
           `}
         </CodeBlock>
 
@@ -177,7 +177,7 @@ import dedent                       from 'dedent';
             kind: RoleBinding
             metadata:
               name: analyst-namespacescope-edit
-              namespace: $\{RESOURCE_INSTANCE.metadata.name}
+              namespace: '$\{RESOURCE_INSTANCE.metadata.name}'
             roleRef:
               apiGroup: rbac.authorization.k8s.io
               kind: ClusterRole
@@ -185,7 +185,7 @@ import dedent                       from 'dedent';
             subjects:
             - apiGroup: rbac.authorization.k8s.io
               kind: Group
-              name: g-analyst-$\{RESOURCE_PROJECT.metadata.name}
+              name: 'g-analyst-$\{RESOURCE_PROJECT.metadata.name}'
           `}
         </CodeBlock>
 
@@ -197,7 +197,7 @@ import dedent                       from 'dedent';
             kind: RoleBinding
             metadata:
               name: default-namespacescope-edit
-              namespace: $\{RESOURCE_INSTANCE.metadata.name}
+              namespace: '$\{RESOURCE_INSTANCE.metadata.name}'
             roleRef:
               apiGroup: rbac.authorization.k8s.io
               kind: ClusterRole
@@ -205,19 +205,19 @@ import dedent                       from 'dedent';
             subjects:
               - kind: ServiceAccount
                 name: default
-                namespace: $\{RESOURCE_INSTANCE.metadata.name}
+                namespace: '$\{RESOURCE_INSTANCE.metadata.name}'
           `}
         </CodeBlock>
 
-        `$\{HELM_VALUES.tenant}eloper-namespacescope-edit` - базовые права групповые права `разработчиков` в рамках instance namespaces.
+        `developer-namespacescope-edit` - базовые права групповые права `разработчиков` в рамках instance namespaces.
         <CodeBlock language="yaml">
           {dedent`
             ---
             apiVersion: rbac.authorization.k8s.io/v1
             kind: RoleBinding
             metadata:
-              name: $\{HELM_VALUES.tenant}eloper-namespacescope-edit
-              namespace: $\{RESOURCE_INSTANCE.metadata.name}
+              name: developer-namespacescope-edit
+              namespace: '$\{RESOURCE_INSTANCE.metadata.name}'
             roleRef:
               apiGroup: rbac.authorization.k8s.io
               kind: ClusterRole
@@ -225,19 +225,19 @@ import dedent                       from 'dedent';
             subjects:
             - apiGroup: rbac.authorization.k8s.io
               kind: Group
-              name: g-$\{HELM_VALUES.tenant}eloper-$\{RESOURCE_PROJECT.metadata.name}
+              name: 'g-developer-$\{RESOURCE_PROJECT.metadata.name}'
           `}
         </CodeBlock>
 
-        `$\{HELM_VALUES.tenant}ops-namespacescope-edit` - базовые права групповые права `$\{HELM_VALUES.tenant}ops инженеров` в рамках instance namespaces.
+        `devops-namespacescope-edit` - базовые права групповые права `devops инженеров` в рамках instance namespaces.
         <CodeBlock language="yaml">
           {dedent`
             ---
             apiVersion: rbac.authorization.k8s.io/v1
             kind: RoleBinding
             metadata:
-              name: $\{HELM_VALUES.tenant}ops-namespacescope-edit
-              namespace: $\{RESOURCE_INSTANCE.metadata.name}
+              name: devops-namespacescope-edit
+              namespace: '$\{RESOURCE_INSTANCE.metadata.name}'
             roleRef:
               apiGroup: rbac.authorization.k8s.io
               kind: ClusterRole
@@ -245,19 +245,19 @@ import dedent                       from 'dedent';
             subjects:
             - apiGroup: rbac.authorization.k8s.io
               kind: Group
-              name: g-$\{HELM_VALUES.tenant}ops-$\{RESOURCE_PROJECT.metadata.name}
+              name: 'g-devops-$\{RESOURCE_PROJECT.metadata.name}'
           `}
         </CodeBlock>
 
-        `$\{HELM_VALUES.tenant}ops-namespacescope-edit` - базовые права групповые права `$\{HELM_VALUES.tenant}opschamp` в рамках instance namespaces.
+        `devops-namespacescope-edit` - базовые права групповые права `devopschamp` в рамках instance namespaces.
         <CodeBlock language="yaml">
           {dedent`
             ---
             apiVersion: rbac.authorization.k8s.io/v1
             kind: RoleBinding
             metadata:
-              name: $\{HELM_VALUES.tenant}opschamp-namespacescope-edit
-              namespace: $\{RESOURCE_INSTANCE.metadata.name}
+              name: devopschamp-namespacescope-edit
+              namespace: '$\{RESOURCE_INSTANCE.metadata.name}'
             roleRef:
               apiGroup: rbac.authorization.k8s.io
               kind: ClusterRole
@@ -265,7 +265,7 @@ import dedent                       from 'dedent';
             subjects:
             - apiGroup: rbac.authorization.k8s.io
               kind: Group
-              name: g-$\{HELM_VALUES.tenant}opschamp-$\{RESOURCE_PROJECT.metadata.name}
+              name: 'g-devopschamp-$\{RESOURCE_PROJECT.metadata.name}'
           `}
         </CodeBlock>
 
@@ -277,7 +277,7 @@ import dedent                       from 'dedent';
             kind: RoleBinding
             metadata:
               name: qa-namespacescope-edit
-              namespace: $\{RESOURCE_INSTANCE.metadata.name}
+              namespace: '$\{RESOURCE_INSTANCE.metadata.name}'
             roleRef:
               apiGroup: rbac.authorization.k8s.io
               kind: ClusterRole
@@ -285,7 +285,7 @@ import dedent                       from 'dedent';
             subjects:
             - apiGroup: rbac.authorization.k8s.io
               kind: Group
-              name: g-qa-$\{RESOURCE_PROJECT.metadata.name}
+              name: 'g-qa-$\{RESOURCE_PROJECT.metadata.name}'
           `}
         </CodeBlock> 
     </TabItem>
@@ -298,15 +298,15 @@ import dedent                       from 'dedent';
             apiVersion: v1
             kind: ResourceQuota
             metadata:
-              name: $\{RESOURCE_INSTANCE.metadata.name}-quotas
-              namespace: $\{RESOURCE_INSTANCE.metadata.name}
+              name: '$\{RESOURCE_INSTANCE.metadata.name}-quotas'
+              namespace: '$\{RESOURCE_INSTANCE.metadata.name}'
             spec:
               hard:
-                limits.cpu: $\{RESOURCE_INSTANCE.spec.quotas.k8s.limits.cpu}
-                limits.memory: $\{RESOURCE_INSTANCE.spec.quotas.k8s.limits.memory}
-                requests.cpu: $\{RESOURCE_INSTANCE.spec.quotas.k8s.requests.cpu}
-                requests.memory: $\{RESOURCE_INSTANCE.spec.quotas.k8s.requests.memory}
-                requests.storage: $\{RESOURCE_INSTANCE.spec.quotas.k8s.requests.storage}
+                limits.cpu: '$\{RESOURCE_INSTANCE.spec.quotas.k8s.limits.cpu}'
+                limits.memory: '$\{RESOURCE_INSTANCE.spec.quotas.k8s.limits.memory}'
+                requests.cpu: '$\{RESOURCE_INSTANCE.spec.quotas.k8s.requests.cpu}'
+                requests.memory: '$\{RESOURCE_INSTANCE.spec.quotas.k8s.requests.memory}'
+                requests.storage: '$\{RESOURCE_INSTANCE.spec.quotas.k8s.requests.storage}'
           `}
         </CodeBlock>
     </TabItem>
