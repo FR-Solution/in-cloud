@@ -12,10 +12,128 @@
     </thead>
     <tbody>
     <tr>
-        <td></td>
-        <td></td>
+        <td>spec</td>
+        <td>Object</td>
         <td className="green center">✔</td>
         <td className="green center">✔</td>
+    </tr>
+    <tr>
+        <td>spec.description</td>
+        <td>String</td>
+        <td className="green center">✔</td>
+        <td className="green center">✔</td>
+    </tr>
+    <tr>
+        <td>spec.quotas</td>
+        <td>Object</td>
+        <td className="green center">✔</td>
+        <td className="green center">✔</td>
+    </tr>
+    <tr>
+        <td>spec.quotas.k8s</td>
+        <td>Object</td>
+        <td className="green center">✔</td>
+        <td className="green center">✔</td>
+    </tr>
+    <tr>
+        <td>spec.quotas.k8s.limits</td>
+        <td>Object</td>
+        <td className="green center">✔</td>
+        <td className="green center">✔</td>
+    </tr>
+    <tr>
+        <td>spec.quotas.k8s.limits.cpu</td>
+        <td>String</td>
+        <td className="green center">✔</td>
+        <td className="green center">✔</td>
+    </tr>
+    <tr>
+        <td>spec.quotas.k8s.limits.memory</td>
+        <td>String</td>
+        <td className="green center">✔</td>
+        <td className="green center">✔</td>
+    </tr>
+    <tr>
+        <td>spec.quotas.k8s.requests</td>
+        <td>Object</td>
+        <td className="green center">✔</td>
+        <td className="green center">✔</td>
+    </tr>
+    <tr>
+        <td>spec.quotas.k8s.requests.cpu</td>
+        <td>String</td>
+        <td className="green center">✔</td>
+        <td className="green center">✔</td>
+    </tr>
+    <tr>
+        <td>spec.quotas.k8s.requests.memory</td>
+        <td>String</td>
+        <td className="green center">✔</td>
+        <td className="green center">✔</td>
+    </tr>
+    <tr>
+        <td>spec.quotas.k8s.requests.storage</td>
+        <td>String</td>
+        <td className="green center">✔</td>
+        <td className="green center">✔</td>
+    </tr>
+    <tr>
+        <td>status</td>
+        <td>Object</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>status.status</td>
+        <td>
+            <nobr>Enum("Available", "Processing","Terminating","Error")</nobr>
+        </td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>status.conditions[]</td>
+        <td>Object</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>status.conditions[].lastTransitionTime</td>
+        <td>String</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>status.conditions[].message</td>
+        <td>String</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>status.conditions[].observedGeneration</td>
+        <td>String</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>status.conditions[].reason</td>
+        <td>String</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>status.conditions[].status</td>
+        <td>
+            <nobr>Enum("True", "False","Unknown")</nobr>
+        </td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>status.conditions[].type</td>
+        <td>String</td>
+        <td></td>
+        <td></td>
     </tr>
     </tbody>
 </table>

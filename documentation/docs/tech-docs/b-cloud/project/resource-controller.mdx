@@ -5,12 +5,6 @@ id: resource-controller
 import TabItem                      from '@theme/TabItem'
 import Tabs                         from '@theme/Tabs'
 import CodeBlock                    from '@theme/CodeBlock'
-import ResourceFieldsDescription    from '@site/docs/tech-docs/b-cloud/project/resource-field-descriptions.mdx'
-import ResourceFieldsLimitation     from '@site/docs/tech-docs/b-cloud/project/resource-field-limitation.mdx'
-import ResourceStructure            from '@site/docs/tech-docs/b-cloud/project/resource-structure.mdx'
-
-import ResourceExampleSpec          from '@site/docs/tech-docs/b-cloud/project/resource-example-spec.mdx'
-import ResourceExampleStatus        from '@site/docs/tech-docs/b-cloud/project/resource-example-status.mdx'
 import dedent                       from 'dedent';
 
 # Контроллер
@@ -59,9 +53,10 @@ import dedent                       from 'dedent';
 ## Дочерние ресурсы
 
 <Tabs>
-    <TabItem value='example'>
+    <TabItem value='RESOURCE_PROJECT'>
         <CodeBlock language="yaml">
-          {dedent`---
+          {dedent`
+            ---
             apiVersion: b-cloud.io/v1alpha
             kind: Project
             metadata:
@@ -91,7 +86,8 @@ import dedent                       from 'dedent';
     <TabItem value='Namespace'>
         При создании ресурса `Project` автоматически создаётся специальное пространство имён с таким же названием. Это пространство предназначено для управления, развёртывания необходимых инфраструктурных ресурсов и распределения прав доступа.
         <CodeBlock language="yaml">
-          {dedent`---
+          {dedent`
+            ---
             apiVersion: v1
             kind: Namespace
             metadata:
@@ -108,7 +104,8 @@ import dedent                       from 'dedent';
         
         `g-developer` - права доступа для разрабочиков проекта.
         <CodeBlock language="yaml">
-          {dedent`---
+          {dedent`
+            ---
             apiVersion: rbac.authorization.k8s.io/v1
             kind: RoleBinding
             metadata:
@@ -127,7 +124,8 @@ import dedent                       from 'dedent';
 
         `g-devops` - права доступа для devops инженеров проекта.
         <CodeBlock language="yaml">
-          {dedent`---
+          {dedent`
+            ---
             apiVersion: rbac.authorization.k8s.io/v1
             kind: RoleBinding
             metadata:
@@ -146,7 +144,8 @@ import dedent                       from 'dedent';
 
         `g-qa` - права доступа для тестировщиков проекта.
         <CodeBlock language="yaml">
-          {dedent`---
+          {dedent`
+            ---
             apiVersion: rbac.authorization.k8s.io/v1
             kind: RoleBinding
             metadata:
@@ -168,7 +167,8 @@ import dedent                       from 'dedent';
     <TabItem value='ProjectQuota'>
         При создании ресурса `Project` автоматически генерируется ресурс `ProjectQuota`, который впоследствии будет отвечать за квотирование проекта.
         <CodeBlock language="yaml">
-          {dedent`---
+          {dedent`
+            ---
             apiVersion: b-cloud.io/v1alpha
             kind: ProjectQuota
             metadata:
@@ -190,7 +190,8 @@ import dedent                       from 'dedent';
     <TabItem value='ProjectLegacy'>
         При создании ресурса `Project` автоматически генерируется ресурс `ProjectLegacy`, который впоследствии будет отвечать интеграцию с внешними системами.
         <CodeBlock language="yaml">
-          {dedent`---
+          {dedent`
+            ---
             apiVersion: b-cloud.io/v1alpha
             kind: ProjectLegacy
             metadata:
