@@ -21,7 +21,8 @@ import dedent                       from 'dedent';
         <div className="child-block">
           <h4 className="center">Enivironments</h4>
             <CodeBlock language="bash">
-              {dedent`export CLUSTER_NAME="bcloud-k8s-infra"
+              {dedent`
+                export CLUSTER_NAME="bcloud-k8s-infra"
                 export CLUSTER_ENV="prod"
                 export CLUSTER_AREA="csko"
                 export CLUSTER_INDEX="1"
@@ -36,7 +37,8 @@ import dedent                       from 'dedent';
         <div className="child-block">
           <h4 className="center">Values</h4>
             <CodeBlock language="yaml">
-              {dedent`---
+              {dedent`
+                ---
                 appSpec:
                   applications:
                     projects:

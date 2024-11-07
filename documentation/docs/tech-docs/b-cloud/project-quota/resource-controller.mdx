@@ -5,11 +5,105 @@ id: resource-controller
 import TabItem                      from '@theme/TabItem'
 import Tabs                         from '@theme/Tabs'
 import CodeBlock                    from '@theme/CodeBlock'
+import dedent                       from 'dedent';
 
 # Контроллер
-`ProjectQuota controller` — 
+`ProjectQuota controller` — это контроллер, разработанный для реализации подсчета управляемой квоты проекта.
+
 
 ## Архитектура
+<div className="center">![Описание изображения](/img/controllers/project-quota-controller.drawio.svg)</div>
 
-## Функции
 
+## Функциионал
+
+- **Пересчет коты**: предоставляет возможность пересчитывать квоту и поддерживать значения в актуальном состоянии.
+
+## Функциональные требования
+
+1. Публикация событий при изменении ресурсов `Instance` и `Project`:
+   - При создании, изменении или удалении ресурсов типа `Instance` и `Project` должно автоматически публиковаться событие, на которое реагирует контроллер.
+
+2. Публикация событий при изменении контролируемых ресурсов:
+   - При создании, изменении или удалении ресурсов, созданных контроллером, также должно публиковаться событие, на которое контроллер реагирует.
+
+3. Подписка контроллера на изменения созданных ресурсов:
+   - Контроллер обязан подписываться на изменения всех ресурсов, которые он создает, чтобы отслеживать их состояние.
+
+4. Запуск процесса реконсиляции при получении событий:
+   - При получении любого из указанных событий должен запускаться процесс реконсиляции ресурсов.
+
+5. Действия процесса реконсиляции при создании и изменении:
+   - В ответ на события создания или изменения, процесс реконсиляции должен пересчитывать квоту основываясь на том, какая общая квота и сколько уже зарезервировали
+
+6. Действия процесса реконсиляции при удалении:
+   - В ответ на события удаления действие не требуется
+
+
+## Дочерние ресурсы
+
+<Tabs>
+    <TabItem value='RESOURCE_PROJECT'>
+        <CodeBlock language="yaml">
+          {dedent`
+            ---
+            apiVersion: b-cloud.io/v1alpha
+            kind: Project
+            metadata:
+              name: bcloud-sandbox
+            spec:
+              businessName: B-Cloud
+              description: Тестовый проект для B-Cloud Sandbox
+              prefix: bcsn
+              quotas:
+                k8s:
+                  limits:
+                    cpu: "2"
+                    memory: 4000M
+                  requests:
+                    cpu: "1"
+                    memory: 2000M
+                    storage: 1G
+              state: pilot
+          `}
+        </CodeBlock>
+    </TabItem>
+</Tabs>
+
+При создании, изменении или удалении ресурсов типа `Instance` или `Project`, контроллер должен пересчитывать квоту проекта и записать остаток в блок status.
+
+<Tabs>
+
+    <TabItem value='ProjectQuota'>
+        <CodeBlock language="yaml">
+          {dedent`
+            ---
+            apiVersion: b-cloud.io/v1alpha
+            kind: ProjectQuota
+            metadata:
+              name: '$\{RESOURCE_PROJECT.metadata.name}'
+            spec:
+              quotas:
+                k8s:
+                  limits:
+                    cpu: '$\{RESOURCE_PROJECT.spec.quotas.k8s.limits.cpu}'
+                    memory: '$\{RESOURCE_PROJECT.spec.quotas.k8s.limits.memory}'
+                  requests:
+                    cpu: '$\{RESOURCE_PROJECT.spec.quotas.k8s.requests.cpu}'
+                    memory: '$\{RESOURCE_PROJECT.spec.quotas.k8s.requests.memory}'
+                    storage: '$\{RESOURCE_PROJECT.spec.quotas.k8s.requests.storage}'
+            status:
+              quotasLeft:
+                k8s:
+                  limits:
+                    cpu: 400m
+                    memory: 200M
+                  requests:
+                    cpu: 200m
+                    memory: 100M
+                    storage: 1G
+          `}
+        </CodeBlock>
+    </TabItem>
+
+</Tabs>

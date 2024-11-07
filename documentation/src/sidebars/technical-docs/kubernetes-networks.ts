@@ -1,18 +1,48 @@
 export const kubernetesNetworks = [
   {
-    type: 'doc',
-    label: 'Внешняя балансировка',
-    id: 'tech-docs/kubernetes-network/base-load-balancer-external-principal',
+    type: 'category',
+    label: 'Сервисная сеть',
+    collapsed: true,
+    items: [
+      {
+        type: 'doc',
+        label: 'Концепт',
+        id: 'tech-docs/kubernetes-network/base-load-balancer-principal',
+      },
+      {
+        type: 'doc',
+        label: 'LoadBalancer Citrix',
+        id: 'tech-docs/kubernetes-network/base-load-balancer-citrix',
+      },
+      {
+        type: 'doc',
+        label: 'LoadBalancer Metallb',
+        id: 'tech-docs/kubernetes-network/base-load-balancer-metallb',
+      },
+      {
+        type: 'doc',
+        label: 'LoadBalancer Cilium',
+        id: 'tech-docs/kubernetes-network/base-load-balancer-cilium',
+      },
+
+    ]
   },
   {
-    type: 'doc',
-    label: 'Внутренняя балансировка',
-    id: 'tech-docs/kubernetes-network/base-load-balancer-principal',
-  },
-  {
-    type: 'doc',
+    type: 'category',
     label: 'Подовая сеть',
-    id: 'tech-docs/kubernetes-network/base-pod-principal',
+    collapsed: true,
+    items: [
+      {
+        type: 'doc',
+        label: 'Концепт',
+        id: 'tech-docs/kubernetes-network/base-pod-principal',
+      },
+      {
+        type: 'doc',
+        label: 'CNI Cilium',
+        id: 'tech-docs/kubernetes-network/base-pod-cni-cilium',
+      },
+    ]
   },
   {
     type: 'doc',
