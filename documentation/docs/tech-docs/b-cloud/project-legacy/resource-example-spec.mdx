@@ -1,7 +1,17 @@
-import CodeBlock from '@theme/CodeBlock'
+import CodeBlock  from '@theme/CodeBlock'
+import dedent     from 'dedent';
 
 <CodeBlock language="yaml">
-{`apiVersion: b-cloud.io/v1alpha
-
-`}
+  {dedent`
+    ---
+    apiVersion: b-cloud.io/v1alpha
+    kind: ProjectLegacy
+    metadata:
+      name: bcloud-sandbox
+    spec:
+      businessName: B-Cloud
+      description:  Тестовый проект для B-Cloud Sandbox
+      prefix:       bcsn
+      state:        pilot
+  `}
 </CodeBlock>

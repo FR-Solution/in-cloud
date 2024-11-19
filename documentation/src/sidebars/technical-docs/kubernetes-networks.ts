@@ -9,21 +9,21 @@ export const kubernetesNetworks = [
         label: 'Концепт',
         id: 'tech-docs/kubernetes-network/base-load-balancer-principal',
       },
-      {
-        type: 'doc',
-        label: 'LoadBalancer Citrix',
-        id: 'tech-docs/kubernetes-network/base-load-balancer-citrix',
-      },
+      // {
+      //   type: 'doc',
+      //   label: 'LoadBalancer Citrix',
+      //   id: 'tech-docs/kubernetes-network/base-load-balancer-citrix',
+      // },
       {
         type: 'doc',
         label: 'LoadBalancer Metallb',
-        id: 'tech-docs/kubernetes-network/base-load-balancer-metallb',
+        id: 'tech-docs/kubernetes-network/metallb/base-load-balancer-metallb',
       },
-      {
-        type: 'doc',
-        label: 'LoadBalancer Cilium',
-        id: 'tech-docs/kubernetes-network/base-load-balancer-cilium',
-      },
+      // {
+      //   type: 'doc',
+      //   label: 'LoadBalancer Cilium',
+      //   id: 'tech-docs/kubernetes-network/base-load-balancer-cilium',
+      // },
 
     ]
   },
