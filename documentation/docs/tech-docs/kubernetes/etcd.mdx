@@ -1,0 +1,289 @@
+
+import CodeBlock                from '@theme/CodeBlock';
+import { CERTIFICATES }         from '@site/src/constants/kubernetes/certs'
+import { PORTS }                from '@site/src/constants/kubernetes/ports'
+import { CUSTOM_VALUE }         from '@site/src/constants/kubernetes/customValue'
+import TabItem                  from '@theme/TabItem'
+import Tabs                     from '@theme/Tabs'
+
+**Данный раздел содержит следующие темы:**
+1. Введение.
+2. Использования исполняемого файла etcdctl из репозитория.
+3. Определение узлов для подключения.
+4. Подключение к etcd.
+5. Проверка подключения.
+6. Создание snapshot.
+7. Восстановление из snapshot.
+8. Восстановление кластера при конфликтах или проблемах с кворумом.
+
+## Введение
+
+Для взаимодействия с etcd кластером потребуется исполняемый файл etcdctl.
+Есть три варианта взаимодействия:
+
+1. Достать исполняемый файл из ресурсов текущего релиза https://github.com/etcd-io/etcd.
+2. Подключиться по ssh на ноду кластера, на которой запущен контейнер с etcd. И вызывать исполняемый файл etcdctl из контейнера.
+3. Использовать nsenter для взаимодействия с кластером.
+
+## Использование исполняемого файла etcdctl из репозитория
+
+Для это необходимо загрузить файл на виртуальную машину, с которой есть сетевой доступ до etcd узлов по портам 2379 и 2380. Данный метод подключения может иметь ряд ограничений, т.к. все манипуляции происходят за пределами пространства имен в котором запущены узлы etcd кластер, а также нет прямого взаимодействия с директорией в которой лежат файлы базы данных. Рекомендуется использовать для удаленного сбора информации, оценки состояния кластера, сбора бэкапа/снапшота.
+При восстановлении из бэкапа настоятельно рекомендую использовать 2 или 3 вариант.
+
+Далее для подключения потребуется сохранить себе установленные сертификаты, они располагаются на control-plane нодах по путям:
+
+```text
+/etc/kubernetes/pki/etcd/peer.crt
+/etc/kubernetes/pki/etcd/peer.key
+/etc/kubernetes/pki/etcd/ca.crt
+```
+
+## Определение узлов для подключения
+
+Определите эндпоинты для подключения к etcd. Варианты:
+
+1. При помощи команды
+
+```bash
+kubectl get pod -n kube-system -l component=etcd -o wide
+```
+
+2. Проинспектировав поды etcd и kube-api командой:
+
+```bash
+kubectl get pod -n kube-system -l component=etcd -o yaml
+kubectl get pod -n kube-system -l component=kube-apiserver -o yaml
+```
+
+3. В случае, если etcd находится в другом инфра кластере, использовать команды:
+
+```bash
+kubectl get pod -n [ИМЯ_СЕРВЕРА] -l component=etcd -o yaml
+kubectl get pod -n [ИМЯ_СЕРВЕРА] -l component=kube-apiserver -o yaml
+```
+
+Или
+
+```bash
+kubectl get pod -n [ИМЯ_СЕРВЕРА] -l component=etcd -o wide
+```
+
+
+Полученные эндпоинты мы будем записывать в переменную ENDPOINTS.
+
+:::note
+Пример объявления переменной (Например если бы мы получили IP адреса 10.10.10.1, 10.10.10.2 и 10.10.10.3):
+
+```bash
+export ENDPOINTS=https://10.10.10.1:2379,https://10.10.10.2:2379,https://10.10.10.3:2379
+```
+:::
+
+:::note
+Еще один вариант объявления переменной, чтобы получить IP адреса из кластера и сразу записать их в переменную:
+
+```bash
+export ENDPOINTS=$(kubectl get pod -n kube-system -l component=etcd -o custom-columns=ip:.status.podIP --no-headers | sed 's/.*/https\:\/\/&:2379/' | tr '\n' ',' | head -c -1)
+```
+
+В переменной ENDPOINTS будет записана такая же строка:
+
+```bash
+https://10.10.10.1:2379,https://10.10.10.2:2379,https://10.10.10.3:2379
+```
+:::
+
+
+## Подключение к etcd
+
+Определив эндпоинты, настроим команду для подключения к кластеру через alias.
+
+### Через бинарный файл на ВМ
+
+Допустим вы уже объявили переменную ENDPOINTS и положили файл etcdctl и сертификаты для подключения в директорию `/tmp/etcd`, тогда будем использовать следующую команду:
+
+```bash
+alias etcdctl='/tmp/etcdctl --cert /tmp/peer.crt --key /tmp/peer.key --cacert /tmp/ca.crt --endpoints=$ENDPOINTS'
+alias ectl='/tmp/etcdctl --cert /tmp/peer.crt --key /tmp/peer.key --cacert /tmp/ca.crt'
+```
+
+### При помощи crictl
+
+После подключения по ssh на виртуальную машину где находится контейнер с etcd, необходимо найти ID этого контейнера, затем сохраним его значение в переменной `CONTAINER_ID`. Для этого выполните команды:
+
+```bash
+sudo su -
+CONTAINER_ID=$(crictl ps -a --label io.kubernetes.container.name=etcd --label io.kubernetes.pod.namespace=kube-system | awk 'NR>1{r=$1} $0~/Running/{exit} END{print r}')
+echo $CONTAINER_ID
+```
+
+Теперь создадим alias:
+
+```bash
+alias etcdctl='crictl exec "$CONTAINER_ID" etcdctl --cert /etc/kubernetes/pki/etcd/peer.crt --key /etc/kubernetes/pki/etcd/peer.key --cacert /etc/kubernetes/pki/etcd/ca.crt --endpoints=$ENDPOINTS'
+alias ectl='crictl exec "$CONTAINER_ID" etcdctl --cert /etc/kubernetes/pki/etcd/peer.crt --key /etc/kubernetes/pki/etcd/peer.key --cacert /etc/kubernetes/pki/etcd/ca.crt'
+```
+
+### При помощи nsenter
+
+Как и в предыдущем варианте после подключения по ssh на виртуальную машину где находится контейнер с etcd, необходимо найти ID этого контейнера, затем сохраним его значение в переменной `CONTAINER_ID`. Для этого выполните команды:
+
+```bash
+sudo su -
+CONTAINER_ID=$(crictl ps -a --label io.kubernetes.container.name=etcd --label io.kubernetes.pod.namespace=kube-system | awk 'NR>1{r=$1} $0~/Running/{exit} END{print r}')
+echo $CONTAINER_ID
+```
+
+```bash
+alias etcdctl='nsenter -n -t $(crictl inspect $CONTAINER_ID  | jq .info.pid) --all etcdctl --cert /etc/kubernetes/pki/etcd/peer.crt --key /etc/kubernetes/pki/etcd/peer.key --cacert /etc/kubernetes/pki/etcd/ca.crt --endpoints=$ENDPOINTS'
+alias etcdctl='nsenter -n -t $(crictl inspect $CONTAINER_ID  | jq .info.pid) --all etcdctl --cert /etc/kubernetes/pki/etcd/peer.crt --key /etc/kubernetes/pki/etcd/peer.key --cacert /etc/kubernetes/pki/etcd/ca.crt'
+```
+
+## Проверка подключения
+
+Теперь мы можем использовать алиас `etcdctl` для запроса ко всем эндпоинтам и `ectl` если нужно указать эндпоинт самостоятельно.
+
+### вывод членов etcd кластера
+
+Проверим подключение при помощи команд (вывод обеих команд будет одинаковый):
+
+```bash
+etcdctl member list -w table
+ectl member list -w table --endpoints=$(echo $ENDPOINTS | sed 's/,.*//')
+```
+
+Вывод:
+
+```bash
++------------------+---------+-------------+--------------------------+--------------------------+------------+
+|        ID        | STATUS  |    NAME     |        PEER ADDRS        |       CLIENT ADDRS       | IS LEARNER |
++------------------+---------+-------------+--------------------------+--------------------------+------------+
+|  12bad9e498c909b | started | test-etcd-1 | https://10.10.10.1:2380  | https://10.10.10.1:2379  |      false |
+| 80307da3532e6f96 | started | test-etcd-2 | https://10.10.10.2:2380  | https://10.10.10.2:2379  |      false |
+| bafe40e4ee9a3fb5 | started | test-etcd-3 | https://10.10.10.3:2380  | https://10.10.10.3:2379  |      false |
++------------------+---------+-------------+--------------------------+--------------------------+------------+
+```
+
+### вывод статусов
+
+```bash
+#вывести все статус всех эндпоинтов
+> etcdctl --write-out=table endpoint status
++--------------------------+------------------+---------+---------+-----------+------------+-----------+------------+--------------------+--------+
+|         ENDPOINT         |        ID        | VERSION | DB SIZE | IS LEADER | IS LEARNER | RAFT TERM | RAFT INDEX | RAFT APPLIED INDEX | ERRORS |
++--------------------------+------------------+---------+---------+-----------+------------+-----------+------------+--------------------+--------+
+| https://10.10.10.1:2379  | bafe40e4ee9a3fb5 |   3.5.7 |  202 MB |      true |      false |       385 | 1018021267 |         1018021267 |        |
+| https://10.10.10.2:2379  |  12bad9e498c909b |   3.5.7 |  209 MB |     false |      false |       385 | 1018021267 |         1018021267 |        |
+| https://10.10.10.3:2379  | 80307da3532e6f96 |   3.5.7 |  196 MB |     false |      false |       385 | 1018021267 |         1018021267 |        |
++--------------------------+------------------+---------+---------+-----------+------------+-----------+------------+--------------------+--------+
+#вывести статус первого эндпоинта
+> ectl --write-out=table endpoint status --endpoints=$(echo $ENDPOINTS | sed 's/,.*//')
++--------------------------+------------------+---------+---------+-----------+------------+-----------+------------+--------------------+--------+
+|         ENDPOINT         |        ID        | VERSION | DB SIZE | IS LEADER | IS LEARNER | RAFT TERM | RAFT INDEX | RAFT APPLIED INDEX | ERRORS |
++--------------------------+------------------+---------+---------+-----------+------------+-----------+------------+--------------------+--------+
+| https://10.10.10.1:2379  | bafe40e4ee9a3fb5 |   3.5.7 |  202 MB |      true |      false |       385 | 1018021862 |         1018021862 |        |
++--------------------------+------------------+---------+---------+-----------+------------+-----------+------------+--------------------+--------+
+```
+
+Рекомендую задать переменную ENDPOINT куда записать эндпоинт лидера. Из таблицы выше видно, что это `https://10.10.10.1:2379`.
+
+```bash
+export ENDPOINT='https://10.10.10.1:2379'
+```
+
+Тогда вывод статуса лидера будет:
+
+```bash
+> ectl --write-out=table endpoint status --endpoints=$ENDPOINT
++--------------------------+------------------+---------+---------+-----------+------------+-----------+------------+--------------------+--------+
+|         ENDPOINT         |        ID        | VERSION | DB SIZE | IS LEADER | IS LEARNER | RAFT TERM | RAFT INDEX | RAFT APPLIED INDEX | ERRORS |
++--------------------------+------------------+---------+---------+-----------+------------+-----------+------------+--------------------+--------+
+| https://10.10.10.1:2379  | bafe40e4ee9a3fb5 |   3.5.7 |  202 MB |      true |      false |       385 | 1018024365 |         1018024365 |        |
++--------------------------+------------------+---------+---------+-----------+------------+-----------+------------+--------------------+--------+
+```
+
+## Создание snapshot
+
+### При удаленном подключении
+
+В данном случае снапшот будет сохранен на машину, с которой выполняется подключение. К примеру сохраним снапшот по пути /tmp/etcd/snap1.db
+
+```bash
+ectl snapshot save --endpoints=$ENDPOINT /tmp/etcd/snap1.db
+```
+
+### При удаленном подключении через nsenter или crictl
+
+В данном случае, бэкап будет сохранен внутри контейнера. И чтобы справиться с проблемами с его извлечением, сохраните его в директорию, которая уже примонтирована к хостовой машине `/etc/kubernetes/pki/etcd/`:
+
+```bash
+ectl snapshot save --endpoints=$ENDPOINT /etc/kubernetes/pki/etcd/snap1.db
+```
+
+Теперь на хостовой машине вы можете скопировать файл /etc/kubernetes/pki/etcd/snap1.db в другое место, чтобы сохранить его. Например:
+
+```bash
+cp /etc/kubernetes/pki/etcd/snap1.db /tmp/etcd/snap1.db
+```
+
+## Восстановление из snapshot
+
+Для этого, мы будем использовать подключения через crictl или nsenter.
+
+Предварительно поместите снапшот по пути `/etc/kubernetes/pki/etcd/snap1.db`.
+
+Просмотрите текущие параметры запуска etcd через `kubectl` или в статик манифесте `/etc/kubernetes/manifests/etcd.yaml`.
+Нас интересуют параметры:
+
+```bash
+initial-cluster-token        #Если есть.
+initial-advertise-peer-urls  #Для каждой ноды кластера.
+initial-cluster              #общий для всех
+```
+
+Соответственно заполнив параметры вашему кластеру выполняем следующие команды, чтобы запустить восстановление.
+
+```bash
+#На первой ноде кластера
+ectl snapshot restore /home/mistrikov/testetcd/snap1.db \
+  --endpoints=$ENDPOINTS \
+  --name=test-etcd-1 \
+  --data-dir /var/lib/etcd/new \
+  --initial-cluster-token=test_etcd\
+  --initial-advertise-peer-urls=https://10.10.10.1:2380 \
+  --initial-cluster=test-etcd-1=https://10.10.10.1:2380,test-etcd-2=https://10.10.10.2:2380,test-etcd-3=https://10.10.10.3:2380
+
+#На второй ноде кластера
+ectl snapshot restore /home/mistrikov/testetcd/snap1.db \
+  --endpoints=$ENDPOINTS \
+  --name=test-etcd-2 \
+  --data-dir /var/lib/etcd/new \
+  --initial-cluster-token=test_etcd\
+  --initial-advertise-peer-urls=https://10.10.10.2:2380 \
+  --initial-cluster=test-etcd-1=https://10.10.10.1:2380,test-etcd-2=https://10.10.10.2:2380,test-etcd-3=https://10.10.10.3:2380
+
+#На третьей ноде кластера
+ectl snapshot restore /home/mistrikov/testetcd/snap1.db \
+  --endpoints=$ENDPOINTS \
+  --name=test-etcd-3 \
+  --data-dir /var/lib/etcd/new \
+  --initial-cluster-token=test_etcd\
+  --initial-advertise-peer-urls=https://10.10.10.3:2380 \
+  --initial-cluster=test-etcd-1=https://10.10.10.1:2380,test-etcd-2=https://10.10.10.2:2380,test-etcd-3=https://10.10.10.3:2380
+```
+
+## Восстановление кластера при конфликтах или проблемах с кворумом.
+
+Если есть проблемы с подключением к etcd, что вероятнее всего в подобной ситуации, нужно сделать бэкап данных:
+
+```bash
+cp -r /var/lib/etcd/member /tmp/etcd/backup/
+```
+
+Проверьте размер файла `/var/lib/etcd/member/snap/db`. Если его размер превышает 2 GB рекомендуем запустить дефрагментацию.
+Для этого рекомендуется использовать бинарный файл etcdctl расположенный на ВМ за пределами контейнера (Например поместите его в директорию /tmp/etcd/etcdctl):
+
+```bash
+ls -l /var/lib/etcd/member/snap/db
+/tmp/etcd/etcdctl defrag --data-dir /var/lib/etcd
+```
