@@ -45,8 +45,20 @@ export const kubernetesTHW = [
     id: 'tech-docs/kubernetes-thw/step-by-step-kubeadm-aditional',
   },
   {
-    type: 'doc',
+    type: 'category',
     label: 'troubleshooting',
-    id: 'tech-docs/kubernetes-thw/k8s-troubleshooting',
+    collapsed: true,
+    items: [
+      {
+        type: 'doc',
+        label: 'Диагностика',
+        id: 'tech-docs/kubernetes-thw/k8s-troubleshooting',
+      },
+      {
+        type: 'doc',
+        label: 'Отладка ETCD',
+        id: 'tech-docs/kubernetes-thw/etcd-troubleshooting',
+      },
+    ]
   },
 ]
