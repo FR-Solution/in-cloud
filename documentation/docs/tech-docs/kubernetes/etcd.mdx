@@ -6,9 +6,10 @@ import { CUSTOM_VALUE }         from '@site/src/constants/kubernetes/customValue
 import TabItem                  from '@theme/TabItem'
 import Tabs                     from '@theme/Tabs'
 
+
 **Данный раздел содержит следующие темы:**
 1. Введение.
-2. Использования исполняемого файла etcdctl из репозитория.
+2. Использования исполняемого файла etcdctl (TODO ? ссылкой на компонент внутри доки) из репозитория.
 3. Определение узлов для подключения.
 4. Подключение к etcd.
 5. Проверка подключения.
@@ -17,15 +18,27 @@ import Tabs                     from '@theme/Tabs'
 8. Восстановление кластера при конфликтах или проблемах с кворумом.
 
 ## Введение
+(? Для чего вообще данный раздел - описание проблематики)
 
+
+## TODO Пререквизиты
+1) откуда качать
+2) базовые алиасы
+3) базовые переменные окружения
+
+{/* 
 Для взаимодействия с etcd кластером потребуется исполняемый файл etcdctl.
 Есть три варианта взаимодействия:
 
 1. Достать исполняемый файл из ресурсов текущего релиза https://github.com/etcd-io/etcd.
 2. Подключиться по ssh на ноду кластера, на которой запущен контейнер с etcd. И вызывать исполняемый файл etcdctl из контейнера.
 3. Использовать nsenter для взаимодействия с кластером.
+ */}
 
 ## Использование исполняемого файла etcdctl из репозитория
+TODO - 'это Пререквизиты'
+
+
 
 Для это необходимо загрузить файл на виртуальную машину, с которой есть сетевой доступ до etcd узлов по портам 2379 и 2380. Данный метод подключения может иметь ряд ограничений, т.к. все манипуляции происходят за пределами пространства имен в котором запущены узлы etcd кластер, а также нет прямого взаимодействия с директорией в которой лежат файлы базы данных. Рекомендуется использовать для удаленного сбора информации, оценки состояния кластера, сбора бэкапа/снапшота.
 При восстановлении из бэкапа настоятельно рекомендую использовать 2 или 3 вариант.
@@ -33,12 +46,26 @@ import Tabs                     from '@theme/Tabs'
 Далее для подключения потребуется сохранить себе установленные сертификаты, они располагаются на control-plane нодах по путям:
 
 ```text
-/etc/kubernetes/pki/etcd/peer.crt
-/etc/kubernetes/pki/etcd/peer.key
-/etc/kubernetes/pki/etcd/ca.crt
+/etc/kubernetes/pki/etcd/peer.crt   # вынос на переменные описанные в vars TODO
+/etc/kubernetes/pki/etcd/peer.key   # вынос на переменные описанные в vars TODO
+/etc/kubernetes/pki/etcd/ca.crt     # вынос на переменные описанные в vars TODO
 ```
 
 ## Определение узлов для подключения
+
+TODO
+<Tabs groupId="install-type">
+  <TabItem value='запуск с мастера binary'>
+
+  </TabItem>
+  <TabItem value='запуск с мастера nsenter/crictl'>
+
+  </TabItem>
+  <TabItem value='запуск через kubectl exec'>
+
+  </TabItem>
+</Tabs>
+
 
 Определите эндпоинты для подключения к etcd. Варианты:
 
@@ -71,6 +98,25 @@ kubectl get pod -n [ИМЯ_СЕРВЕРА] -l component=etcd -o wide
 
 Полученные эндпоинты мы будем записывать в переменную ENDPOINTS.
 
+TODO (получение эндпоинтов)
+<Tabs groupId="install-type">
+  <TabItem value='вытаскиваем kubectl get po -l component=etcd -n kube-system'>
+
+  </TabItem>
+  <TabItem value='запуск с мастера etcdctl/nsenter/crictl - member list --endpoint='>
+
+  </TabItem>
+
+</Tabs>
+
+TODO нештатная история
+1) заехала нода лишняя и застряла (добавился лишний невалидный endpoint)
+2) пропала нода
+3) не поднимается кластер (доступ к member list недоступен)
+*****
+
+
+
 :::note
 Пример объявления переменной (Например если бы мы получили IP адреса 10.10.10.1, 10.10.10.2 и 10.10.10.3):
 
@@ -101,6 +147,23 @@ https://10.10.10.1:2379,https://10.10.10.2:2379,https://10.10.10.3:2379
 ### Через бинарный файл на ВМ
 
 Допустим вы уже объявили переменную ENDPOINTS и положили файл etcdctl и сертификаты для подключения в директорию `/tmp/etcd`, тогда будем использовать следующую команду:
+
+TODO
+<Tabs groupId="install-type">
+  <TabItem value='запуск с мастера binary'>
+
+  </TabItem>
+  <TabItem value='запуск с мастера nsenter/crictl'>
+
+  </TabItem>
+  <TabItem value='запуск через kubectl exec'>
+
+  </TabItem>
+</Tabs>
+
+TODO
+1) сертификаты на variables
+2) endpoints должен быть объеявлен (export ENDPOINTS=FOO)
 
 ```bash
 alias etcdctl='/tmp/etcdctl --cert /tmp/peer.crt --key /tmp/peer.key --cacert /tmp/ca.crt --endpoints=$ENDPOINTS'
@@ -134,14 +197,29 @@ CONTAINER_ID=$(crictl ps -a --label io.kubernetes.container.name=etcd --label io
 echo $CONTAINER_ID
 ```
 
+TODO писать с каждой строки по ключу
 ```bash
-alias etcdctl='nsenter -n -t $(crictl inspect $CONTAINER_ID  | jq .info.pid) --all etcdctl --cert /etc/kubernetes/pki/etcd/peer.crt --key /etc/kubernetes/pki/etcd/peer.key --cacert /etc/kubernetes/pki/etcd/ca.crt --endpoints=$ENDPOINTS'
-alias etcdctl='nsenter -n -t $(crictl inspect $CONTAINER_ID  | jq .info.pid) --all etcdctl --cert /etc/kubernetes/pki/etcd/peer.crt --key /etc/kubernetes/pki/etcd/peer.key --cacert /etc/kubernetes/pki/etcd/ca.crt'
+alias etcdctl='nsenter \
+-n \
+-t $(crictl inspect $CONTAINER_ID  | jq .info.pid) \
+--all etcdctl --cert /etc/kubernetes/pki/etcd/peer.crt \
+--key /etc/kubernetes/pki/etcd/peer.key \
+--cacert /etc/kubernetes/pki/etcd/ca.crt \
+--endpoints=$ENDPOINTS'
+alias ectl='nsenter -n -t $(crictl inspect $CONTAINER_ID  | jq .info.pid) --all etcdctl --cert /etc/kubernetes/pki/etcd/peer.crt --key /etc/kubernetes/pki/etcd/peer.key --cacert /etc/kubernetes/pki/etcd/ca.crt'
 ```
 
 ## Проверка подключения
 
 Теперь мы можем использовать алиас `etcdctl` для запроса ко всем эндпоинтам и `ectl` если нужно указать эндпоинт самостоятельно.
+
+
+TODO полезные команды 
+1) member list
+2) endpoint status
+3) get prefix
+4) snapshot
+5) restore
 
 ### вывод членов etcd кластера
 
@@ -158,9 +236,9 @@ ectl member list -w table --endpoints=$(echo $ENDPOINTS | sed 's/,.*//')
 +------------------+---------+-------------+--------------------------+--------------------------+------------+
 |        ID        | STATUS  |    NAME     |        PEER ADDRS        |       CLIENT ADDRS       | IS LEARNER |
 +------------------+---------+-------------+--------------------------+--------------------------+------------+
-|  12bad9e498c909b | started | test-etcd-1 | https://10.10.10.1:2380  | https://10.10.10.1:2379  |      false |
-| 80307da3532e6f96 | started | test-etcd-2 | https://10.10.10.2:2380  | https://10.10.10.2:2379  |      false |
-| bafe40e4ee9a3fb5 | started | test-etcd-3 | https://10.10.10.3:2380  | https://10.10.10.3:2379  |      false |
+|  12bad9e498c909b | started | master-1    | https://10.10.10.1:2380  | https://10.10.10.1:2379  |      false |
+| 80307da3532e6f96 | started | master-2    | https://10.10.10.2:2380  | https://10.10.10.2:2379  |      false |
+| bafe40e4ee9a3fb5 | started | master-3    | https://10.10.10.3:2380  | https://10.10.10.3:2379  |      false |
 +------------------+---------+-------------+--------------------------+--------------------------+------------+
 ```
 
@@ -204,10 +282,29 @@ export ENDPOINT='https://10.10.10.1:2379'
 
 ## Создание snapshot
 
+
+TODO
+<Tabs groupId="install-type">
+  <TabItem value='nsenter то проброс mount (положить бекап)'>
+
+  </TabItem>
+  <TabItem value='подключение удаленное (положить себе)'>
+
+  </TabItem>
+  <TabItem value='подключение удаленное/локальное (положить в s3)'>
+
+  </TabItem>
+</Tabs>
+
+
+
+TODO вопрос, можно ли снять дамп с файла а не через endpoint
+
 ### При удаленном подключении
 
 В данном случае снапшот будет сохранен на машину, с которой выполняется подключение. К примеру сохраним снапшот по пути /tmp/etcd/snap1.db
 
+!!!!!TODO все пути указываются через VARIABLES
 ```bash
 ectl snapshot save --endpoints=$ENDPOINT /tmp/etcd/snap1.db
 ```
@@ -216,21 +313,31 @@ ectl snapshot save --endpoints=$ENDPOINT /tmp/etcd/snap1.db
 
 В данном случае, бэкап будет сохранен внутри контейнера. И чтобы справиться с проблемами с его извлечением, сохраните его в директорию, которая уже примонтирована к хостовой машине `/etc/kubernetes/pki/etcd/`:
 
+!!!!!TODO все пути указываются через VARIABLES
 ```bash
 ectl snapshot save --endpoints=$ENDPOINT /etc/kubernetes/pki/etcd/snap1.db
 ```
 
 Теперь на хостовой машине вы можете скопировать файл /etc/kubernetes/pki/etcd/snap1.db в другое место, чтобы сохранить его. Например:
 
+
+!!!!!TODO все пути указываются через VARIABLES
 ```bash
 cp /etc/kubernetes/pki/etcd/snap1.db /tmp/etcd/snap1.db
 ```
 
 ## Восстановление из snapshot
 
+!!!!!TODO все пути указываются через VARIABLES
+
 Для этого, мы будем использовать подключения через crictl или nsenter.
 
 Предварительно поместите снапшот по пути `/etc/kubernetes/pki/etcd/snap1.db`.
+
+
+TODO - нужны Пререквизиты (важен `initial-cluster`)
+!!!!! initial-cluster -- надо откуда-то вытащить (особенно если кластер мертв)
+
 
 Просмотрите текущие параметры запуска etcd через `kubectl` или в статик манифесте `/etc/kubernetes/manifests/etcd.yaml`.
 Нас интересуют параметры:
@@ -243,6 +350,9 @@ initial-cluster              #общий для всех
 
 Соответственно заполнив параметры вашему кластеру выполняем следующие команды, чтобы запустить восстановление.
 
+!!!!!!!! СНАЧАЛА ДЕЛАЕМ БЕКАП ПОТОМ РЕСТОР)
+
+TODO ссылаться на переменные полученные в Пререквизитах
 ```bash
 #На первой ноде кластера
 ectl snapshot restore /home/mistrikov/testetcd/snap1.db \
@@ -284,6 +394,7 @@ ectl snapshot restore /home/mistrikov/testetcd/snap1.db \
 cp -r /var/lib/etcd/member /tmp/etcd/backup/
 ```
 
+TODO часть блока полезных команд
 ### Дефрагментация
 
 Проверьте размер файла `/var/lib/etcd/member/snap/db`. Если его размер превышает 2 GB рекомендуем запустить дефрагментацию.
@@ -298,15 +409,19 @@ ls -l /var/lib/etcd/member/snap/db
 Для корректной работы etcd кластера, в том числе для запуска дефрагментации, размер ОЗУ должен быть таким же как и размер БД.
 :::
 
-### Остановка etcd
+TODO нету compaction!!!!!
 
-Остановите сервис kubelet на ноде:
+
+TODO ЗАЧЕМ плюс остановка kubelet что бы не поднимался
+### Остановка etcd (TODO ЗАЧЕМ?!!!!)
+
+Остановите сервис kubelet на ноде: (ЗАЧЕМ?!)
 
 ```bash
 systemctl stop kubelet
 ```
 
-Остановите контейнер etcd.
+Остановите контейнер etcd. (ЗАЧЕМ?!)
 
 ```bash
 CONTAINER_ID=$(crictl ps -a --label io.kubernetes.container.name=etcd --label io.kubernetes.pod.namespace=kube-system | awk 'NR>1{r=$1} $0~/Running/{exit} END{print r}')
@@ -314,17 +429,22 @@ CONTAINER_ID=$(crictl ps -a --label io.kubernetes.container.name=etcd --label io
 crictl stop $CONTAINER_ID
 ```
 
-### Перезапуск etcd в режиме нового кластера
+### Перезапуск etcd в режиме нового кластера (ЗАЧЕМ?!)
 
 Перезапустите etcd с использованием ранее сохраненного снимка и параметром --force-new-cluster.
 
 Обновите конфигурационный файл etcd (`/etc/kubernetes/manifests/etcd.yaml`) или измените параметры запуска, добавив следующие ключи:
 
+TODO - что мне даст этот ключ (ВОПРОС?) во вторых дай полную команду
 ```bash
 - --force-new-cluster
 - Обновите initial-cluster так, чтобы он содержал только оставшуюся ноду.
 ```
 
+TODO - А ПОТОМ НАДО ЛИ УБЕРАТЬ^?
+
+
+TODO часть блока полезных команд
 ### Проверьте работоспособность etcd
 
 Убедитесь, что etcd запущен и работает корректно.
@@ -335,12 +455,14 @@ crictl stop $CONTAINER_ID
 etcdctl endpoint health
 ```
 
+TODO добавить добавили удалить забыли!
 ### Добавление новых нод в кластер
 
 Для восстановления избыточности кластера добавьте новые ноды.
 
 Отредактируйте манифест на всех нодах, внеся туда инормацию о пирах и эндпоинтах других нод в соответствующие ключи:
 
+TODO - что мне даст этот ключ (ВОПРОС?) во вторых дай полную команду
 ```bash
 --peer-urls
 --endpoints
@@ -348,15 +470,20 @@ etcdctl endpoint health
 
 Переведите состояние кластера в "существующий"
 
+TODO - что мне даст этот ключ (ВОПРОС?) во вторых дай полную команду
 ```bash
 --initial-cluster-state existing
 ```
 
+TODO часть блока полезных команд
 ### Проверка etcd
 
 Убедитесь, что все члены кластера работают:
 
+TODO - что мне даст этот ключ (ВОПРОС?) во вторых дай полную команду
 ```bash
 etcdctl member list
 ```
+
+TODO опиши как работает gardener etcd-backup (в режиме снапшотов)
 
