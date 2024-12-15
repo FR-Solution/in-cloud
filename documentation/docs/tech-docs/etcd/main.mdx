@@ -1,0 +1,583 @@
+
+import CodeBlock                from '@theme/CodeBlock'
+import { CERTIFICATES }         from '@site/src/constants/kubernetes/certs'
+import { PORTS }                from '@site/src/constants/kubernetes/ports'
+import { CUSTOM_VALUE }         from '@site/src/constants/kubernetes/customValue'
+import TabItem                  from '@theme/TabItem'
+import Tabs                     from '@theme/Tabs'
+
+import { COMPONENTS_VERSION }   from '@site/src/constants/kubernetes/componentsVersion'
+
+**Содержание темы:**
+1. [Введение](#введение)
+2. [Пререквизиты](#пререквизиты)
+3. [Подключение](#использования-исполняемого-файла-etcdctl-из-репозитория)
+4. [Определение узлов для подключения](#определение-узлов-для-подключения)
+5. [Подключение к etcd](#подключение-к-etcd)
+6. [Проверка подключения](#проверка-подключения)
+7. [Создание мгновенных снимков](#создание-мгновенных-снимков)
+8. [Восстановление из мгновенных снимков](#восстановление-из-мгновенных-снимков)
+9. [Восстановление кластера при конфликтах или проблемах с кворумом](#восстановление-кластера-при-конфликтах-или-проблемах-с-кворумом)
+
+
+## Введение
+
+Данная тема содержит в себе описание подключения к БД etcd (Используемой для KubeAPI), процессов отладки, создания "мгновенных снимков", восстановления БД и полезные команды.
+
+## Пререквизиты
+
+### С чего начать
+
+Рекомендуем разбить процесс отладки на следующие этапы:
+
+1. Проверка мониторинга. #TODO ссылка на страницу с графаной
+2. Состояние подов кластера ETCD.
+3. Сбор и настройка пререквизитов.
+4. Подключение к кластеру ETCD.
+5. Оценка состояния кластера ETCD и его узлов.
+6. Отладка инфраструктуры и сопутствующих служб (При необходимости).
+7. Создание моментального снимка и резервной копии БД.
+8. Восстановление кластера (При возможности).
+9. Восстановление кластера в режиме одного узла.
+10. Восстановление данных в БД из резервной копии или моментального снимка.
+11. Подключение остальных узлов кластера.
+
+### Базовые переменные окружения
+
+#### Описание переменных
+
+| Переменная | Описание |
+| :--- | :--- |
+| ENDPOINTS | Конечные точки подключения к ETCD кластеру |
+| ENDPOINT_1 | Конечная точка подключения к первому узлу ETCD кластера |
+| ENDPOINT_2 | Конечная точка подключения ко второму узлу ETCD кластера |
+| ENDPOINT_3 | Конечная точка подключения к третьему узлу ETCD кластера |
+| ETCD_POD_1 | Имя пода первого узла ETCD кластера |
+| ETCD_POD_2 | Имя пода второго узла ETCD кластера |
+| ETCD_POD_3 | Имя пода третьего узла ETCD кластера |
+| K8S_NODE_1 | Имя узла кубернетес кластера на котором находится первый узел ETCD кластера |
+| K8S_NODE_2 | Имя узла кубернетес кластера на котором находится второй узел ETCD кластера |
+| K8S_NODE_3 | Имя узла кубернетес кластера на котором находится третий узел ETCD кластера |
+| K8S_CLUSTER_NAME | Имя K8S кластера |
+| BASE_K8S_PATH | Директория в которой расположены файлы конфигурации кубернетес кластера. |
+| PEER_CERT_PATH | Путь расположения сертификата для подключения между узлами ETCD кластера |
+| PEER_KEY_PATH | Путь расположения ключа сертификата для подключения между узлами ETCD кластера |
+| CA_CERT_PATH | Путь расположения корневого сертификата для подключения между узлами ETCD кластера |
+
+#### Примеры значения переменных
+
+| Переменная | Пример значения |
+| :--- | :--- |
+| ENDPOINTS | `https://10.10.10.1:2379,https://10.10.10.2:2379,https://10.10.10.3:2379` |
+| ENDPOINT_1 | `https://10.10.10.1:2379` |
+| ENDPOINT_2 | `https://10.10.10.2:2379` |
+| ENDPOINT_3 | `https://10.10.10.3:2379` |
+| ETCD_POD_1 | etcd-bcloud-k8s-sandbox-dev-csko-1-tcgzn-7plhz |
+| ETCD_POD_2 | etcd-bcloud-k8s-sandbox-dev-csko-1-tcgzn-h9g49 |
+| ETCD_POD_3 | etcd-bcloud-k8s-sandbox-dev-csko-1-tcgzn-wps6k |
+| K8S_NODE_1 | bcloud-k8s-sandbox-dev-csko-1-tcgzn-7plhz |
+| K8S_NODE_2 | bcloud-k8s-sandbox-dev-csko-1-tcgzn-h9g49 |
+| K8S_NODE_3 | bcloud-k8s-sandbox-dev-csko-1-tcgzn-wps6k |
+| K8S_CLUSTER_NAME | bcloud-k8s-sandbox-test-csko-1 |
+| BASE_K8S_PATH | {CUSTOM_VALUE.kuberneteBaseFolderPath.value} |
+| PEER_CERT_PATH | {CERTIFICATES.etcdCA.crtPath} |
+| PEER_KEY_PATH | {CERTIFICATES.etcdPeer.crtPath} |
+| CA_CERT_PATH | {CERTIFICATES.etcdPeer.keyPath} |
+
+### Подготовка окружения
+
+#### Скачивание etcdctl
+
+Для выполнения операций с файлами ETCD кластера, в условиях отсутствия работающих контейнеров ETCD, мы будем использовать локальный etcdctl файл.
+Исполняемый файл etcdctl можно получить из опубликованных релизов etcd (Например версия v3.5.17).
+Выполните следующие команды, чтобы скачать релиз, распаковать и извлечь из него etcdctl:
+
+```bash
+DOWNLOAD_URL=https://github.com/etcd-io/etcd/releases/download
+ETCD_VER=v3.5.17
+
+curl -L ${DOWNLOAD_URL}/${ETCD_VER}/etcd-${ETCD_VER}-darwin-amd64.zip \
+  -o etcd-${ETCD_VER}-darwin-amd64.zip
+unzip etcd-${ETCD_VER}-darwin-amd64.zip etcd-${ETCD_VER}-darwin-amd64/etcdctl \
+  && rm -f etcd-${ETCD_VER}-darwin-amd64.zip
+mv etcd-${ETCD_VER}-darwin-amd64/etcdctl /tmp/etcdctl \
+  && rm -rf etcd-${ETCD_VER}-darwin-amd64
+
+/tmp/etcdctl version
+```
+
+#### Подключение к узлу K8s кластера.
+
+Определите адреса управляющих узлов K8s кластера и подключитесь к одному из них.
+Сделать это можно через запрос к инфраструктурному кластеру:
+
+```bash
+kubectl get machine -n ${K8S_CLUSTER_NAME} \
+  -l cluster.x-k8s.io/control-plane-name \
+  -o custom-columns=Name:.metadata.name,IP:.status.addresses\[0\].address
+```
+
+Пример:
+
+```
+$ export K8S_CLUSTER_NAME=bcloud-k8s-sandbox-test-csko-1
+$ kubectl get machine -n bcloud-k8s-sandbox-test-csko-1 \
+  -l cluster.x-k8s.io/control-plane-name \
+  -o custom-columns=Name:.metadata.name,IP:.status.addresses\[0\].address
+Name                                         IP
+bcloud-k8s-sandbox-test-csko-1-h4sgh-4mflh   10.10.10.1
+bcloud-k8s-sandbox-test-csko-1-h4sgh-hjqdh   10.10.10.2
+bcloud-k8s-sandbox-test-csko-1-h4sgh-zdfsp   10.10.10.3
+```
+
+Выбираем один из полученных адресов (Например `10.10.10.1`)
+
+Скопируйте etcdctl файл на удаленную ВМ и подключитесь к ней по SSH:
+
+```bash
+scp /tmp/etcdctl capv@10.10.10.1:/tmp/etcdctl
+ssh capv@10.10.10.1
+sudo su
+cp /etc/kubernetes/admin.conf ~/.kube/config
+```
+
+#### Указание переменных
+
+Задайте базовые переменные окружения K8s кластера:
+
+```bash
+export BASE_K8S_PATH={CUSTOM_VALUE.kuberneteBaseFolderPath.value}
+export PEER_CERT_PATH={CERTIFICATES.etcdCA.crtPath}
+export PEER_KEY_PATH={CERTIFICATES.etcdPeer.crtPath}
+export CA_CERT_PATH={CERTIFICATES.etcdPeer.keyPath}
+```
+
+Скопируйте файл `admin.conf`, для подключения к кластеру при помощи kubectl:
+
+```bash
+cp ${BASE_K8S_PATH}/admin.conf ~/.kube/config
+```
+
+Отобразите список подов с etcd кластера с помощью команды:
+
+```bash
+kubectl get pod -n kube-system  -l component=etcd
+```
+
+Пример:
+
+```text
+$ kubectl get pod -n kube-system  -l component=etcd -o wide
+NAME                                             READY   STATUS    RESTARTS   AGE   IP           NODE                                        NOMINATED NODE   READINESS GATES
+etcd-bcloud-k8s-sandbox-dev-csko-1-tcgzn-7plhz   1/1     Running   0          9d    10.5.119.5   bcloud-k8s-sandbox-dev-csko-1-tcgzn-7plhz   <none>           <none>
+etcd-bcloud-k8s-sandbox-dev-csko-1-tcgzn-h9g49   1/1     Running   0          9d    10.5.119.6   bcloud-k8s-sandbox-dev-csko-1-tcgzn-h9g49   <none>           <none>
+etcd-bcloud-k8s-sandbox-dev-csko-1-tcgzn-wps6k   1/1     Running   0          9d    10.5.119.3   bcloud-k8s-sandbox-dev-csko-1-tcgzn-wps6k   <none>           <none>
+```
+
+Используйте значения из столбца `NAME` для указания переменных `ETCD_POD_N` и значения из столбца `NODE` для указания переменных `K8S_NODE_N`:
+
+Пример:
+
+```bash
+export ETCD_POD_1=etcd-bcloud-k8s-sandbox-dev-csko-1-tcgzn-7plhz
+export ETCD_POD_2=etcd-bcloud-k8s-sandbox-dev-csko-1-tcgzn-h9g49
+export ETCD_POD_3=etcd-bcloud-k8s-sandbox-dev-csko-1-tcgzn-wps6k
+export K8S_NODE_1=bcloud-k8s-sandbox-dev-csko-1-tcgzn-7plhz
+export K8S_NODE_2=bcloud-k8s-sandbox-dev-csko-1-tcgzn-h9g49
+export K8S_NODE_3=bcloud-k8s-sandbox-dev-csko-1-tcgzn-wps6k
+```
+
+Отобразите аннотации подов etcd кластера с помощью команды:
+
+```bash
+kubectl annotate pod -n kube-system  -l component=etcd --list
+```
+
+Пример:
+
+```text
+$ kubectl annotate pod -n kube-system  -l component=etcd --list
+Listing annotations for Pod./etcd-bcloud-k8s-sandbox-dev-csko-1-tcgzn-7plhz:
+ kubernetes.io/config.seen=2024-12-02T18:24:13.757273069Z
+ kubernetes.io/config.source=file
+ kubeadm.kubernetes.io/etcd.advertise-client-urls=https://10.10.10.1:2379
+ kubernetes.io/config.hash=cd6865786e6e37bb748031ee16da3f21
+ kubernetes.io/config.mirror=cd6865786e6e37bb748031ee16da3f21
+Listing annotations for Pod./etcd-bcloud-k8s-sandbox-dev-csko-1-tcgzn-h9g49:
+ kubernetes.io/config.mirror=dee50cb3a7f947417c7a790dc9e233c8
+ kubernetes.io/config.seen=2024-12-02T18:41:25.021060314Z
+ kubernetes.io/config.source=file
+ kubeadm.kubernetes.io/etcd.advertise-client-urls=https://10.10.10.2:2379
+ kubernetes.io/config.hash=dee50cb3a7f947417c7a790dc9e233c8
+Listing annotations for Pod./etcd-bcloud-k8s-sandbox-dev-csko-1-tcgzn-wps6k:
+ kubernetes.io/config.source=file
+ kubeadm.kubernetes.io/etcd.advertise-client-urls=https://10.10.10.3:2379
+ kubernetes.io/config.hash=571304a41e4dc96b710e3c357a266eba
+ kubernetes.io/config.mirror=571304a41e4dc96b710e3c357a266eba
+ kubernetes.io/config.seen=2024-12-02T19:18:28.450767105Z
+```
+
+Значение аннотации `kubeadm.kubernetes.io/etcd.advertise-client-urls` используйте для указания переменных `ENDPOINT_N`:
+
+```bash
+export ENDPOINT_1=https://10.10.10.1:2379
+export ENDPOINT_2=https://10.10.10.2:2379
+export ENDPOINT_3=https://10.10.10.3:2379
+export ENDPOINTS=${ENDPOINT_1},${ENDPOINT_2},${ENDPOINT_3}
+```
+
+:::note
+если по какой-то причине у вас отсутствует информация по всем подам, на данном этапе достаточно выбрать один узел с которого мы начнем отладку и восстановление кластера.
+:::
+
+TODO нештатная история
+1) заехала нода лишняя и застряла (добавился лишний невалидный endpoint)
+2) пропала нода
+3) не поднимается кластер (доступ к member list недоступен)
+*****
+
+
+```bash
+export ENDPOINTS=$(kubectl get pod -n kube-system -l component=etcd -o custom-columns=ip:.status.podIP --no-headers | sed 's/.*/https\:\/\/&:2379/' | tr '\n' ',' | head -c -1)
+```
+
+
+## Подключение к etcd
+
+Определив пререквизиты, настроим псевдоним для упрощенного подключения к ETCD кластеру.
+
+<Tabs groupId="install-type">
+  <TabItem value='etcdctl с мастера'>
+  Определим alias etcdctl на локальный файл с указанием сертификатов:
+
+  ```
+  alias etcdctl='/tmp/etcdctl \
+    --cert ${PEER_CERT_PATH} \
+    --key ${PEER_KEY_PATH} \
+    --cacert ${CA_CERT_PATH}'
+  ```
+
+  </TabItem>
+  <TabItem value='crictl с мастера'>
+  Т.к. будет использоваться etcdctl находящийся внутри etcd контейнера, для начала нужно получить его CONTAINER_ID.
+  Затем создадим псевдоним ectl (чтобы не путаться его с etcdctl на мастере) и будем актуализировать данные по текущему контейнеру в каждом вызове псевдонима.
+  Также укажем путь до сертификатов.
+
+  ```bash
+  alias ectl='crictl exec
+    "$(crictl ps -a  \
+      --label io.kubernetes.container.name=etcd \
+      --label io.kubernetes.pod.namespace=kube-system \
+      | awk 'NR>1{r=$1} $0~/Running/{exit} END{print r}')" \
+    etcdctl \
+    --cert ${PEER_CERT_PATH} \
+    --key ${PEER_KEY_PATH} \
+    --cacert ${CA_CERT_PATH}'
+
+  ```
+
+  </TabItem>
+  <TabItem value='nsenter с мастера'>
+  Т.к. будет использоваться etcdctl находящийся внутри пространства имен процесса на котором запущен контейнер, для начала нужно получить CONTAINER_ID.
+  Затем на его основе можно получить PID;
+  Таким образом создадим псевдоним ectl (чтобы не путаться его с etcdctl на мастере) и будем актуализировать данные по текущему контейнеру и процессу в каждом вызове псевдонима.
+  Также укажем путь до сертификатов.
+
+  ```bash
+  alias etcdctl='nsenter \
+  -m -n -t $(crictl inspect \
+  "$(crictl ps -a  \
+    --label io.kubernetes.container.name=etcd \
+    --label io.kubernetes.pod.namespace=kube-system \
+    | awk 'NR>1{r=$1} $0~/Running/{exit} END{print r}')" \
+  | jq .info.pid) \
+  --all etcdctl --cert /etc/kubernetes/pki/etcd/peer.crt \
+  --key /etc/kubernetes/pki/etcd/peer.key \
+  --cacert /etc/kubernetes/pki/etcd/ca.crt \
+  --endpoints=$ENDPOINTS'
+  ```
+
+  </TabItem>
+  <TabItem value='kubectl exec'>
+  Зная имя пода и владея доступом до kube-api, можем использовать такой псевдоним:
+
+  ```bash
+  alias etcdctl='kubectl \
+  exec -it \
+  -n kube-system \
+  ${ETCD_POD_1} -- \
+  etcdctl --cert /etc/kubernetes/pki/etcd/peer.crt \
+  --key /etc/kubernetes/pki/etcd/peer.key \
+  --cacert /etc/kubernetes/pki/etcd/ca.crt \
+  --endpoints=$ENDPOINTS'
+  ```
+
+  </TabItem>
+</Tabs>
+
+## Полезные команды
+
+Для использования исполняемого файла на мастере будем использовать псевдоним `etcdctl`, для использования etcdctl внутри контейнера, используем псевдоним `ectl`.
+
+| Команды | описание |
+| :--- | :--- |
+| `etcdctl --endpoints=${ENDPOINT_1} member list -w table` | Вывести перечень узлов ETCD кластера с одного из узлов в табличном формате |
+| `ectl member list -w table` | Вывести перечень узлов ETCD кластера с одного из узлов в табличном формате |
+| `etcdctl --endpoints=${ENDPOINTS} endpoint status -w table` | Вывести статус узлов ETCD кластера в табличном формате |
+| `ectl --cluster member list -w table` | Вывести статус узлов ETCD кластера в табличном формате |
+| `etcdctl --endpoints=${ENDPOINTS} get prefix /` | Вывести все ключи и значения, чей ключ удовлетворяет заданному префиксу. Возможна комбианация с флагамаи `--keys-only` и `--print-value-only` |
+| `ectl --cluster get prefix /` | Вывести все ключи и значения, чей ключ удовлетворяет заданному префиксу. Возможна комбианация с флагамаи `--keys-only` и `--print-value-only` |
+| `etcdctl --endpoints=${ENDPOINTS} snapshot save PATH_TO_SAVE.db` | Создать моментальный снимок состояния базы данных ETCD (Снимок будет сохранен на машину с которой был запущен etcdctl) |
+| `ectl --cluster snapshot save PATH_TO_SAVE.db` | Создать моментальный снимок состояния базы данных ETCD (Снимок будет сохранен внутри контейнера)  |
+| `ectl defrag` | Выполнить дефрагментацию файлов БД. (При выключенном кластере применяется с флагом --data-dir и указыванием пути до файла)  |
+| `ectl --endpoints=${ENDPOINT_1} defrag` | Выполнить дефрагментацию файлов БД. (При выключенном кластере применяется с флагом --data-dir и указыванием пути до файла)  |
+| `ectl --endpoints=${ENDPOINT_1} companation 1` | Выполнить компоновку данных и назначить номер ревизии |
+| `ectl --cluster companation 1` | Выполнить компоновку данных и назначить номер ревизии |
+
+
+`ectl --cluster get /registry --prefix --keys-only | grep -v ^$ | awk -F '/'  '{ h[$3]++ } END {for (k in h) print h[k], k}' | sort -nr`
+посчитать количество ключей по корневым префикасам.
+
+### Вывод перечня узлов ETCD кластера
+
+Пример команд:
+
+```bash
+$ etcdctl --endpoints=${ENDPOINT_1} member list -w table
+$ ectl --cluster member list -w table
+```
+
+Пример выводва:
+
+```bash
++------------------+---------+-------------+--------------------------+--------------------------+------------+
+|        ID        | STATUS  |    NAME     |        PEER ADDRS        |       CLIENT ADDRS       | IS LEARNER |
++------------------+---------+-------------+--------------------------+--------------------------+------------+
+|  12bad9e498c909b | started | master-1    | https://10.10.10.1:2380  | https://10.10.10.1:2379  |      false |
+| 80307da3532e6f96 | started | master-2    | https://10.10.10.2:2380  | https://10.10.10.2:2379  |      false |
+| bafe40e4ee9a3fb5 | started | master-3    | https://10.10.10.3:2380  | https://10.10.10.3:2379  |      false |
++------------------+---------+-------------+--------------------------+--------------------------+------------+
+```
+
+### Вывод статусов узлов ETCD кластера
+
+Пример команд:
+
+```bash
+$ etcdctl --endpoints=${ENDPOINTS} endpoint status -w table
+$ ectl --cluster endpoint status -w table
+```
+
+```bash
++--------------------------+------------------+---------+---------+-----------+------------+-----------+------------+--------------------+--------+
+|         ENDPOINT         |        ID        | VERSION | DB SIZE | IS LEADER | IS LEARNER | RAFT TERM | RAFT INDEX | RAFT APPLIED INDEX | ERRORS |
++--------------------------+------------------+---------+---------+-----------+------------+-----------+------------+--------------------+--------+
+| https://10.10.10.1:2379  | bafe40e4ee9a3fb5 |   3.5.7 |  202 MB |      true |      false |       385 | 1018021267 |         1018021267 |        |
+| https://10.10.10.2:2379  |  12bad9e498c909b |   3.5.7 |  209 MB |     false |      false |       385 | 1018021267 |         1018021267 |        |
+| https://10.10.10.3:2379  | 80307da3532e6f96 |   3.5.7 |  196 MB |     false |      false |       385 | 1018021267 |         1018021267 |        |
++--------------------------+------------------+---------+---------+-----------+------------+-----------+------------+--------------------+--------+
+```
+
+## Создание мгновенных снимков
+
+<Tabs groupId="install-type">
+  <TabItem value='nsenter то проброс mount (положить бекап)'>
+    #TODO тудутудутудутудутудутуду
+  </TabItem>
+  <TabItem value='etcdctl с мастера'>
+    Наиболее рекомендуемый метод. Позволяет сохранить дамп за пределами контейнера ETCD.
+
+    ```bash
+    etcdctl --endpoints=${ENDPOINTS} snapshot save PATH_TO_SAVE/snap.db
+    ```
+  </TabItem>
+  <TabItem value='crictl с мастера'>
+    Рабочий вариант, когда нет исполняемого файла под рукой. Дамп будет сохранен внутри файловой системы контейнера. Поэтому рекомендуется указывать путь в примонтированные области.
+
+    ```bash
+    ectl snapshot save /var/lib/etcd/snap1.db
+    ```
+
+    :::note
+    В кластерах B-Cloud файлы ETCD по умолчанию хранятся на мастере по одноименному пути `/var/lib/etcd/`
+    :::
+
+  </TabItem>
+</Tabs>
+
+
+#TODO вопрос, можно ли снять дамп с файла а не через endpoint
+Нельзя да и нет смысла. Проще подсунуть его под etcd и тогда сделать дамп.
+
+
+#ВОТ ТУТ Я ПАЛАМАЛСЯ И ПРОДОЛЖУ СЕГОДНЯ!!!!!
+
+Теперь на хостовой машине вы можете скопировать файл /etc/kubernetes/pki/etcd/snap1.db в другое место, чтобы сохранить его. Например:
+
+
+!!!!!TODO все пути указываются через VARIABLES
+```bash
+cp /etc/kubernetes/pki/etcd/snap1.db /tmp/etcd/snap1.db
+```
+
+## Восстановление из мгновенных снимков
+
+!!!!!TODO все пути указываются через VARIABLES
+
+Для этого, мы будем использовать подключения через crictl или nsenter.
+
+Предварительно поместите снапшот по пути `/etc/kubernetes/pki/etcd/snap1.db`.
+
+
+TODO - нужны Пререквизиты (важен `initial-cluster`)
+!!!!! initial-cluster -- надо откуда-то вытащить (особенно если кластер мертв)
+
+
+Просмотрите текущие параметры запуска etcd через `kubectl` или в статик манифесте `/etc/kubernetes/manifests/etcd.yaml`.
+Нас интересуют параметры:
+
+```bash
+initial-cluster-token        #Если есть.
+initial-advertise-peer-urls  #Для каждой ноды кластера.
+initial-cluster              #общий для всех
+```
+
+Соответственно заполнив параметры вашему кластеру выполняем следующие команды, чтобы запустить восстановление.
+
+!!!!!!!! СНАЧАЛА ДЕЛАЕМ БЕКАП ПОТОМ РЕСТОР)
+
+TODO ссылаться на переменные полученные в Пререквизитах
+```bash
+#На первой ноде кластера
+ectl snapshot restore /home/mistrikov/testetcd/snap1.db \
+  --endpoints=$ENDPOINTS \
+  --name=test-etcd-1 \
+  --data-dir /var/lib/etcd/new \
+  --initial-cluster-token=test_etcd\
+  --initial-advertise-peer-urls=https://10.10.10.1:2380 \
+  --initial-cluster=test-etcd-1=https://10.10.10.1:2380,test-etcd-2=https://10.10.10.2:2380,test-etcd-3=https://10.10.10.3:2380
+
+#На второй ноде кластера
+ectl snapshot restore /home/mistrikov/testetcd/snap1.db \
+  --endpoints=$ENDPOINTS \
+  --name=test-etcd-2 \
+  --data-dir /var/lib/etcd/new \
+  --initial-cluster-token=test_etcd\
+  --initial-advertise-peer-urls=https://10.10.10.2:2380 \
+  --initial-cluster=test-etcd-1=https://10.10.10.1:2380,test-etcd-2=https://10.10.10.2:2380,test-etcd-3=https://10.10.10.3:2380
+
+#На третьей ноде кластера
+ectl snapshot restore /home/mistrikov/testetcd/snap1.db \
+  --endpoints=$ENDPOINTS \
+  --name=test-etcd-3 \
+  --data-dir /var/lib/etcd/new \
+  --initial-cluster-token=test_etcd\
+  --initial-advertise-peer-urls=https://10.10.10.3:2380 \
+  --initial-cluster=test-etcd-1=https://10.10.10.1:2380,test-etcd-2=https://10.10.10.2:2380,test-etcd-3=https://10.10.10.3:2380
+```
+
+## Восстановление кластера при конфликтах или проблемах с кворумом.
+
+Для начала подключитесь к терминалу ноды, на которой запущен один из узлов ETCD (Желательно лидер или оставшийся рабочий узел).
+
+### Бэкап
+
+Если есть проблемы с подключением к etcd и стандартный метод с сохранением snapshot невозможен, что вероятнее всего в подобной ситуации, нужно сделать бэкап данных:
+
+```bash
+cp -r /var/lib/etcd/member /tmp/etcd/backup/
+```
+
+TODO часть блока полезных команд
+### Дефрагментация
+
+Проверьте размер файла `/var/lib/etcd/member/snap/db`. Если его размер превышает 2 GB рекомендуем запустить дефрагментацию.
+Для этого рекомендуется использовать бинарный файл etcdctl расположенный на ВМ за пределами контейнера (Например поместите его в директорию /tmp/etcd/etcdctl):
+
+```bash
+ls -l /var/lib/etcd/member/snap/db
+/tmp/etcd/etcdctl defrag --data-dir /var/lib/etcd
+```
+
+:::note
+Для корректной работы etcd кластера, в том числе для запуска дефрагментации, размер ОЗУ должен быть таким же как и размер БД.
+:::
+
+TODO нету compaction!!!!!
+
+
+TODO ЗАЧЕМ плюс остановка kubelet что бы не поднимался
+### Остановка etcd (TODO ЗАЧЕМ?!!!!)
+
+Остановите сервис kubelet на ноде: (ЗАЧЕМ?!)
+
+```bash
+systemctl stop kubelet
+```
+
+Остановите контейнер etcd. (ЗАЧЕМ?!)
+
+```bash
+CONTAINER_ID=$(crictl ps -a --label io.kubernetes.container.name=etcd --label io.kubernetes.pod.namespace=kube-system | awk 'NR>1{r=$1} $0~/Running/{exit} END{print r}')
+
+crictl stop $CONTAINER_ID
+```
+
+### Перезапуск etcd в режиме нового кластера (ЗАЧЕМ?!)
+
+Перезапустите etcd с использованием ранее сохраненного снимка и параметром --force-new-cluster.
+
+Обновите конфигурационный файл etcd (`/etc/kubernetes/manifests/etcd.yaml`) или измените параметры запуска, добавив следующие ключи:
+
+TODO - что мне даст этот ключ (ВОПРОС?) во вторых дай полную команду
+```bash
+- --force-new-cluster
+- Обновите initial-cluster так, чтобы он содержал только оставшуюся ноду.
+```
+
+TODO - А ПОТОМ НАДО ЛИ УБЕРАТЬ^?
+
+
+TODO часть блока полезных команд
+### Проверьте работоспособность etcd
+
+Убедитесь, что etcd запущен и работает корректно.
+Повторите процедуру подключения к etcd при помощи crictl описанную выше.
+Выполните команду:
+
+```bash
+etcdctl endpoint health
+```
+
+TODO добавить добавили удалить забыли!
+### Добавление новых нод в кластер
+
+Для восстановления избыточности кластера добавьте новые ноды.
+
+Отредактируйте манифест на всех нодах, внеся туда инормацию о пирах и эндпоинтах других нод в соответствующие ключи:
+
+TODO - что мне даст этот ключ (ВОПРОС?) во вторых дай полную команду
+```bash
+--peer-urls
+--endpoints
+```
+
+Переведите состояние кластера в "существующий"
+
+TODO - что мне даст этот ключ (ВОПРОС?) во вторых дай полную команду
+```bash
+--initial-cluster-state existing
+```
+
+TODO часть блока полезных команд
+### Проверка etcd
+
+Убедитесь, что все члены кластера работают:
+
+TODO - что мне даст этот ключ (ВОПРОС?) во вторых дай полную команду
+```bash
+etcdctl member list
+```
+
+TODO опиши как работает gardener etcd-backup (в режиме снапшотов)
+

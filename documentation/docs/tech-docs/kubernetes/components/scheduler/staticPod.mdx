@@ -1,14 +1,14 @@
-import CodeBlock            from '@theme/CodeBlock';
+import CodeBlock            from '@theme/CodeBlock'
 import { CUSTOM_VALUE }     from '@site/src/constants/kubernetes/customValue'
 import { PORTS }     from '@site/src/constants/kubernetes/ports'
 import { COMPONENTS_VERSION } from '@site/src/constants/kubernetes/componentsVersion'
 
-<details>
+<details open>
 <summary>Kube Scheduler</summary>
 
 **Инструкция StaticPod**
 ```bash
-cat <<EOF > ${BASE_K8S_PATH}/manifests/kube-scheduler.yaml2
+cat <<EOF > ${BASE_K8S_PATH}/manifests/kube-scheduler.yaml
 apiVersion: v1
 kind: Pod
 metadata:

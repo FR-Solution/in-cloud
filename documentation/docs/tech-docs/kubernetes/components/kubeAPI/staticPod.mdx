@@ -1,4 +1,4 @@
-import CodeBlock              from '@theme/CodeBlock';
+import CodeBlock              from '@theme/CodeBlock'
 import { CUSTOM_VALUE }       from '@site/src/constants/kubernetes/customValue'
 import { CERTIFICATES }       from '@site/src/constants/kubernetes/certs'
 import { PORTS }              from '@site/src/constants/kubernetes/ports'
@@ -6,13 +6,13 @@ import { COMPONENTS_VERSION } from '@site/src/constants/kubernetes/componentsVer
 
 import {KUBE_API_ARGS}          from '@site/src/constants/kubernetes/kubeAPIArgs'
 
-<details>
+<details open>
 <summary>Kube API</summary>
 
 **Инструкция StaticPod**
 
 <CodeBlock language="bash">
-{`cat <<EOF > $\{BASE_K8S_PATH\}/manifests/kube-apiserver.yaml2
+{`cat <<EOF > $\{BASE_K8S_PATH\}/manifests/kube-apiserver.yaml
   apiVersion: v1
   kind: Pod
   metadata:

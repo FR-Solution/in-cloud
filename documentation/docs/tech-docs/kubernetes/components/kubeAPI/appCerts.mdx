@@ -1,0 +1,28 @@
+
+
+
+      #### Генерация приватных ключей `service-accounts`
+
+      ```bash
+      openssl genpkey \
+        -algorithm RSA \
+        -out "${KUBERNETES_SERVICE_ACCOUNT_KEY_PATH}" \
+        -pkeyopt rsa_keygen_bits:2048
+
+      openssl rsa \
+        -pubout \
+        -in "${KUBERNETES_SERVICE_ACCOUNT_KEY_PATH}" \
+        -out "${KUBERNETES_SERVICE_ACCOUNT_CRT_PATH}"
+      ```
+
+
+      ```bash
+      kubeadm init phase certs sa
+
+      :::note
+      После выполнения команд мы получаем следующий вывод.
+      ```
+      #### Генерация Kube API сертификатов
+      [certs] Generating "sa" key and public key
+      ```
+      :::

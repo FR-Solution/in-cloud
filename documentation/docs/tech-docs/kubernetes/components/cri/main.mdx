@@ -1,4 +1,4 @@
-<details>
+<details open>
 <summary>Container Runtime Interface (CRI)</summary>
 
 
@@ -37,7 +37,7 @@ EOF
 
 ```bash
 cat <<EOF > /etc/containerd/conf.d/cloud.toml
-version = 2       
+version = 2
 [plugins]
   [plugins."io.containerd.grpc.v1.cri"]
     sandbox_image = "${BASE_DOCKER_REGISTRY}/${PAUSED_IMAGE}"

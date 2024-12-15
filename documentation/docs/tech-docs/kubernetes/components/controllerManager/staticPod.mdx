@@ -1,15 +1,15 @@
-import CodeBlock              from '@theme/CodeBlock';
+import CodeBlock              from '@theme/CodeBlock'
 import { CUSTOM_VALUE }       from '@site/src/constants/kubernetes/customValue'
 import { CERTIFICATES }       from '@site/src/constants/kubernetes/certs'
 import { PORTS }              from '@site/src/constants/kubernetes/ports'
 import { COMPONENTS_VERSION } from '@site/src/constants/kubernetes/componentsVersion'
 
-<details>
+<details open>
 <summary>Kube Controller Manager</summary>
 
 **Инструкция StaticPod**
 ```bash
-cat <<EOF > ${BASE_K8S_PATH}/manifests/kube-controller-manager.yaml2
+cat <<EOF > ${BASE_K8S_PATH}/manifests/kube-controller-manager.yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -28,7 +28,7 @@ spec:
     - --authorization-kubeconfig=${BASE_K8S_PATH}/controller-manager.conf
     - --bind-address=0.0.0.0
     - --client-ca-file=${KUBERNETES_CA_CRT_PATH}
-    - --cluster-name=${CLUSTER_NAME}
+    - --cluster-name=${KUBERNETES_CLUSTER_NAME}
     - --cluster-signing-cert-file=${KUBERNETES_CA_CRT_PATH}
     - --cluster-signing-duration=720h
     - --cluster-signing-key-file=${KUBERNETES_CA_KEY_PATH}

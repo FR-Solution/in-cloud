@@ -1,6 +1,6 @@
 
 
-<details>
+<details open>
 <summary>Kubelet</summary>
 
 ### Создание и настройка службы Kubelet
@@ -102,7 +102,7 @@ authorization:
 cgroupDriver: systemd
 clusterDNS:
 - ${SERVICE_DNS}
-clusterDomain: ${BASE_CLUSTER_DOMAIN}
+clusterDomain: ${KUBERNETES_CLUSTER_DOMAIN}
 # tlsCertFile: "${KUBELET_CURRENT_SERVER_CRT_PATH}"
 # tlsPrivateKeyFile: "${KUBELET_CURRENT_SERVER_CRT_PATH}"
 containerLogMaxSize: "50Mi"
@@ -118,7 +118,7 @@ kind: KubeletConfiguration
 logging:
   flushFrequency: 0
   options:
-    json: 
+    json:
         infoBufferSize: "0"
   verbosity: 0
 kubeAPIQPS: 50

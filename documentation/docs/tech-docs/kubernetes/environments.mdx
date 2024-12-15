@@ -1,13 +1,13 @@
 
-import React from 'react';
-import CodeBlock from '@theme/CodeBlock';
+import React from 'react'
+import CodeBlock from '@theme/CodeBlock'
 
 import { PORTS }                from '@site/src/constants/kubernetes/ports'
 import { CUSTOM_VALUE }         from '@site/src/constants/kubernetes/customValue'
 import { COMPONENTS_VERSION }   from '@site/src/constants/kubernetes/componentsVersion'
 import { CERTIFICATES }         from '@site/src/constants/kubernetes/certs'
 
-<details>
+<details open>
 <summary>Environments</summary>
 
 ### Базовые переменные окружения:
@@ -17,14 +17,14 @@ import { CERTIFICATES }         from '@site/src/constants/kubernetes/certs'
 <CodeBlock language="bash">
 {`export BASE_K8S_PATH="${CUSTOM_VALUE.kuberneteBaseFolderPath.value}"
   export BASE_KUBELET_PATH="${CUSTOM_VALUE.kuberneteKubeletFolderPath.value}"
-  export CLUSTER_NAME="${CUSTOM_VALUE.kubernetesClusterName.value}"
+  export KUBERNETES_CLUSTER_NAME="${CUSTOM_VALUE.kubernetesClusterName.value}"
   export CRI_ENDPOINT="${CUSTOM_VALUE.criEndpoint.value}"
   export BASE_DOCKER_REGISTRY="${CUSTOM_VALUE.baseDockerRegistry.value}"
   export PAUSED_IMAGE="${CUSTOM_VALUE.pausedImage.value}"
-  export BASE_DOMAIN="${CUSTOM_VALUE.kubernetesBaseDomain.value}"
+  export KUBERNETES_BASE_DOMAIN="${CUSTOM_VALUE.kubernetesBaseDomain.value}"
 
-  export BASE_CLUSTER_DOMAIN=$\{CLUSTER_NAME\}.$\{BASE_DOMAIN\}
-  export FULL_HOST_NAME=$\{HOST_NAME\}.$\{BASE_CLUSTER_DOMAIN\}
+  export KUBERNETES_CLUSTER_DOMAIN=$\{KUBERNETES_CLUSTER_NAME\}.$\{KUBERNETES_BASE_DOMAIN\}
+  export FULL_HOST_NAME=$\{HOST_NAME\}.$\{KUBERNETES_CLUSTER_DOMAIN\}
 
 `}
 </CodeBlock>
@@ -49,12 +49,12 @@ import { CERTIFICATES }         from '@site/src/constants/kubernetes/certs'
   export KUBERNETES_CA_KEY_PATH="${CERTIFICATES.kubernetesCA.keyPath}"
   export KUBERNETES_CA_KEY_SIZE=${CERTIFICATES.kubernetesCA.keySize}
 
-  export CONTROLLER_MANAGER_CLIENT_CN="${CERTIFICATES.controllerManagerClient.cname}"
-  export CONTROLLER_MANAGER_CLIENT_CRT_CONF="${CERTIFICATES.controllerManagerClient.crtConf}"
-  export CONTROLLER_MANAGER_CLIENT_CRT_PATH="${CERTIFICATES.controllerManagerClient.crtPath}"
-  export CONTROLLER_MANAGER_CLIENT_CSR_PATH="${CERTIFICATES.controllerManagerClient.csrPath}"
-  export CONTROLLER_MANAGER_CLIENT_KEY_PATH="${CERTIFICATES.controllerManagerClient.keyPath}"
-  export CONTROLLER_MANAGER_CLIENT_KEY_SIZE=${CERTIFICATES.controllerManagerClient.keySize}
+  export CONTROLLER_MANAGER_CLIENT_CN="${CERTIFICATES.kubernetesControllerManagerClient.cname}"
+  export CONTROLLER_MANAGER_CLIENT_CRT_CONF="${CERTIFICATES.kubernetesControllerManagerClient.crtConf}"
+  export CONTROLLER_MANAGER_CLIENT_CRT_PATH="${CERTIFICATES.kubernetesControllerManagerClient.crtPath}"
+  export CONTROLLER_MANAGER_CLIENT_CSR_PATH="${CERTIFICATES.kubernetesControllerManagerClient.csrPath}"
+  export CONTROLLER_MANAGER_CLIENT_KEY_PATH="${CERTIFICATES.kubernetesControllerManagerClient.keyPath}"
+  export CONTROLLER_MANAGER_CLIENT_KEY_SIZE=${CERTIFICATES.kubernetesControllerManagerClient.keySize}
 
   export ETCD_CLIENT_CN="${CERTIFICATES.etcdClient.cname}"
   export ETCD_CLIENT_CRT_CONF="${CERTIFICATES.etcdClient.crtConf}"
@@ -129,22 +129,22 @@ import { CERTIFICATES }         from '@site/src/constants/kubernetes/certs'
   export KUBERNETES_SUPER_ADMIN_CLIENT_KEY_PATH="${CERTIFICATES.kubernetesSuperAdminClient.keyPath}"
   export KUBERNETES_SUPER_ADMIN_CLIENT_KEY_SIZE=${CERTIFICATES.kubernetesSuperAdminClient.keySize}
 
-  export SCHEDULER_CLIENT_CN="${CERTIFICATES.schedulerClient.cname}"
-  export SCHEDULER_CLIENT_CRT_CONF="${CERTIFICATES.schedulerClient.crtConf}"
-  export SCHEDULER_CLIENT_CRT_PATH="${CERTIFICATES.schedulerClient.crtPath}"
-  export SCHEDULER_CLIENT_CSR_PATH="${CERTIFICATES.schedulerClient.csrPath}"
-  export SCHEDULER_CLIENT_KEY_PATH="${CERTIFICATES.schedulerClient.keyPath}"
-  export SCHEDULER_CLIENT_KEY_SIZE=${CERTIFICATES.schedulerClient.keySize}
+  export SCHEDULER_CLIENT_CN="${CERTIFICATES.kubernetesSchedulerClient.cname}"
+  export KUBERNETES_SCHEDULER_CLIENT_CRT_CONF="${CERTIFICATES.kubernetesSchedulerClient.crtConf}"
+  export SCHEDULER_CLIENT_CRT_PATH="${CERTIFICATES.kubernetesSchedulerClient.crtPath}"
+  export SCHEDULER_CLIENT_CSR_PATH="${CERTIFICATES.kubernetesSchedulerClient.csrPath}"
+  export SCHEDULER_CLIENT_KEY_PATH="${CERTIFICATES.kubernetesSchedulerClient.keyPath}"
+  export SCHEDULER_CLIENT_KEY_SIZE=${CERTIFICATES.kubernetesSchedulerClient.keySize}
 
   export KUBERNETES_SERVICE_ACCOUNT_CRT_PATH="${CERTIFICATES.kubernetesSA.crtPath}"
   export KUBERNETES_SERVICE_ACCOUNT_KEY_PATH="${CERTIFICATES.kubernetesSA.keyPath}"
 
-  export KUBELET_CURRENT_CLIENT_CRT_PATH="${CERTIFICATES.kubernetesCureentClient.crtPath}"
-  export KUBELET_CURRENT_SERVER_CRT_PATH="${CERTIFICATES.kubernetesCureentServer.crtPath}"
+  export KUBELET_CURRENT_CLIENT_CRT_PATH="${CERTIFICATES.kubeletCurrentClient.crtPath}"
+  export KUBELET_CURRENT_SERVER_CRT_PATH="${CERTIFICATES.kubeletCurrentServer.crtPath}"
 
 `}
 </CodeBlock>
-
+kubernetesClusterDomain
 
 ### Переменные окружения сети:
 
@@ -227,9 +227,9 @@ export ETCD_SERVERS="https://127.0.0.1:${ETCD_SERVER_PORT}"
   etcd_endpoints () {
   export ENDPOINTS=$(
   etcdctl \
-  --endpoints=127.0.0.1:$\{ETCD_SERVER_PORT\} member list | 
-  awk '{print $5}' | 
-  sed "s/,//" | 
+  --endpoints=127.0.0.1:$\{ETCD_SERVER_PORT\} member list |
+  awk '{print $5}' |
+  sed "s/,//" |
   sed "s/ /,/g"
   )
   }
@@ -259,5 +259,5 @@ ln -s /etc/kubernetes/admin.conf $HOME/.kube/config
 </details>
 
 :::note
-Если вы когда-либо заглядывали в документацию от [Келси Хайтауэра](https://github.com/kelseyhightower/kubernetes-the-hard-way), то, возможно, заметили, что в конфигурационных файлах часто используются IP-адреса узлов. Этот метод, безусловно, работает, но есть более удобный способ. Чтобы упростить обслуживание и сделать дальнейшую шаблонизацию более гибкой, лучше использовать заранее известные FQDN-маски, как я уже упоминал для мастеров выше ```master-${INDEX}.${CLUSTER_NAME}.${BASE_DOMAIN}```.
+Если вы когда-либо заглядывали в документацию от [Келси Хайтауэра](https://github.com/kelseyhightower/kubernetes-the-hard-way), то, возможно, заметили, что в конфигурационных файлах часто используются IP-адреса узлов. Этот метод, безусловно, работает, но есть более удобный способ. Чтобы упростить обслуживание и сделать дальнейшую шаблонизацию более гибкой, лучше использовать заранее известные FQDN-маски, как я уже упоминал для мастеров выше ```master-${INDEX}.${KUBERNETES_CLUSTER_NAME}.${KUBERNETES_BASE_DOMAIN}```.
 :::

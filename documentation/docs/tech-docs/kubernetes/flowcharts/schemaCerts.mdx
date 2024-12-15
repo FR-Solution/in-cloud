@@ -1,4 +1,4 @@
-<details>
+<details open>
 <summary>Схема использования сертификатов</summary>
 
 <div className="center">
@@ -8,7 +8,7 @@
 ---
 config:
   look: handDrawn
-  theme: dark  
+  theme: dark
 ---
 
 flowchart LR
@@ -27,7 +27,7 @@ flowchart LR
   etcdServer-->etcd-server
   etcdServer-->etcd-peer
 
-  
+
   kubeAPI-->caK8S
   kubeAPI-->kubeAPI-kubelet-client
   kubeAPI-->kubeAPI-admin-client
@@ -36,7 +36,7 @@ flowchart LR
   kubeAPI-->kubeAPI-front-proxy-client
   kubeAPI-->caETCD
   kubeAPI-->kubeAPI-etcd-client
-  
+
   kubelet-->kubelet-client
   kubelet-->kubelet-server
   kubelet-->caK8S

@@ -24,8 +24,7 @@ export const kubernetesNetworks = [
       //   label: 'LoadBalancer Cilium',
       //   id: 'tech-docs/kubernetes-network/base-load-balancer-cilium',
       // },
-
-    ]
+    ],
   },
   {
     type: 'category',
@@ -42,11 +41,11 @@ export const kubernetesNetworks = [
         label: 'CNI Cilium',
         id: 'tech-docs/kubernetes-network/base-pod-cni-cilium',
       },
-    ]
+    ],
   },
   {
     type: 'doc',
     label: 'Netwok Access Group',
     id: 'tech-docs/kubernetes-network/base-network-access-group-principal',
-  }
+  },
 ]

@@ -1,0 +1,37 @@
+import TabItem              from '@theme/TabItem'
+import Tabs                 from '@theme/Tabs'
+import CodeBlock            from '@theme/CodeBlock'
+import KubeadmJoinConfig    from '@site/docs/tech-docs/kubernetes/components/kubeadm/joinConfig.mdx'
+
+
+## Тиражирование корневых сертификатов
+:::info
+Обратите внимание, что инициализацию центра сертификации (ЦС, корневых сертификатов) следует выполнять только на одном из узлов. Для всех остальных узлов необходимо применить инструкцию по тиражированию корневых сертификатов.
+:::
+
+<details open>
+    <summary>Загрузка ЦА</summary>
+
+    <Tabs groupId="install-type">
+
+        <TabItem value='HardWay'>
+            TODO
+        </TabItem>
+
+        <TabItem value='Kubeadm'>
+            <KubeadmJoinConfig/>
+
+            #### Загрузка ЦА
+            ```bash
+            kubeadm join phase control-plane-prepare download-certs \
+                --config=${BASE_K8S_PATH}/kubeadm-join.conf
+            ```
+            ```
+            [download-certs] Downloading the certificates in Secret "kubeadm-certs" in the "kube-system" Namespace
+            [download-certs] Saving the certificates to the folder: "/etc/kubernetes/pki"
+            ```
+
+        </TabItem>
+
+    </Tabs>
+</details>

@@ -1,15 +1,12 @@
 import TabItem                  from '@theme/TabItem'
 import Tabs                     from '@theme/Tabs'
 
-import K8sCACerts               from '@site/docs/tech-docs/kubernetes/certs/kubernetes-ca.mdx'
-import ETCDCACerts              from '@site/docs/tech-docs/kubernetes/certs/etcd-ca.mdx'
-import FrontProxyCACerts        from '@site/docs/tech-docs/kubernetes/certs/front-proxy-ca.mdx'
-import CodeBlock                from '@theme/CodeBlock';
+import CodeBlock                from '@theme/CodeBlock'
 import {ETCD_ARGS}              from '@site/src/constants/kubernetes/etcdArgs'
 import {KUBE_API_ARGS}          from '@site/src/constants/kubernetes/kubeAPIArgs'
 
 
-<details>
+<details open>
 <summary>Конфигурация Kubeadm</summary>
 
 <CodeBlock>
@@ -25,11 +22,11 @@ import {KUBE_API_ARGS}          from '@site/src/constants/kubernetes/kubeAPIArgs
   ---
   apiVersion: kubeadm.k8s.io/v1beta3
   kind: ClusterConfiguration
-  controlPlaneEndpoint: api.$\{CLUSTER_NAME\}.$\{BASE_DOMAIN\}:${KUBE_API_ARGS.securePort.value}
+  controlPlaneEndpoint: api.$\{KUBERNETES_CLUSTER_NAME\}.$\{KUBERNETES_BASE_DOMAIN\}:${KUBE_API_ARGS.securePort.value}
   imageRepository: "$\{BASE_DOCKER_REGISTRY\}"
   networking:
     serviceSubnet: "$\{SERVICE_CIDR\}"
-    dnsDomain: "$\{BASE_CLUSTER_DOMAIN\}"
+    dnsDomain: "$\{KUBERNETES_CLUSTER_DOMAIN\}"
   kubernetesVersion: "$\{KUBERNETES_VERSION\}"
   etcd:
     local:
@@ -61,7 +58,7 @@ import {KUBE_API_ARGS}          from '@site/src/constants/kubernetes/kubeAPIArgs
       peerCertSANs:
       - "$\{MACHINE_LOCAL_ADDRESS\}"
       - "${ETCD_ARGS.name.value}"
-      
+
   apiServer:
     extraArgs:
       advertise-address: "${KUBE_API_ARGS.advertiseAddress.value}"
@@ -102,7 +99,7 @@ import {KUBE_API_ARGS}          from '@site/src/constants/kubernetes/kubeAPIArgs
       pathType: DirectoryOrCreate
     certSANs:
       - "$\{MACHINE_LOCAL_ADDRESS\}"
-      - "api.$\{CLUSTER_NAME\}.$\{BASE_DOMAIN\}"
+      - "api.$\{KUBERNETES_CLUSTER_NAME\}.$\{KUBERNETES_BASE_DOMAIN\}"
       - "127.0.0.1"
     timeoutForControlPlane: 4m0s
 
@@ -117,7 +114,7 @@ import {KUBE_API_ARGS}          from '@site/src/constants/kubernetes/kubeAPIArgs
       requestheader-client-ca-file: "$\{FRONT_PROXY_CA_CRT_PATH\}"
       root-ca-file: "$\{KUBERNETES_CA_CRT_PATH\}"
       service-account-private-key-file: "$\{KUBERNETES_SERVICE_ACCOUNT_KEY_PATH\}"
-      cluster-name: "$\{CLUSTER_NAME\}"
+      cluster-name: "$\{KUBERNETES_CLUSTER_NAME\}"
       cluster-signing-duration: "720h"
       concurrent-replicaset-syncs: "20"
       authorization-always-allow-paths: "/healthz,/readyz,/livez,/metrics"

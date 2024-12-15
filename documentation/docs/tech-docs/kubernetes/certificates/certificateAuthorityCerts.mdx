@@ -1,0 +1,15 @@
+---
+id: all-center-authority
+---
+
+import TabItem                  from '@theme/TabItem'
+import Tabs                     from '@theme/Tabs'
+
+import KubernetesCACerts        from '@site/docs/tech-docs/kubernetes/certificates/centerAuthority/main.mdx'
+import DownloadCA               from '@site/docs/tech-docs/kubernetes/certificates/centerAuthority/downloadCA.mdx'
+
+# Центр Аутентификации
+Центр аутентификации — это удостоверяющий центр (Certificate Authority, CA), который выпускает и управляет корневыми сертификатами. Корневые сертификаты служат доверенным источником для установления защищённых соединений между компонентами кластера Kubernetes. Они обеспечивают аутентификацию и шифрование коммуникаций между узлами, сервисами и клиентами, гарантируя целостность и конфиденциальность передаваемых данных.
+
+<KubernetesCACerts />
+<DownloadCA/>

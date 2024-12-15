@@ -8,7 +8,7 @@ description: Руководство по установке Project Controller �
 import TabItem                      from '@theme/TabItem'
 import Tabs                         from '@theme/Tabs'
 import CodeBlock                    from '@theme/CodeBlock'
-import dedent                       from 'dedent';
+import dedent                       from 'dedent'
 
 # Установка
 
@@ -22,7 +22,7 @@ import dedent                       from 'dedent';
           <h4 className="center">Enivironments</h4>
             <CodeBlock language="bash">
               {dedent`
-                export CLUSTER_NAME="bcloud-k8s-infra"
+                export KUBERNETES_CLUSTER_NAME="bcloud-k8s-infra"
                 export CLUSTER_ENV="prod"
                 export CLUSTER_AREA="csko"
                 export CLUSTER_INDEX="1"
@@ -61,7 +61,7 @@ import dedent                       from 'dedent';
                       enabled: false
               `}
             </CodeBlock>
-        
+
         </div>
       </div>
 

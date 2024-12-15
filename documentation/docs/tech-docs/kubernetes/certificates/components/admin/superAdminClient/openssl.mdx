@@ -1,0 +1,74 @@
+import { CERTIFICATES } from '@site/src/constants/kubernetes/certs'
+import { CUSTOM_VALUE } from '@site/src/constants/kubernetes/customValue'
+
+import CodeBlock        from '@theme/CodeBlock'
+import dedent           from 'dedent'
+
+### K8S-API (S.ADM) client certificate
+#### Переменные окружения openssl для сертификата `kubernetes-super-admin-client`
+
+<CodeBlock language="bash">
+{dedent`
+    export BASE_K8S_PATH="${CUSTOM_VALUE.kuberneteBaseFolderPath.value}"
+    export KUBERNETES_SUPER_ADMIN_CLIENT_CN="${CERTIFICATES.kubernetesSuperAdminClient.cname}"
+    export KUBERNETES_SUPER_ADMIN_CLIENT_CRT_CONF="${CERTIFICATES.kubernetesSuperAdminClient.crtConf}"
+    export KUBERNETES_SUPER_ADMIN_CLIENT_CRT_PATH="${CERTIFICATES.kubernetesSuperAdminClient.crtPath}"
+    export KUBERNETES_SUPER_ADMIN_CLIENT_CSR_PATH="${CERTIFICATES.kubernetesSuperAdminClient.csrPath}"
+    export KUBERNETES_SUPER_ADMIN_CLIENT_KEY_PATH="${CERTIFICATES.kubernetesSuperAdminClient.keyPath}"
+    export KUBERNETES_SUPER_ADMIN_CLIENT_KEY_SIZE=${CERTIFICATES.kubernetesSuperAdminClient.keySize}
+    export KUBERNETES_CA_CRT_PATH="${CERTIFICATES.kubernetesCA.crtPath}"
+    export KUBERNETES_CA_KEY_PATH="${CERTIFICATES.kubernetesCA.keyPath}"
+`}
+</CodeBlock>
+
+#### Конфигурация openssl для сертификата `kubernetes-super-admin-client`
+
+```bash
+cat <<EOF > ${KUBERNETES_SUPER_ADMIN_CLIENT_CRT_CONF}
+[ req ]
+default_bits        = ${KUBERNETES_SUPER_ADMIN_CLIENT_KEY_SIZE}
+prompt              = no
+default_md          = sha256
+distinguished_name  = dn
+
+[ dn ]
+CN = ${KUBERNETES_SUPER_ADMIN_CLIENT_CN}
+O  = system:masters
+
+[ v3_ext ]
+authorityKeyIdentifier=keyid,issuer:always
+basicConstraints=CA:FALSE
+keyUsage=keyEncipherment,dataEncipherment
+extendedKeyUsage=clientAuth
+EOF
+```
+
+#### Генерация приватного ключа сертификата `kubernetes-super-admin-client`
+```bash
+openssl genrsa \
+    -out "${KUBERNETES_SUPER_ADMIN_CLIENT_KEY_PATH}" ${KUBERNETES_SUPER_ADMIN_CLIENT_KEY_SIZE}
+```
+
+#### Генерация CSR на базе ключа и инструкции openssl `kubernetes-super-admin-client`
+```bash
+openssl req \
+    -new \
+    -key    "${KUBERNETES_SUPER_ADMIN_CLIENT_KEY_PATH}" \
+    -out    "${KUBERNETES_SUPER_ADMIN_CLIENT_CSR_PATH}" \
+    -config "${KUBERNETES_SUPER_ADMIN_CLIENT_CRT_CONF}"
+```
+
+#### Подпись CSR ключом ЦА, сертификата `kubernetes-super-admin-client`
+```bash
+openssl x509 \
+    -req \
+    -days 365 \
+    -sha256 \
+    -CA "${KUBERNETES_CA_CRT_PATH}" \
+    -CAkey "${KUBERNETES_CA_KEY_PATH}" \
+    -CAcreateserial \
+    -in "${KUBERNETES_SUPER_ADMIN_CLIENT_CSR_PATH}" \
+    -out "${KUBERNETES_SUPER_ADMIN_CLIENT_CRT_PATH}" \
+    -extensions v3_ext \
+    -extfile "${KUBERNETES_SUPER_ADMIN_CLIENT_CRT_CONF}"
+```
