@@ -1,0 +1,10 @@
+import dedent                   from 'dedent'
+import CodeBlock                from '@theme/CodeBlock'
+
+### Старт Systemd Unit
+<CodeBlock language="bash">
+    {dedent`
+        systemctl enable containerd
+        systemctl start containerd
+    `}
+</CodeBlock>

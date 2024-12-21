@@ -1,0 +1,26 @@
+import dedent                   from 'dedent'
+import CodeBlock                from '@theme/CodeBlock'
+import TabItem                  from '@theme/TabItem'
+import Tabs                     from '@theme/Tabs'
+
+import { DOWNLOAD_VERSION }     from '@site/src/constants/kubernetes/downloads'
+import { COMPONENTS_VERSION }   from '@site/src/constants/kubernetes/componentsVersion'
+
+## ETCD(ctl)
+<CodeBlock language="bash">
+    {dedent`
+        export ETCD_TOOL_VERSION="${COMPONENTS_VERSION.etcdctl.value}"
+    `}
+</CodeBlock>
+<Tabs>
+    <TabItem value='wget'>
+        <CodeBlock language="bash">
+            {dedent`
+                mkdir -p /tmp/etcd
+                wget  -O ${DOWNLOAD_VERSION.etcdctl.path} ${DOWNLOAD_VERSION.etcdctl.templateUrl}
+                tar   -C "/tmp/etcd" -xvf /tmp/etcd.tar.gz
+                cp /tmp/etcd/etcd*/etcdctl /usr/local/bin/
+            `}
+        </CodeBlock>
+    </TabItem>
+</Tabs>

@@ -22,9 +22,8 @@ import { CERTIFICATES }         from '@site/src/constants/kubernetes/certs'
   export BASE_DOCKER_REGISTRY="${CUSTOM_VALUE.baseDockerRegistry.value}"
   export PAUSED_IMAGE="${CUSTOM_VALUE.pausedImage.value}"
   export KUBERNETES_BASE_DOMAIN="${CUSTOM_VALUE.kubernetesBaseDomain.value}"
-
-  export KUBERNETES_CLUSTER_DOMAIN=$\{KUBERNETES_CLUSTER_NAME\}.$\{KUBERNETES_BASE_DOMAIN\}
-  export FULL_HOST_NAME=$\{HOST_NAME\}.$\{KUBERNETES_CLUSTER_DOMAIN\}
+  export KUBERNETES_CLUSTER_DOMAIN=$\{KUBERNETES_CLUSTER_NAME}.$\{KUBERNETES_BASE_DOMAIN}
+  export FULL_HOST_NAME=$\{HOST_NAME}.$\{KUBERNETES_CLUSTER_DOMAIN}
 
 `}
 </CodeBlock>
@@ -198,15 +197,15 @@ export ETCD_SERVERS="https://127.0.0.1:${ETCD_SERVER_PORT}"
 ### Создание директорий
 
 <CodeBlock language="bash">
-{`mkdir -p $\{BASE_K8S_PATH\}
-  mkdir -p $\{BASE_K8S_PATH\}/kubeconfig
-  mkdir -p $\{BASE_K8S_PATH\}/manifests
-  mkdir -p $\{BASE_K8S_PATH\}/openssl
-  mkdir -p $\{BASE_K8S_PATH\}/openssl/csr
-  mkdir -p $\{BASE_K8S_PATH\}/pki
-  mkdir -p $\{BASE_K8S_PATH\}/pki/etcd
-  mkdir -p $\{BASE_KUBELET_PATH\}
-  mkdir -p $\{BASE_KUBELET_PATH\}/pki
+{`mkdir -p $\{BASE_K8S_PATH}
+  mkdir -p $\{BASE_K8S_PATH}/kubeconfig
+  mkdir -p $\{BASE_K8S_PATH}/manifests
+  mkdir -p $\{BASE_K8S_PATH}/openssl
+  mkdir -p $\{BASE_K8S_PATH}/openssl/csr
+  mkdir -p $\{BASE_K8S_PATH}/pki
+  mkdir -p $\{BASE_K8S_PATH}/pki/etcd
+  mkdir -p $\{BASE_KUBELET_PATH}
+  mkdir -p $\{BASE_KUBELET_PATH}/pki
   mkdir -p /usr/lib/systemd/system/kubelet.service.d
   mkdir -p /tmp/containerd
   mkdir -p /etc/containerd
@@ -227,7 +226,7 @@ export ETCD_SERVERS="https://127.0.0.1:${ETCD_SERVER_PORT}"
   etcd_endpoints () {
   export ENDPOINTS=$(
   etcdctl \
-  --endpoints=127.0.0.1:$\{ETCD_SERVER_PORT\} member list |
+  --endpoints=127.0.0.1:$\{ETCD_SERVER_PORT} member list |
   awk '{print $5}' |
   sed "s/,//" |
   sed "s/ /,/g"

@@ -2,31 +2,59 @@
 id: os-setup
 ---
 
+import { CERTIFICATES } from '@site/src/constants/kubernetes/certs'
+import { CUSTOM_VALUE } from '@site/src/constants/kubernetes/customValue'
+import MastersTabs      from '@site/docs/tech-docs/kubernetes/setupEnvironments/preparingTheEnvironment.mdx'
+
+import CodeBlock        from '@theme/CodeBlock'
+import dedent           from 'dedent'
+
 # Настройка ОС
 
-В данном блоке рассмотрим:
+<h3>Базовые настройки узлов</h3>
 - Настройка имени узла.
 - Загрузка модулей ядра.
 - Настройка sysctl.
 - Настройка сети.
 
-## Изменение имени узла
+### Переменные окружения узла
 
-```bash
-hostnamectl set-hostname ${FULL_HOST_NAME}
-```
+<MastersTabs/>
 
-## Загрузка модулей ядра
+<CodeBlock language="bash">
+{dedent`
+    export KUBERNETES_CLUSTER_NAME="${CUSTOM_VALUE.kubernetesClusterName.value}"
+    export KUBERNETES_BASE_DOMAIN="${CUSTOM_VALUE.kubernetesBaseDomain.value}"
+    export KUBERNETES_CLUSTER_DOMAIN="${CUSTOM_VALUE.kubernetesClusterDomain.value}"
+    export FULL_HOST_NAME="${CUSTOM_VALUE.virtualMachineFullName.value}"
+`}
+</CodeBlock>
 
-```bash
-cat <<EOF >> /etc/modules-load.d/k8s.conf
-overlay
-br_netfilter
-EOF
+### Изменение имени узла
+<CodeBlock language="bash">
+{dedent`
+    hostnamectl set-hostname $\{FULL_HOST_NAME}
+`}
+</CodeBlock>
 
-sudo modprobe overlay
-sudo modprobe br_netfilter
-```
+
+### Загрузка модулей ядра
+<CodeBlock language="bash">
+{dedent`
+    cat <<EOF >> /etc/modules-load.d/k8s.conf
+    overlay
+    br_netfilter
+    EOF
+`}
+</CodeBlock>
+
+<CodeBlock language="bash">
+{dedent`
+    sudo modprobe overlay
+    sudo modprobe br_netfilter
+`}
+</CodeBlock>
+
 
 :::note
 Модуль `overlay` связан с файловой системой OverlayFS, которая помогает эффективно управлять слоями в файловой системе контейнеров. Благодаря ей можно объединять несколько директорий (слоёв) в одну виртуальную файловую систему. Такие контейнерные рантаймы, как Docker и containerd (часто используемые вместе с Kubernetes), применяют OverlayFS для хранения и управления образами контейнеров.
@@ -34,31 +62,41 @@ sudo modprobe br_netfilter
 Модуль `br_netfilter` интегрирует сетевые мосты (bridges) с подсистемой netfilter в ядре Linux. Это означает, что трафик, проходящий через мосты, можно обрабатывать с помощью iptables.
 :::
 
-## Настройка Sysctl
+### Настройка Sysctl
 
 :::warning
 
-### Настройка сети
+#### Настройка сети
 
 После загрузки модуля br_netfilter часто требуется установить системные параметры, чтобы убедиться, что бриджированный трафик обрабатывается iptables.
 
-```bash
-cat <<EOF >> /etc/sysctl.d/99-br-netfilter.conf
-net.bridge.bridge-nf-call-iptables=1
-net.bridge.bridge-nf-call-ip6tables=1
-EOF
-```
+<CodeBlock language="bash">
+{dedent`
+    cat <<EOF >> /etc/sysctl.d/99-br-netfilter.conf
+    net.bridge.bridge-nf-call-iptables=1
+    net.bridge.bridge-nf-call-ip6tables=1
+    EOF
+`}
+</CodeBlock>
+
 
 Если параметр `net.ipv4.ip_forward` не включен, ядро операционной системы не будет пересылать IP-пакеты между интерфейсами, что приведет к проблемам с сетью в кластере Kubernetes. Это может проявляться в недоступности сервисов, невозможности подов связаться друг с другом или с внешними ресурсами.
 
-```bash
-cat <<EOF >> /etc/sysctl.d/99-network.conf
-net.ipv4.ip_forward=1
-EOF
-```
+
+<CodeBlock language="bash">
+{dedent`
+    cat <<EOF >> /etc/sysctl.d/99-network.conf
+    net.ipv4.ip_forward=1
+    EOF
+`}
+</CodeBlock>
+
 
 ### Примененме конфигурации
-```bash
-sysctl --system
-```
+<CodeBlock language="bash">
+{dedent`
+    sysctl --system
+`}
+</CodeBlock>
+
 :::

@@ -28,7 +28,7 @@ export const kubernetesTHW = [
           {
             type: 'doc',
             label: 'Настройка ОС',
-            id: 'tech-docs/kubernetes/os-setup',
+            id: 'tech-docs/kubernetes/setupEnvironments/os-setup',
           },
           {
             type: 'doc',
@@ -36,9 +36,41 @@ export const kubernetesTHW = [
             id: 'tech-docs/kubernetes-thw/step-by-step-os1',
           },
           {
-            type: 'doc',
-            label: 'Настройка компонентов',
-            id: 'tech-docs/kubernetes-thw/step-by-step-os4',
+            type: 'category',
+            label: 'Установка компонентов',
+            collapsed: false,
+            items: [
+              {
+                type: 'doc',
+                label: 'Containerd',
+                id: 'tech-docs/kubernetes/components/containerd/lifecycle',
+              },
+              {
+                type: 'doc',
+                label: 'Runc',
+                id: 'tech-docs/kubernetes/components/runc/lifecycle',
+              },
+              {
+                type: 'doc',
+                label: 'Crictl',
+                id: 'tech-docs/kubernetes/components/crictl/lifecycle',
+              },
+              {
+                type: 'doc',
+                label: 'Kubectl',
+                id: 'tech-docs/kubernetes/components/kubectl/lifecycle',
+              },
+              {
+                type: 'doc',
+                label: 'Kubeadm',
+                id: 'tech-docs/kubernetes/components/kubeadm/lifecycle',
+              },
+              {
+                type: 'doc',
+                label: 'Kubelet',
+                id: 'tech-docs/kubernetes/components/kubelet/lifecycle',
+              },
+            ]
           },
           {
             type: 'doc',

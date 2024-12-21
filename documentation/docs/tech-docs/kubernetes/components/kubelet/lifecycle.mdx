@@ -1,0 +1,28 @@
+---
+id: lifecycle
+---
+import DownloadBIN              from '@site/docs/tech-docs/kubernetes/components/kubelet/downloadBIN.mdx'
+import DIR                      from '@site/docs/tech-docs/kubernetes/components/kubelet/dir.mdx'
+import StartSystemdUnit         from '@site/docs/tech-docs/kubernetes/components/kubelet/startSystemdUnit.mdx'
+import SetupSystemdUnit         from '@site/docs/tech-docs/kubernetes/components/kubelet/setupSystemdUnit.mdx'
+import ConfigFiles              from '@site/docs/tech-docs/kubernetes/components/kubelet/configFiles.mdx'
+
+import dedent                   from 'dedent'
+import CodeBlock                from '@theme/CodeBlock'
+import TabItem                  from '@theme/TabItem'
+import Tabs                     from '@theme/Tabs'
+
+# Kubelet
+
+## Базовая установка
+- Создание рабочих директорий.
+- Загрузка исполняемых файлов на узел.
+- Настройка Systemd Unit (сервис).
+- Настройка компонента через конфигурационные файлы.
+- Запуск компонента и добавление сервиса в автозапуск.
+
+<DIR/>
+<DownloadBIN/>
+<SetupSystemdUnit/>
+<ConfigFiles/>
+<StartSystemdUnit/>

@@ -1,0 +1,90 @@
+import dedent                   from 'dedent'
+import CodeBlock                from '@theme/CodeBlock'
+import { PORTS }                from '@site/src/constants/kubernetes/ports'
+import { CUSTOM_VALUE }         from '@site/src/constants/kubernetes/customValue'
+
+### Настройка Systemd Unit
+
+<h4>Переменные окружния</h4>
+<CodeBlock language="bash">
+    {dedent`
+        export BASE_KUBELET_PATH="${CUSTOM_VALUE.kuberneteKubeletFolderPath.value}"
+        export CRI_ENDPOINT="${CUSTOM_VALUE.criEndpoint.value}"
+        export BASE_DOCKER_REGISTRY="${CUSTOM_VALUE.baseDockerRegistry.value}"
+        export PAUSED_IMAGE="${CUSTOM_VALUE.pausedImage.value}"
+        export KUBELET_SERVER_PORT=${PORTS.kubeletServer.portNumber}
+        export KUBELET_HEALTHZ_PORT=${PORTS.kubeletHealthz.portNumber}
+    `}
+</CodeBlock>
+
+<h4>Базовая конфигурация systemd unit</h4>
+<CodeBlock language="bash">
+    {dedent`
+        cat <<EOF > /usr/lib/systemd/system/kubelet.service
+        [Unit]
+        Description=kubelet: The Kubernetes Node Agent
+        Documentation=https://kubernetes.io/docs/
+        Wants=network-online.target
+        After=containerd.service
+
+        [Service]
+        ExecStart=/usr/local/bin/kubelet
+        Restart=always
+        StartLimitInterval=0
+        RestartSec=10
+
+        [Install]
+        WantedBy=multi-user.target
+
+        EOF
+    `}
+</CodeBlock>
+
+<h4>Переменные окружния systemd unit</h4>
+
+<CodeBlock language="bash">
+    {dedent`
+        cat <<EOF > /usr/lib/systemd/system/kubelet.service.d/10-cloud.conf
+        [Service]
+        EnvironmentFile=-$\{BASE_KUBELET_PATH}/kubeadm-flags.env
+        EnvironmentFile=-$\{BASE_KUBELET_PATH}/cloud-flags.env
+
+        ExecStart=
+        ExecStart=/usr/local/bin/kubelet \
+        \$KUBELET_BASIC_ARGS \
+        \$KUBELET_NETWORKS_ARGS \
+        \$KUBELET_CONFIGS_ARGS \
+        \$KUBELET_KUBEADM_ARGS \
+        \$KUBELET_KUBECONFIG_ARGS
+        EOF
+    `}
+</CodeBlock>
+
+<CodeBlock language="bash">
+    {dedent`
+        cat <<EOF > $\{BASE_KUBELET_PATH}/kubeadm-flags.env
+        KUBELET_KUBEADM_ARGS="
+        --container-runtime-endpoint=unix://$\{CRI_ENDPOINT} \
+        --pod-infra-container-image=$\{BASE_DOCKER_REGISTRY}/$\{PAUSED_IMAGE}
+        "
+        EOF
+    `}
+</CodeBlock>
+
+<CodeBlock language="bash">
+    {dedent`
+        cat <<EOF > $\{BASE_KUBELET_PATH}/cloud-flags.env
+        KUBELET_KUBECONFIG_ARGS="
+        --bootstrap-kubeconfig=$\{BASE_K8S_PATH}/bootstrap-kubelet.conf \
+        --kubeconfig=$\{BASE_K8S_PATH}/kubelet.conf
+        "
+        KUBELET_CONFIGS_ARGS="
+        --config=$\{BASE_KUBELET_PATH}/config-custom.yaml
+        "
+        KUBELET_NETWORKS_ARGS="
+        --healthz-port=$\{KUBELET_HEALTHZ_PORT} \
+        --port="$\{KUBELET_SERVER_PORT}"
+        "
+        EOF
+    `}
+</CodeBlock>

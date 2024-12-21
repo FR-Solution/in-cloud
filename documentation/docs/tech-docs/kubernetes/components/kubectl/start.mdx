@@ -1,0 +1,26 @@
+import dedent                   from 'dedent'
+import CodeBlock                from '@theme/CodeBlock'
+
+import { DOWNLOAD_VERSION }     from '@site/src/constants/kubernetes/downloads'
+import { COMPONENTS_VERSION }   from '@site/src/constants/kubernetes/componentsVersion'
+
+### Запуск компонента
+<CodeBlock language="bash">
+    {dedent`
+        kubectl --help
+    `}
+</CodeBlock>
+
+:::note
+Если кластер запущен, вы без проблем сможете к нему подключиться и получите аналогичное состояние 
+
+<CodeBlock language="bash">
+    {dedent`
+        root@compute:~/$ kubectl --help
+        kubectl controls the Kubernetes cluster manager.
+
+        Find more information at: https://kubernetes.io/docs/reference/kubectl/
+        ******
+    `}
+</CodeBlock>
+:::

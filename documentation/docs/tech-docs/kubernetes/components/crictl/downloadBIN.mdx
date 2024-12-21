@@ -1,0 +1,20 @@
+import dedent                   from 'dedent'
+import CodeBlock                from '@theme/CodeBlock'
+
+import { DOWNLOAD_VERSION }     from '@site/src/constants/kubernetes/downloads'
+import { COMPONENTS_VERSION }   from '@site/src/constants/kubernetes/componentsVersion'
+
+### Загрузка
+<CodeBlock language="bash">
+    {dedent`
+        export CRICTL_VERSION="${COMPONENTS_VERSION.crictl.value}"
+    `}
+</CodeBlock>
+
+<CodeBlock language="bash">
+    {dedent`
+        wget  -O ${DOWNLOAD_VERSION.crictl.path}      ${DOWNLOAD_VERSION.crictl.templateUrl}
+        chmod +x ${DOWNLOAD_VERSION.crictl.path}
+        tar   -C "/usr/local/bin"  -xvf /tmp/crictl.tar.gz
+    `}
+</CodeBlock>
