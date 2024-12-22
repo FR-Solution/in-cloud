@@ -1,18 +1,28 @@
 export const kubernetesTHW = [
   {
     type: 'doc',
-    label: 'Введение',
-    id: 'tech-docs/kubernetes-thw/introduction',
+    label: '0. Введение',
+    id: 'tech-docs/kubernetes/about',
   },
   {
     type: 'doc',
-    label: 'Компоненты',
-    id: 'tech-docs/kubernetes-thw/components',
+    label: '1. Общее описание',
+    id: 'tech-docs/kubernetes/introduction',
   },
   {
     type: 'doc',
-    label: 'Архитектура',
-    id: 'tech-docs/kubernetes-thw/arch',
+    label: '2. Требования',
+    id: 'tech-docs/kubernetes/requirements',
+  },
+  {
+    type: 'doc',
+    label: '3. Архитектура',
+    id: 'tech-docs/kubernetes/flowcharts/arch',
+  },
+  {
+    type: 'doc',
+    label: '4. Компоненты',
+    id: 'tech-docs/kubernetes/components/components',
   },
   {
     type: 'category',

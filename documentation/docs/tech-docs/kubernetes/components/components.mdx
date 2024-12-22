@@ -1,48 +1,53 @@
-## Kube-API
-  * Аналогия: **Нервная система**.
-  * Описание: ```Kubernetes API``` — это центральная точка взаимодействия с кластером, через которую проходят все команды и запросы. Как нервная система, которая передает сигналы и координирует действия организма, Kubernetes API обеспечивает связь между различными компонентами кластера и пользователями, обрабатывая запросы и отправляя команды на выполнение.
+---
+id: components
+---
 
-## Kube-controller-manager
-  * Аналогия: **Гипофиз**.
-  * Описание: ```Controller Manager``` — управляет различными контроллерами, которые следят за состоянием кластера и поддерживают его в соответствии с заданной конфигурацией. Как гипофиз, который регулирует функции других желез и систем организма, Controller Manager координирует работу контроллеров, обеспечивая поддержание желаемого состояния кластера.
+import KubeAPIAbout                 from '@site/docs/tech-docs/kubernetes/components/kubeAPI/about.mdx'
+import KubeControllerManagerAbout   from '@site/docs/tech-docs/kubernetes/components/controllerManager/about.mdx'
+import KubeSchedulerAbout           from '@site/docs/tech-docs/kubernetes/components/scheduler/about.mdx'
+import KubeletAbout                 from '@site/docs/tech-docs/kubernetes/components/kubelet/about.mdx'
+import RuncAbout                    from '@site/docs/tech-docs/kubernetes/components/runc/about.mdx'
+import ContainerdAbout              from '@site/docs/tech-docs/kubernetes/components/containerd/about.mdx'
+import CrictlAbout                  from '@site/docs/tech-docs/kubernetes/components/crictl/about.mdx'
+import KubeadmAbout                 from '@site/docs/tech-docs/kubernetes/components/kubeadm/about.mdx'
+import KubectlAbout                 from '@site/docs/tech-docs/kubernetes/components/kubectl/about.mdx'
+import ETCDAbout                    from '@site/docs/tech-docs/etcd/components/etcd/about.mdx'
+import ETCDCTLAbout                 from '@site/docs/tech-docs/etcd/components/etcdctl/about.mdx'
 
-## Kube-scheduler
-  * Аналогия: **Мозжечок**.
-  * Описание: ```Scheduler``` — отвечает за распределение задач (подов) по узлам кластера, определяя, где они будут выполняться. Как мозжечок, который координирует движения и баланс, Scheduler распределяет рабочую нагрузку, оптимизируя использование ресурсов и обеспечивая эффективное выполнение задач.
+# 4. Компоненты
 
-## ETCD
-  * Аналогия: **Головной мозг**.
-  * Описание: ```Etcd``` — это распределенное хранилище ключ-значение, в котором хранится вся конфигурация и состояние кластера. Как головной мозг, который хранит и обрабатывает информацию, etcd обеспечивает надежное и согласованное хранение данных, необходимых для работы кластера, и позволяет восстанавливать его состояние при сбоях.
+## 4.1.Kubernetes
 
-## Kubelet
-  * Аналогия: **Сердце**.
-  * Описание: ```Kubelet``` — отвечает за запуск и управление контейнерами на каждом узле в кластере. Как сердце, которое качает кровь и обеспечивает жизнедеятельность организма, kubelet обеспечивает выполнение и мониторинг контейнеров, поддерживая их жизнеспособность.
+### 4.1.1 Kube-API (API Server)
+<KubeAPIAbout/>
 
-## Runc
- * Аналогия: **Мышцы**.
- * Описание: ```Runc``` — это инструмент, который непосредственно запускает контейнеры. Как мышцы, которые выполняют физическую работу, runc выполняет контейнеры, обеспечивая их изоляцию и выполнение.
+### 4.1.2 Kube-controller-manager
+<KubeControllerManagerAbout/>
 
-## CRI
- * Аналогия: **Пищеварительная система**.
- * Описание: ```Container Runtime Interface (CRI)``` — это интерфейс, который позволяет kubelet взаимодействовать с контейнерной средой выполнения, такой как containerd или CRI-O. Подобно пищеварительной системе, которая обрабатывает и распределяет питательные вещества, CRI управляет процессами создания, запуска и остановки контейнеров, а также распределением их ресурсов.
+### 4.1.3 Kube-scheduler
+<KubeSchedulerAbout/>
 
-## Crictl
- * Аналогия: **Глаза**.
- * Описание: ```Crictl``` — это инструмент для взаимодействия с контейнерной средой выполнения через CRI. Как глаза, которые наблюдают за окружающей средой, crictl позволяет просматривать состояние контейнеров и их логов, помогая в отладке и мониторинге.
+### 4.1.4 Kubelet
+<KubeletAbout/>
 
-## Kubectl
- * Аналогия: **Руки**.
- * Описание: ```Kubectl``` — это CLI для взаимодействия с кластером Kubernetes. Как руки, которые выполняют действия и манипуляции, kubectl позволяет пользователям управлять ресурсами кластера, выполнять команды и получать информацию о состоянии системы.
+### 4.1.5 Kubeadm
+<KubeadmAbout/>
 
-## Etcdctl
- * Аналогия: **Память**.
- * Описание: ```Etcdctl``` — это инструмент для взаимодействия с etcd, распределенным хранилищем ключ-значение, используемым для хранения всех данных конфигурации Kubernetes. Как память, которая хранит информацию, etcdctl позволяет управлять данными конфигурации и восстанавливать их при необходимости.
+### 4.1.5 Kubectl
+<KubectlAbout/>
 
+## 4.2. ETCD
+### 4.2.1. Etcd
+<ETCDAbout/>
 
-## OpenSSL
- * Аналогия: **Иммунная система**.
- * Описание: ```OpenSSL``` — это инструмент для управления сертификатами и инфраструктурой открытых ключей (PKI). Как иммунная система, которая защищает организм от угроз, OpenSSL обеспечивает безопасность и шифрование данных в кластере, управляя сертификатами и ключами.
+### 4.2.2. Etcdctl
+<ETCDCTLAbout/>
 
-## Kubeadm
- * Аналогия: **TODO**.
- * Описание: ```Kubeadm``` — TODO.
+## 4.3. Runc
+<RuncAbout/>
+
+## 4.4. Containerd
+<ContainerdAbout/>
+
+## 4.5. Crictl
+<CrictlAbout/>
