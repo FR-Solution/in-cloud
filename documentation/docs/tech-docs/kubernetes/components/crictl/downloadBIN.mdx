@@ -5,12 +5,14 @@ import { DOWNLOAD_VERSION }     from '@site/src/constants/kubernetes/downloads'
 import { COMPONENTS_VERSION }   from '@site/src/constants/kubernetes/componentsVersion'
 
 ### Загрузка
+<h4>Перменные окружения</h4>
 <CodeBlock language="bash">
     {dedent`
         export CRICTL_VERSION="${COMPONENTS_VERSION.crictl.value}"
     `}
 </CodeBlock>
 
+<h4>Инструкция загрузки</h4>
 <CodeBlock language="bash">
     {dedent`
         wget  -O ${DOWNLOAD_VERSION.crictl.path}      ${DOWNLOAD_VERSION.crictl.templateUrl}

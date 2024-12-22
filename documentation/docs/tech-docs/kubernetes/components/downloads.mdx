@@ -1,34 +1,11 @@
+---
+id: download
+---
 
-import React                  from 'react'
-import CodeBlock              from '@theme/CodeBlock'
-
-import { FancyboxDiagram }    from '@site/src/components/commonBlocks/FancyboxDiagram'
-import { PORTS }              from '@site/src/constants/kubernetes/ports'
-import { CUSTOM_VALUE }       from '@site/src/constants/kubernetes/customValue'
-import { COMPONENTS_VERSION } from '@site/src/constants/kubernetes/componentsVersion'
-import { DOWNLOAD_VERSION }   from '@site/src/constants/kubernetes/downloads'
 import ComponentFlowChart     from '@site/docs/tech-docs/kubernetes/flowcharts/components.mdx'
-import ETCDDownloads          from '@site/docs/tech-docs/etcd/components/downloads.mdx'
-import KubeletDownload        from '@site/docs/tech-docs/kubernetes/components/kubelet/lifecycle.mdx'
-import KubeadmDownload        from '@site/docs/tech-docs/kubernetes/components/kubeadm/lifecycle.mdx'
-import KubectlDownload        from '@site/docs/tech-docs/kubernetes/components/kubectl/lifecycle.mdx'
-import ContainerdDownload     from '@site/docs/tech-docs/kubernetes/components/containerd/lifecycle.mdx'
-import CrictlDownload         from '@site/docs/tech-docs/kubernetes/components/crictl/lifecycle.mdx'
-import RuncDownload           from '@site/docs/tech-docs/kubernetes/components/runc/lifecycle.mdx'
 
-В заранее подготовленных узлах под управлением ```OC Linux (Ubuntu 24.04.1 LTS)``` начинаем загружать базовые компоненты.
-Для этого выполните указанные ниже команды.
-
+# Установка компонентов
 <ComponentFlowChart />
-
-<KubeletDownload/>
-{/* <KubeadmDownload/> */}
-{/* <KubectlDownload/> */}
-{/* <ContainerdDownload/> */}
-{/* <CrictlDownload/> */}
-{/* <RuncDownload/> */}
-<ETCDDownloads />
-
 
 ## prerequisites
 ```bash

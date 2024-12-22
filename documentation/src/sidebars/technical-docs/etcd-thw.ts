@@ -17,7 +17,7 @@ export const ETCDTHW = [
   {
     type: 'category',
     label: 'Как начать',
-    collapsed: false,
+    collapsed: true,
     items: [
       {
         type: 'doc',
@@ -27,7 +27,7 @@ export const ETCDTHW = [
       {
         type: 'category',
         label: 'Аутентификация',
-        collapsed: false,
+        collapsed: true,
         items: [
           {
             type: 'doc',

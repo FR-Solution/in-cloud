@@ -14,16 +14,15 @@ export const kubernetesTHW = [
     label: 'Архитектура',
     id: 'tech-docs/kubernetes-thw/arch',
   },
-
   {
     type: 'category',
     label: 'Как начать',
-    collapsed: false,
+    collapsed: true,
     items: [
       {
         type: 'category',
         label: 'Подготовка окружения',
-        collapsed: false,
+        collapsed: true,
         items: [
           {
             type: 'doc',
@@ -31,14 +30,13 @@ export const kubernetesTHW = [
             id: 'tech-docs/kubernetes/setupEnvironments/os-setup',
           },
           {
-            type: 'doc',
-            label: 'Загрузка компонентов',
-            id: 'tech-docs/kubernetes-thw/step-by-step-os1',
-          },
-          {
             type: 'category',
             label: 'Установка компонентов',
-            collapsed: false,
+            collapsed: true,
+            link: {
+              type: 'doc',
+              id: 'tech-docs/kubernetes/components/download'
+            },
             items: [
               {
                 type: 'doc',
@@ -69,6 +67,21 @@ export const kubernetesTHW = [
                 type: 'doc',
                 label: 'Kubelet',
                 id: 'tech-docs/kubernetes/components/kubelet/lifecycle',
+              },
+              {
+                type: 'doc',
+                label: 'Etcd',
+                id: 'tech-docs/etcd/components/etcd/lifecycle',
+              },
+              {
+                type: 'doc',
+                label: 'Etcdctl',
+                id: 'tech-docs/etcd/components/etcdctl/lifecycle',
+              },
+              {
+                type: 'doc',
+                label: 'Etcdutl',
+                id: 'tech-docs/etcd/components/etcdutl/lifecycle',
               },
             ]
           },
@@ -104,7 +117,7 @@ export const kubernetesTHW = [
       {
         type: 'category',
         label: 'Аутентификация',
-        collapsed: false,
+        collapsed: true,
         items: [
           {
             type: 'doc',

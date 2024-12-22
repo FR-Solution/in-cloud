@@ -31,6 +31,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
+          breadcrumbs: true,
           routeBasePath: '/',
           // includeCurrentVersion:
           //   (process.env.DOC_INCLUDE_CURRENT_VERSION &&
@@ -61,7 +62,11 @@ const config: Config = {
     ],
   ],
 
-  plugins: [require.resolve('./plugins/webpack'), require.resolve('./plugins/medusa'), 'docusaurus-plugin-astroturf'],
+  plugins: [
+    require.resolve('./plugins/webpack'), 
+    require.resolve('./plugins/medusa'), 
+    'docusaurus-plugin-astroturf'
+  ],
 
   themes: ['@docusaurus/theme-mermaid'],
 
