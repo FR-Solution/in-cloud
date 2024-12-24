@@ -10,9 +10,51 @@ export const kubernetesTHW = [
     id: 'tech-docs/kubernetes/introduction',
   },
   {
-    type: 'doc',
+    type: 'category',
     label: '2. Требования',
-    id: 'tech-docs/kubernetes/requirements',
+    collapsed: true,
+    items: [
+      {
+        type: 'doc',
+        label: '2.1. Оркестрация',
+        id: 'tech-docs/kubernetes/requirements/orkestrations',
+      },
+      {
+        type: 'doc',
+        label: '2.2. Контейнеризация',
+        id: 'tech-docs/kubernetes/requirements/containerization',
+      },
+      {
+        type: 'doc',
+        label: '2.3. Сеть',
+        id: 'tech-docs/kubernetes/requirements/network',
+      },
+      {
+        type: 'doc',
+        label: '2.4. Данные',
+        id: 'tech-docs/kubernetes/requirements/data-storage-management',
+      },
+      {
+        type: 'doc',
+        label: '2.5. Квота',
+        id: 'tech-docs/kubernetes/requirements/quota-resource-management',
+      },
+      {
+        type: 'doc',
+        label: '2.6. Ресурсы',
+        id: 'tech-docs/kubernetes/requirements/compute-resource-management',
+      },
+      {
+        type: 'doc',
+        label: '2.7. Портал',
+        id: 'tech-docs/kubernetes/requirements/portal',
+      },
+      {
+        type: 'doc',
+        label: '2.8. Мониторинг',
+        id: 'tech-docs/kubernetes/requirements/monitoring',
+      },
+    ]
   },
   {
     type: 'doc',
