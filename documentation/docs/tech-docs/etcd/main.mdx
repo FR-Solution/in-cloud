@@ -27,10 +27,16 @@ export const ETCD_base_k8s_path       = CUSTOM_VALUE.kuberneteBaseFolderPath.val
 export const ETCD_peer_cert_path      = CERTIFICATES.etcdPeer.crtPath
 export const ETCD_peer_key_path       = CERTIFICATES.etcdPeer.keyPath
 export const ETCD_ca_cert_path        = CERTIFICATES.etcdCA.crtPath
+export const ETCD_ca_key_path         = CERTIFICATES.etcdCA.keyPath
+export const ETCD_serv_cert_path      = CERTIFICATES.etcdServer.crtPath
+export const ETCD_serv_key_path       = CERTIFICATES.etcdServer.keyPath
 export const ETCD_version             = 'v3.5.17'
 export const ETCD_workdir             = '/tmp/etcd'
 export const ETCD_data_dir            = '/var/lib/etcd'
 export const ETCD_db_path             = '/var/lib/etcd/member/snap/db'
+export const ETCD_serv_port           = PORTS.etcdServer.portNumber
+export const ETCD_peer_port           = PORTS.etcdPeer.portNumber
+export const ETCD_metr_port           = PORTS.etcdMetricServer.portNumber
 
 ## Введение
 
@@ -1125,23 +1131,21 @@ Etcdctl можно получить из опубликованных релиз
     7. Проверьте и по необходимости отредактируйте параметры запуска ETCD в файле <code>${ETCD_base_k8s_path}/manifests/etcd.yaml</code>.
     А именно проверьте наличие необходимых полей и их значения, поля не входящий в данный перечень удалять не нужно!
 
-TODO заменить на переменные
-
     <CodeBlock language="bash">
-{`--advertise-client-urls=https://10.10.10.3:2379
-  --cert-file=/etc/kubernetes/pki/etcd/server.crt
+{`--advertise-client-urls=${ETCD_endpoint_1}
+  --cert-file=${ETCD_serv_cert_path}
   --client-cert-auth=true
-  --data-dir=/var/lib/etcd
-  --key-file=/etc/kubernetes/pki/etcd/server.key
-  --listen-client-urls=https://127.0.0.1:2379,https://10.10.10.3:2379
-  --listen-metrics-urls=http://0.0.0.0:2381
-  --listen-peer-urls=https://10.10.10.3:2380
-  --name=bcloud-k8s-sandbox-dev-csko-1-tcgzn-7plhz
-  --peer-cert-file=/etc/kubernetes/pki/etcd/peer.crt
+  --data-dir=${ETCD_data_dir}
+  --key-file=${ETCD_serv_key_path}
+  --listen-client-urls=https://127.0.0.1:${ETCD_serv_port},${ETCD_endpoint_1}
+  --listen-metrics-urls=http://0.0.0.0:${ETCD_metr_port}
+  --listen-peer-urls=https://${ETCD_k8s_node_address_1}:${ETCD_peer_port}
+  --name=${ETCD_k8s_node_1}
+  --peer-cert-file=${ETCD_peer_cert_path}
   --peer-client-cert-auth=true
-  --peer-key-file=/etc/kubernetes/pki/etcd/peer.key
-  --peer-trusted-ca-file=/etc/kubernetes/pki/etcd/ca.crt
-  --trusted-ca-file=/etc/kubernetes/pki/etcd/ca.crt
+  --peer-key-file=${ETCD_peer_key_path}
+  --peer-trusted-ca-file=${ETCD_ca_cert_path}
+  --trusted-ca-file=${ETCD_ca_key_path}
 `}
     </CodeBlock>
 
@@ -1228,23 +1232,23 @@ TODO заменить на переменные
 TODO заменить на переменные
 
     <CodeBlock language="bash">
-{`--advertise-client-urls=https://10.10.10.4:2379
-  --cert-file=/etc/kubernetes/pki/etcd/server.crt
+{`--advertise-client-urls=${ETCD_endpoint_2}
+  --cert-file=${ETCD_serv_cert_path}
   --client-cert-auth=true
-  --data-dir=/var/lib/etcd
-  --initial-advertise-peer-urls=https://10.10.10.4:2380
-  --initial-cluster=bcloud-k8s-sandbox-dev-csko-1-tcgzn-7plhz=https://10.10.10.4:2380,bcloud-k8s-sandbox-dev-csko-1-tcgzn-h9g49=https://10.10.10.4:2380
+  --data-dir=${ETCD_data_dir}
+  --initial-advertise-peer-urls=https://${ETCD_k8s_node_address_2}:${ETCD_peer_port}
+  --initial-cluster=${ETCD_k8s_node_1}=https://${ETCD_k8s_node_address_1}:${ETCD_peer_port},${ETCD_k8s_node_2}=https://${ETCD_k8s_node_address_2}:${ETCD_peer_port}
   --initial-cluster-state=existing
-  --key-file=/etc/kubernetes/pki/etcd/server.key
-  --listen-client-urls=https://127.0.0.1:2379,https://10.10.10.4:2379
-  --listen-metrics-urls=http://0.0.0.0:2381
-  --listen-peer-urls=https://10.10.10.4:2380
-  --name=bcloud-k8s-sandbox-dev-csko-1-tcgzn-h9g49
-  --peer-cert-file=/etc/kubernetes/pki/etcd/peer.crt
+  --key-file=${ETCD_serv_key_path}
+  --listen-client-urls=https://127.0.0.1:${ETCD_serv_port},${ETCD_endpoint_2}
+  --listen-metrics-urls=http://0.0.0.0:${ETCD_metr_port}
+  --listen-peer-urls=https://${ETCD_k8s_node_address_2}:${ETCD_peer_port}
+  --name=${ETCD_k8s_node_2}
+  --peer-cert-file=${ETCD_peer_cert_path}
   --peer-client-cert-auth=true
-  --peer-key-file=/etc/kubernetes/pki/etcd/peer.key
-  --peer-trusted-ca-file=/etc/kubernetes/pki/etcd/ca.crt
-  --trusted-ca-file=/etc/kubernetes/pki/etcd/ca.crt
+  --peer-key-file=${ETCD_peer_key_path}
+  --peer-trusted-ca-file=${ETCD_ca_cert_path}
+  --trusted-ca-file=${ETCD_ca_key_path}
 `}
     </CodeBlock>
 
@@ -1343,11 +1347,24 @@ TODO отредактировать третий мастер аналогичн
     6) Вернитесь на третий узел и откройте на редактирование файл <code>${ETCD_base_k8s_path}/manifests/etcd.yaml</code>:
     Найдите и замените значение следующих ключей в разделе `spec.containers[0].command` аналогично примеру ниже:
     <CodeBlock language="bash">
-      {`
-        --initial-advertise-peer-urls=https://\${K8S_NODE_ADDRESS_3}:2380 \
-        --initial-cluster=\${K8S_NODE_1}=https://\${K8S_NODE_ADDRESS_1}:2380,\${K8S_NODE_2}=https://\${K8S_NODE_ADDRESS_2}:2380,\${K8S_NODE_3}=https://\${K8S_NODE_ADDRESS_3}:2380
-        --initial-cluster-state=existing
-      `}
+{`--advertise-client-urls=${ETCD_endpoint_3}
+  --cert-file=${ETCD_serv_cert_path}
+  --client-cert-auth=true
+  --data-dir=${ETCD_data_dir}
+  --initial-advertise-peer-urls=https://${ETCD_k8s_node_address_3}:${ETCD_peer_port}
+  --initial-cluster=${ETCD_k8s_node_1}=https://${ETCD_k8s_node_address_1}:${ETCD_peer_port},${ETCD_k8s_node_2}=https://${ETCD_k8s_node_address_2}:${ETCD_peer_port},${ETCD_k8s_node_3}=https://${ETCD_k8s_node_address_3}:${ETCD_peer_port}
+  --initial-cluster-state=existing
+  --key-file=${ETCD_serv_key_path}
+  --listen-client-urls=https://127.0.0.1:${ETCD_serv_port},${ETCD_endpoint_3}
+  --listen-metrics-urls=http://0.0.0.0:${ETCD_metr_port}
+  --listen-peer-urls=https://${ETCD_k8s_node_address_3}:${ETCD_peer_port}
+  --name=${ETCD_k8s_node_3}
+  --peer-cert-file=${ETCD_peer_cert_path}
+  --peer-client-cert-auth=true
+  --peer-key-file=${ETCD_peer_key_path}
+  --peer-trusted-ca-file=${ETCD_ca_cert_path}
+  --trusted-ca-file=${ETCD_ca_key_path}
+`}
     </CodeBlock>
 
     7) Запустите kubelet:
