@@ -128,67 +128,67 @@ export const ETCD_metr_port           = PORTS.etcdMetricServer.portNumber
 Etcdctl можно получить из опубликованных релизов etcd (Например версия <code>{ETCD_version}</code>).
 Выполните следующие команды, чтобы скачать релиз, распаковать и извлечь из него etcdctl в директорию <code>{ETCD_workdir}</code>:
 
-<Tabs groupId="etcd-endpoints">
-  <TabItem value='linux'>
-    <CodeBlock language="bash">
-{`export DOWNLOAD_URL=https://github.com/etcd-io/etcd/releases/download
-  export ETCD_VER=${ETCD_version}
-  export ETCD_WORKDIR="${ETCD_workdir}"
-  export OS_NAME=linux
-
-  rm -f \${ETCD_WORKDIR}/etcdctl
-  rm -f \${ETCD_WORKDIR}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64.tar.gz
-  rm -rf \${ETCD_WORKDIR}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64
-
-  mkdir -p \${ETCD_WORKDIR}
-  mkdir -p \${ETCD_WORKDIR}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64
-
-  curl -L \${DOWNLOAD_URL}/\${ETCD_VER}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64.tar.gz \\
-    -o \${ETCD_WORKDIR}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64.tar.gz
-
-  tar xzvf \${ETCD_WORKDIR}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64.tar.gz \\
-    -C \${ETCD_WORKDIR}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64 --strip-components=1
-
-  mv \${ETCD_WORKDIR}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64/etcdctl \${ETCD_WORKDIR}/etcdctl
-
-  rm -rf etcd-\${ETCD_VER}-\${OS_NAME}-amd64.tar.gz \${ETCD_WORKDIR}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64
-
-  chmod +x \${ETCD_WORKDIR}/etcdctl
-
-  \${ETCD_WORKDIR}/etcdctl version
-`}
-    </CodeBlock>
-  </TabItem>
-  <TabItem value='MacOS-Darwin'>
-    <CodeBlock language="bash">
-{`export DOWNLOAD_URL=https://github.com/etcd-io/etcd/releases/download
-  export ETCD_VER=${ETCD_version}
-  export ETCD_WORKDIR="${ETCD_workdir}"
-  export OS_NAME=darwin
-
-  rm -f \${ETCD_WORKDIR}/etcdctl
-  rm -f \${ETCD_WORKDIR}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64.zip
-  rm -rf \${ETCD_WORKDIR}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64
-
-  mkdir -p \${ETCD_WORKDIR}
-
-  curl -L \${DOWNLOAD_URL}/\${ETCD_VER}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64.zip \\
-    -o \${ETCD_WORKDIR}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64.zip
-
-  unzip \${ETCD_WORKDIR}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64.zip -d \${ETCD_WORKDIR}/
-
-  mv \${ETCD_WORKDIR}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64/etcdctl \${ETCD_WORKDIR}/etcdctl
-
-  rm -rf  \${ETCD_WORKDIR}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64.zip \\
-    \${ETCD_WORKDIR}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64
-
-  chmod +x \${ETCD_WORKDIR}/etcdctl
-
-  \${ETCD_WORKDIR}/etcdctl version
-`}
-    </CodeBlock>
-  </TabItem>
-</Tabs>
+><Tabs groupId="etcd-endpoints">
+>  <TabItem value='linux'>
+>    <CodeBlock language="bash">
+>{`export DOWNLOAD_URL=https://github.com/etcd-io/etcd/releases/download
+>  export ETCD_VER=${ETCD_version}
+>  export ETCD_WORKDIR="${ETCD_workdir}"
+>  export OS_NAME=linux
+>
+>  rm -f \${ETCD_WORKDIR}/etcdctl
+>  rm -f \${ETCD_WORKDIR}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64.tar.gz
+>  rm -rf \${ETCD_WORKDIR}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64
+>
+>  mkdir -p \${ETCD_WORKDIR}
+>  mkdir -p \${ETCD_WORKDIR}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64
+>
+>  curl -L \${DOWNLOAD_URL}/\${ETCD_VER}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64.tar.gz \\
+>    -o \${ETCD_WORKDIR}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64.tar.gz
+>
+>  tar xzvf \${ETCD_WORKDIR}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64.tar.gz \\
+>    -C \${ETCD_WORKDIR}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64 --strip-components=1
+>
+>  mv \${ETCD_WORKDIR}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64/etcdctl \${ETCD_WORKDIR}/etcdctl
+>
+>  rm -rf etcd-\${ETCD_VER}-\${OS_NAME}-amd64.tar.gz \${ETCD_WORKDIR}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64
+>
+>  chmod +x \${ETCD_WORKDIR}/etcdctl
+>
+>  \${ETCD_WORKDIR}/etcdctl version
+>`}
+>    </CodeBlock>
+>  </TabItem>
+>  <TabItem value='MacOS-Darwin'>
+>    <CodeBlock language="bash">
+>{`export DOWNLOAD_URL=https://github.com/etcd-io/etcd/releases/download
+>  export ETCD_VER=${ETCD_version}
+>  export ETCD_WORKDIR="${ETCD_workdir}"
+>  export OS_NAME=darwin
+>
+>  rm -f \${ETCD_WORKDIR}/etcdctl
+>  rm -f \${ETCD_WORKDIR}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64.zip
+>  rm -rf \${ETCD_WORKDIR}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64
+>
+>  mkdir -p \${ETCD_WORKDIR}
+>
+>  curl -L \${DOWNLOAD_URL}/\${ETCD_VER}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64.zip \\
+>    -o \${ETCD_WORKDIR}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64.zip
+>
+>  unzip \${ETCD_WORKDIR}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64.zip -d \${ETCD_WORKDIR}/
+>
+>  mv \${ETCD_WORKDIR}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64/etcdctl \${ETCD_WORKDIR}/etcdctl
+>
+>  rm -rf  \${ETCD_WORKDIR}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64.zip \\
+>    \${ETCD_WORKDIR}/etcd-\${ETCD_VER}-\${OS_NAME}-amd64
+>
+>  chmod +x \${ETCD_WORKDIR}/etcdctl
+>
+>  \${ETCD_WORKDIR}/etcdctl version
+>`}
+>    </CodeBlock>
+>  </TabItem>
+></Tabs>
 
 *****
 
@@ -334,109 +334,109 @@ Etcdctl можно получить из опубликованных релиз
 </details>
 
 4. Определение конечных точек подключения ETCD кластера
-<Tabs groupId="etcd-endpoints">
-  <TabItem value='С помощью аннотаций'>
-    Отобразите аннотации подов etcd кластера с помощью команды:
-
-    <CodeBlock language="bash">
-    {`kubectl annotate pod -n kube-system  -l component=etcd --list`}
-    </CodeBlock>
-
-    <details>
-    <summary>Пример:</summary>
-    > Ввод команды:
-    <CodeBlock language="bash">
-    {`kubectl annotate pod -n kube-system  -l component=etcd --list`}
-    </CodeBlock>
-
-    > Вывод команды:
-    <CodeBlock language="bash">
-{`Listing annotations for Pod./${ETCD_etcd_pod_1}:
-    kubernetes.io/config.seen=2024-12-02T18:24:13.757273069Z
-    kubernetes.io/config.source=file
-    kubeadm.kubernetes.io/etcd.advertise-client-urls=${ETCD_endpoint_1}
-    kubernetes.io/config.hash=cd6865786e6e37bb748031ee16da3f21
-    kubernetes.io/config.mirror=cd6865786e6e37bb748031ee16da3f21
-  Listing annotations for Pod./${ETCD_etcd_pod_2}:
-    kubernetes.io/config.mirror=dee50cb3a7f947417c7a790dc9e233c8
-    kubernetes.io/config.seen=2024-12-02T18:41:25.021060314Z
-    kubernetes.io/config.source=file
-    kubeadm.kubernetes.io/etcd.advertise-client-urls=${ETCD_endpoint_2}
-    kubernetes.io/config.hash=dee50cb3a7f947417c7a790dc9e233c8
-  Listing annotations for Pod./${ETCD_etcd_pod_3}:
-    kubernetes.io/config.source=file
-    kubeadm.kubernetes.io/etcd.advertise-client-urls=${ETCD_endpoint_3}
-    kubernetes.io/config.hash=571304a41e4dc96b710e3c357a266eba
-    kubernetes.io/config.mirror=571304a41e4dc96b710e3c357a266eba
-    kubernetes.io/config.seen=2024-12-02T19:18:28.450767105Z
-`}
-    </CodeBlock>
-    </details>
-
-    5. Значение аннотации `kubeadm.kubernetes.io/etcd.advertise-client-urls` используйте для указания
-    переменных `ENDPOINT_1`, `ENDPOINT_2` и `ENDPOINT_3` в соответствии с именем пода:
-
-    <details>
-    <summary>Пример:</summary>
-    <CodeBlock language="bash">
-{`export ENDPOINT_1="${ETCD_endpoint_1}"
-  export ENDPOINT_2="${ETCD_endpoint_2}"
-  export ENDPOINT_3="${ETCD_endpoint_3}"
-  export ENDPOINTS=\${ENDPOINT_1},\${ENDPOINT_2},\${ENDPOINT_3}
-`}
-    </CodeBlock>
-    </details>
-  </TabItem>
-  <TabItem value='С помощью GREP'>
-    Если по какой-то причине вы не смогли найти конечные точки подключения в аннотациях, вы можете воспользоваться командой ниже:
-    <CodeBlock language="bash">
-{`kubectl get pod -n kube-system -l component=etcd -o yaml \\
-    |grep -E -e "^    name:" -e "--advertise-client-urls"
-`}
-    </CodeBlock>
-
-    <details>
-    <summary>Пример:</summary>
-    > Ввод команды:
-    <CodeBlock language="bash">
-{`kubectl get pod -n kube-system -l component=etcd -o yaml \\
-    |grep -E -e "^    name:" -e "--advertise-client-urls"
-`}
-    </CodeBlock>
-
-    > Вывод команды:
-    <CodeBlock language="bash">
-{`name: ${ETCD_etcd_pod_1}
-    - --advertise-client-urls=${ETCD_endpoint_1}
-  name: ${ETCD_etcd_pod_2}
-    - --advertise-client-urls=${ETCD_endpoint_2}
-  name: ${ETCD_etcd_pod_3}
-    - --advertise-client-urls=${ETCD_endpoint_3}
-`}
-    </CodeBlock>
-    </details>
-
-    5. Значение параметра `advertise-client-urls` используйте для указания переменных
-    `ENDPOINT_1`, `ENDPOINT_2` и `ENDPOINT_3` в соответствии с именем пода:
-
-    <details>
-    <summary>Пример:</summary>
-    <CodeBlock language="bash">
-{`export ENDPOINT_1="${ETCD_endpoint_1}"
-  export ENDPOINT_2="${ETCD_endpoint_2}"
-  export ENDPOINT_3="${ETCD_endpoint_3}"
-  export ENDPOINTS=\${ENDPOINT_1},\${ENDPOINT_2},\${ENDPOINT_3}
-`}
-    </CodeBlock>
-    </details>
-
-    :::warning
-    В некоторых случаях, аттрибут `advertise-client-urls` может содержать неподходящий адрес (Например `0.0.0.0`).
-    Тогда обратите внимание какой порт указан для подключения в данном аттрибуте и составьте адрес конечной
-    точки подключения самостоятельно, указав "`протокол`://`IP адрес пода`:`порт подключения`".
-    :::
-  </TabItem>
-</Tabs>
+><Tabs groupId="etcd-endpoints">
+>  <TabItem value='С помощью аннотаций'>
+>    Отобразите аннотации подов etcd кластера с помощью команды:
+>
+>    <CodeBlock language="bash">
+>    {`kubectl annotate pod -n kube-system  -l component=etcd --list`}
+>    </CodeBlock>
+>
+>    <details>
+>    <summary>Пример:</summary>
+>    > Ввод команды:
+>    <CodeBlock language="bash">
+>    {`kubectl annotate pod -n kube-system  -l component=etcd --list`}
+>    </CodeBlock>
+>
+>    > Вывод команды:
+>    <CodeBlock language="bash">
+>{`Listing annotations for Pod./${ETCD_etcd_pod_1}:
+>    kubernetes.io/config.seen=2024-12-02T18:24:13.757273069Z
+>    kubernetes.io/config.source=file
+>    kubeadm.kubernetes.io/etcd.advertise-client-urls=${ETCD_endpoint_1}
+>    kubernetes.io/config.hash=cd6865786e6e37bb748031ee16da3f21
+>    kubernetes.io/config.mirror=cd6865786e6e37bb748031ee16da3f21
+>  Listing annotations for Pod./${ETCD_etcd_pod_2}:
+>    kubernetes.io/config.mirror=dee50cb3a7f947417c7a790dc9e233c8
+>    kubernetes.io/config.seen=2024-12-02T18:41:25.021060314Z
+>    kubernetes.io/config.source=file
+>    kubeadm.kubernetes.io/etcd.advertise-client-urls=${ETCD_endpoint_2}
+>    kubernetes.io/config.hash=dee50cb3a7f947417c7a790dc9e233c8
+>  Listing annotations for Pod./${ETCD_etcd_pod_3}:
+>    kubernetes.io/config.source=file
+>    kubeadm.kubernetes.io/etcd.advertise-client-urls=${ETCD_endpoint_3}
+>    kubernetes.io/config.hash=571304a41e4dc96b710e3c357a266eba
+>    kubernetes.io/config.mirror=571304a41e4dc96b710e3c357a266eba
+>    kubernetes.io/config.seen=2024-12-02T19:18:28.450767105Z
+>`}
+>    </CodeBlock>
+>    </details>
+>
+>    5. Значение аннотации `kubeadm.kubernetes.io/etcd.advertise-client-urls` используйте для указания
+>    переменных `ENDPOINT_1`, `ENDPOINT_2` и `ENDPOINT_3` в соответствии с именем пода:
+>
+>    <details>
+>    <summary>Пример:</summary>
+>    <CodeBlock language="bash">
+>{`export ENDPOINT_1="${ETCD_endpoint_1}"
+>  export ENDPOINT_2="${ETCD_endpoint_2}"
+>  export ENDPOINT_3="${ETCD_endpoint_3}"
+>  export ENDPOINTS=\${ENDPOINT_1},\${ENDPOINT_2},\${ENDPOINT_3}
+>`}
+>    </CodeBlock>
+>    </details>
+>  </TabItem>
+>  <TabItem value='С помощью GREP'>
+>    Если по какой-то причине вы не смогли найти конечные точки подключения в аннотациях, вы можете воспользоваться командой ниже:
+>    <CodeBlock language="bash">
+>{`kubectl get pod -n kube-system -l component=etcd -o yaml \\
+>    |grep -E -e "^    name:" -e "--advertise-client-urls"
+>`}
+>    </CodeBlock>
+>
+>    <details>
+>    <summary>Пример:</summary>
+>    > Ввод команды:
+>    <CodeBlock language="bash">
+>{`kubectl get pod -n kube-system -l component=etcd -o yaml \\
+>    |grep -E -e "^    name:" -e "--advertise-client-urls"
+>`}
+>    </CodeBlock>
+>
+>    > Вывод команды:
+>    <CodeBlock language="bash">
+>{`name: ${ETCD_etcd_pod_1}
+>    - --advertise-client-urls=${ETCD_endpoint_1}
+>  name: ${ETCD_etcd_pod_2}
+>    - --advertise-client-urls=${ETCD_endpoint_2}
+>  name: ${ETCD_etcd_pod_3}
+>    - --advertise-client-urls=${ETCD_endpoint_3}
+>`}
+>    </CodeBlock>
+>    </details>
+>
+>    5. Значение параметра `advertise-client-urls` используйте для указания переменных
+>    `ENDPOINT_1`, `ENDPOINT_2` и `ENDPOINT_3` в соответствии с именем пода:
+>
+>    <details>
+>    <summary>Пример:</summary>
+>    <CodeBlock language="bash">
+>{`export ENDPOINT_1="${ETCD_endpoint_1}"
+>  export ENDPOINT_2="${ETCD_endpoint_2}"
+>  export ENDPOINT_3="${ETCD_endpoint_3}"
+>  export ENDPOINTS=\${ENDPOINT_1},\${ENDPOINT_2},\${ENDPOINT_3}
+>`}
+>    </CodeBlock>
+>    </details>
+>
+>    :::warning
+>    В некоторых случаях, аттрибут `advertise-client-urls` может содержать неподходящий адрес (Например `0.0.0.0`).
+>    Тогда обратите внимание какой порт указан для подключения в данном аттрибуте и составьте адрес конечной
+>    точки подключения самостоятельно, указав "`протокол`://`IP адрес пода`:`порт подключения`".
+>    :::
+>  </TabItem>
+></Tabs>
 
 
 :::note
@@ -450,81 +450,81 @@ Etcdctl можно получить из опубликованных релиз
 
 Определив пререквизиты, настроим псевдонимы для упрощенного подключения к ETCD кластеру.
 
-<Tabs groupId="install-type">
-  <TabItem value='Локальный etcdctl'>
-    Определим псевдоним `etcdctl` на локальный файл с указанием сертификатов:
-
-    <CodeBlock language="bash">
-{`alias etcdctl='${ETCD_workdir}/etcdctl \\
-    --cert \${PEER_CERT_PATH} \\
-    --key \${PEER_KEY_PATH} \\
-    --cacert \${CA_CERT_PATH}'
-`}
-    </CodeBlock>
-
-  </TabItem>
-  <TabItem value='crictl с мастера'>
-    Т.к. будет использоваться `etcdctl` находящийся внутри etcd контейнера, для начала нужно получить его `CONTAINER_ID`.
-    Затем создадим псевдоним `сectl` (чтобы не путать его с другими псевдонимами) и
-    будем актуализировать данные по текущему контейнеру при каждом обращении к псевдониму.
-    Также укажем путь до сертификатов.
-
-    <CodeBlock language="bash">
-{`alias ectl='crictl exec \\
-  "$(crictl ps -a  \\
-    --label io.kubernetes.container.name=etcd \\
-    --label io.kubernetes.pod.namespace=kube-system \\
-    | awk 'NR>1{r=$1} $0~/Running/{exit} END{print r}')" \\
-  etcdctl \\
-  --cert \${PEER_CERT_PATH} \\
-  --key \${PEER_KEY_PATH} \\
-  --cacert \${CA_CERT_PATH}'
-`}
-    </CodeBlock>
-
-  </TabItem>
-  <TabItem value='nsenter с мастера'>
-    Т.к. будет использоваться `etcdctl` находящийся внутри пространства имен процесса
-    на котором запущен контейнер, для начала нужно получить `CONTAINER_ID`.
-    Затем на его основе можно получить `PID`.
-    Таким образом, создадим псевдоним `nectl` (чтобы не путать его с другими псевдонимами) и
-    будем актуализировать данные по текущему контейнеру и процессу в каждом вызове псевдонима.
-    Также укажем путь до сертификатов.
-
-    <CodeBlock language="bash">
-{`alias nectl='nsenter \\
-  -m -n -t $(crictl inspect \\
-  "$(crictl ps -a  \\
-    --label io.kubernetes.container.name=etcd \\
-    --label io.kubernetes.pod.namespace=kube-system \\
-    | awk 'NR>1{r=$1} $0~/Running/{exit} END{print r}')" \\
-  | jq .info.pid) \\
-  --all etcdctl \\
-  --cert \${PEER_CERT_PATH} \\
-  --key \${PEER_KEY_PATH} \\
-  --cacert \${CA_CERT_PATH}'
-`}
-    </CodeBlock>
-
-  </TabItem>
-  <TabItem value='kubectl exec'>
-    Зная имя пода и владея доступом до KubeAPI, можем использовать псевдоним `kectl`
-    (чтобы не путать его с другими псевдонимами) описанный таким образом:
-
-    <CodeBlock language="bash">
-{`alias kectl='kubectl \\
-  exec -it \\
-  -n kube-system \\
-  \${ETCD_POD_1} -- \\
-  etcdctl \\
-  --cert \${PEER_CERT_PATH} \\
-  --key \${PEER_KEY_PATH} \\
-  --cacert \${CA_CERT_PATH}'
-`}
-    </CodeBlock>
-
-  </TabItem>
-</Tabs>
+><Tabs groupId="install-type">
+>  <TabItem value='Локальный etcdctl'>
+>    Определим псевдоним `etcdctl` на локальный файл с указанием сертификатов:
+>
+>    <CodeBlock language="bash">
+>{`alias etcdctl='${ETCD_workdir}/etcdctl \\
+>    --cert \${PEER_CERT_PATH} \\
+>    --key \${PEER_KEY_PATH} \\
+>    --cacert \${CA_CERT_PATH}'
+>`}
+>    </CodeBlock>
+>
+>  </TabItem>
+>  <TabItem value='crictl с мастера'>
+>    Т.к. будет использоваться `etcdctl` находящийся внутри etcd контейнера, для начала нужно получить его `CONTAINER_ID`.
+>    Затем создадим псевдоним `сectl` (чтобы не путать его с другими псевдонимами) и
+>    будем актуализировать данные по текущему контейнеру при каждом обращении к псевдониму.
+>    Также укажем путь до сертификатов.
+>
+>    <CodeBlock language="bash">
+>{`alias ectl='crictl exec \\
+>  "$(crictl ps -a  \\
+>    --label io.kubernetes.container.name=etcd \\
+>    --label io.kubernetes.pod.namespace=kube-system \\
+>    | awk 'NR>1{r=$1} $0~/Running/{exit} END{print r}')" \\
+>  etcdctl \\
+>  --cert \${PEER_CERT_PATH} \\
+>  --key \${PEER_KEY_PATH} \\
+>  --cacert \${CA_CERT_PATH}'
+>`}
+>    </CodeBlock>
+>
+>  </TabItem>
+>  <TabItem value='nsenter с мастера'>
+>    Т.к. будет использоваться `etcdctl` находящийся внутри пространства имен процесса
+>    на котором запущен контейнер, для начала нужно получить `CONTAINER_ID`.
+>    Затем на его основе можно получить `PID`.
+>    Таким образом, создадим псевдоним `nectl` (чтобы не путать его с другими псевдонимами) и
+>    будем актуализировать данные по текущему контейнеру и процессу в каждом вызове псевдонима.
+>    Также укажем путь до сертификатов.
+>
+>    <CodeBlock language="bash">
+>{`alias nectl='nsenter \\
+>  -m -n -t $(crictl inspect \\
+>  "$(crictl ps -a  \\
+>    --label io.kubernetes.container.name=etcd \\
+>    --label io.kubernetes.pod.namespace=kube-system \\
+>    | awk 'NR>1{r=$1} $0~/Running/{exit} END{print r}')" \\
+>  | jq .info.pid) \\
+>  --all etcdctl \\
+>  --cert \${PEER_CERT_PATH} \\
+>  --key \${PEER_KEY_PATH} \\
+>  --cacert \${CA_CERT_PATH}'
+>`}
+>    </CodeBlock>
+>
+>  </TabItem>
+>  <TabItem value='kubectl exec'>
+>    Зная имя пода и владея доступом до KubeAPI, можем использовать псевдоним `kectl`
+>    (чтобы не путать его с другими псевдонимами) описанный таким образом:
+>
+>    <CodeBlock language="bash">
+>{`alias kectl='kubectl \\
+>  exec -it \\
+>  -n kube-system \\
+>  \${ETCD_POD_1} -- \\
+>  etcdctl \\
+>  --cert \${PEER_CERT_PATH} \\
+>  --key \${PEER_KEY_PATH} \\
+>  --cacert \${CA_CERT_PATH}'
+>`}
+>    </CodeBlock>
+>
+>  </TabItem>
+></Tabs>
 
 *****
 
@@ -533,308 +533,308 @@ Etcdctl можно получить из опубликованных релиз
 Для использования исполняемого файла на мастере будем использовать псевдоним `etcdctl`,
 для использования etcdctl внутри контейнера, используем псевдонимы `ectl`, `nectl` и `kectl`.
 
-<Tabs groupId="install-type">
-  <TabItem value='etcdctl'>
-    <table>
-      <tr><th>Команды</th><th>Описание</th></tr>
-      <tr>
-        <td>
-          <CodeBlock language="bash">{`etcdctl --endpoints=\${ENDPOINT_1} member list -w table`}</CodeBlock>
-        </td>
-        <td>
-          Вывести перечень узлов ETCD кластера с одного из узлов в табличном формате
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <CodeBlock language="bash">{`etcdctl --endpoints=\${ENDPOINTS} endpoint status -w table`}</CodeBlock>
-        </td>
-        <td>
-          Вывести статус узлов ETCD кластера в табличном формате
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <CodeBlock language="bash">{`etcdctl --endpoints=\${ENDPOINTS} get prefix /`}</CodeBlock>
-        </td>
-        <td>
-          Вывести все ключи и значения, чей ключ удовлетворяет заданному префиксу.
-          Возможна комбианация с флагамаи `--keys-only` и `--print-value-only`
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <CodeBlock language="bash">{`etcdctl --endpoints=\${ENDPOINTS} snapshot save PATH_TO_SAVE.db`}</CodeBlock>
-        </td>
-        <td>
-          Создать моментальный снимок состояния базы данных ETCD_api_address
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <CodeBlock language="bash">{`etcdctl --endpoints=\${ENDPOINT_1} defrag`}</CodeBlock>
-        </td>
-        <td>
-          Выполнить дефрагментацию файлов БД. (При выключенном кластере применяется с флагом --data-dir и указыванием пути до файла)
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <CodeBlock language="bash">{`etcdctl --endpoints=\${ENDPOINT_1} companation 1`}</CodeBlock>
-        </td>
-        <td>
-          Выполнить компоновку данных и назначить номер ревизии
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <CodeBlock language="bash">{`etcdctl --endpoints=\${ENDPOINTS} companation 1`}</CodeBlock>
-        </td>
-        <td>
-          Выполнить компоновку данных и назначить номер ревизии
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <CodeBlock language="bash">
-{`etcdctl --endpoints=\${ENDPOINTS} get /registry --prefix --keys-only \\
-    | grep -v ^$ | awk -F '/'  '{ h[$3]++ } END {for (k in h) print h[k], k}' \\
-    | sort -nr
-`}
-          </CodeBlock>
-        </td>
-        <td>
-          Посчитать количество ключей по корневым префиксам
-        </td>
-      </tr>
-    </table>
-  </TabItem>
-  <TabItem value='ectl'>
-    <table>
-      <tr><th>Команды</th><th>Описание</th></tr>
-      <tr>
-        <td>
-          <CodeBlock language="bash">{`ectl member list -w table`}</CodeBlock>
-        </td>
-        <td>
-          Вывести перечень узлов ETCD кластера с одного из узлов в табличном формате
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <CodeBlock language="bash">{`ectl --cluster endpoint status -w table`}</CodeBlock>
-        </td>
-        <td>
-          Вывести статус узлов ETCD кластера в табличном формате
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <CodeBlock language="bash">{`ectl --cluster get prefix /`}</CodeBlock>
-        </td>
-        <td>
-          Вывести все ключи и значения, чей ключ удовлетворяет заданному префиксу.
-          Возможна комбианация с флагамаи `--keys-only` и `--print-value-only`
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <CodeBlock language="bash">{`ectl snapshot save PATH_TO_SAVE.db`}</CodeBlock>
-        </td>
-        <td>
-          Создать моментальный снимок состояния базы данных ETCD (Снимок будет сохранен внутри контейнера)
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <CodeBlock language="bash">{`ectl defrag`}</CodeBlock>
-        </td>
-        <td>
-          Выполнить дефрагментацию файлов БД на запущенном кластере.
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <CodeBlock language="bash">{`ectl companation 1`}</CodeBlock>
-        </td>
-        <td>
-          Выполнить компоновку данных и назначить номер ревизии
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <CodeBlock language="bash">{`ectl --cluster companation 1`}</CodeBlock>
-        </td>
-        <td>
-          Выполнить компоновку данных и назначить номер ревизии
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <CodeBlock language="bash">
-{`ectl get /registry --prefix --keys-only \\
-    | grep -v ^$ \| awk -F '/'  '{ h[$3]++ } END {for (k in h) print h[k], k}' \\
-    | sort -nr
-`}
-          </CodeBlock>
-        </td>
-        <td>
-          Посчитать количество ключей по корневым префиксам
-        </td>
-      </tr>
-    </table>
-  </TabItem>
-  <TabItem value='nectl'>
-    <table>
-      <tr><th>Команды</th><th>Описание</th></tr>
-      <tr>
-        <td>
-          <CodeBlock language="bash">{`nectl member list -w table`}</CodeBlock>
-        </td>
-        <td>
-          Вывести перечень узлов ETCD кластера с одного из узлов в табличном формате
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <CodeBlock language="bash">{`nectl --cluster endpoint status -w table`}</CodeBlock>
-        </td>
-        <td>
-          Вывести статус узлов ETCD кластера в табличном формате
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <CodeBlock language="bash">{`nectl --cluster get prefix /`}</CodeBlock>
-        </td>
-        <td>
-          Вывести все ключи и значения, чей ключ удовлетворяет заданному префиксу.
-          Возможна комбианация с флагамаи `--keys-only` и `--print-value-only`
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <CodeBlock language="bash">{`nectl snapshot save PATH_TO_SAVE.db`}</CodeBlock>
-        </td>
-        <td>
-          Создать моментальный снимок состояния базы данных ETCD (Снимок будет сохранен внутри контейнера)
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <CodeBlock language="bash">{`nectl defrag`}</CodeBlock>
-        </td>
-        <td>
-          Выполнить дефрагментацию файлов БД на запущенном кластере.
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <CodeBlock language="bash">{`nectl companation 1`}</CodeBlock>
-        </td>
-        <td>
-          Выполнить компоновку данных и назначить номер ревизии
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <CodeBlock language="bash">{`nectl --cluster companation 1`}</CodeBlock>
-        </td>
-        <td>
-          Выполнить компоновку данных и назначить номер ревизии
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <CodeBlock language="bash">
-{`nectl get /registry --prefix --keys-only \\
-    | grep -v ^$ \| awk -F '/'  '{ h[$3]++ } END {for (k in h) print h[k], k}' \\
-    | sort -nr
-`}
-          </CodeBlock>
-        </td>
-        <td>
-          Посчитать количество ключей по корневым префиксам
-        </td>
-      </tr>
-    </table>
-  </TabItem>
-  <TabItem value='kectl'>
-    <table>
-      <tr><th>Команды</th><th>Описание</th></tr>
-      <tr>
-        <td>
-          <CodeBlock language="bash">{`kectl member list -w table`}</CodeBlock>
-        </td>
-        <td>
-          Вывести перечень узлов ETCD кластера с одного из узлов в табличном формате
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <CodeBlock language="bash">{`kectl --cluster endpoint status -w table`}</CodeBlock>
-        </td>
-        <td>
-          Вывести статус узлов ETCD кластера в табличном формате
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <CodeBlock language="bash">{`kectl --cluster get prefix /`}</CodeBlock>
-        </td>
-        <td>
-          Вывести все ключи и значения, чей ключ удовлетворяет заданному префиксу.
-          Возможна комбианация с флагамаи `--keys-only` и `--print-value-only`
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <CodeBlock language="bash">{`kectl snapshot save PATH_TO_SAVE.db`}</CodeBlock>
-        </td>
-        <td>
-          Создать моментальный снимок состояния базы данных ETCD (Снимок будет сохранен внутри контейнера)
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <CodeBlock language="bash">{`kectl defrag`}</CodeBlock>
-        </td>
-        <td>
-          Выполнить дефрагментацию файлов БД на запущенном кластере.
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <CodeBlock language="bash">{`kectl companation 1`}</CodeBlock>
-        </td>
-        <td>
-          Выполнить компоновку данных и назначить номер ревизии
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <CodeBlock language="bash">{`kectl --cluster companation 1`}</CodeBlock>
-        </td>
-        <td>
-          Выполнить компоновку данных и назначить номер ревизии
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <CodeBlock language="bash">
-{`kectl get /registry --prefix --keys-only \\
-    | grep -v ^$ \| awk -F '/'  '{ h[$3]++ } END {for (k in h) print h[k], k}' \\
-    | sort -nr
-`}
-          </CodeBlock>
-        </td>
-        <td>
-          Посчитать количество ключей по корневым префикасам
-        </td>
-      </tr>
-    </table>
-  </TabItem>
-</Tabs>
+><Tabs groupId="install-type">
+>  <TabItem value='etcdctl'>
+>    <table>
+>      <tr><th>Команды</th><th>Описание</th></tr>
+>      <tr>
+>        <td>
+>          <CodeBlock language="bash">{`etcdctl --endpoints=\${ENDPOINT_1} member list -w table`}</CodeBlock>
+>        </td>
+>        <td>
+>          Вывести перечень узлов ETCD кластера с одного из узлов в табличном формате
+>        </td>
+>      </tr>
+>      <tr>
+>        <td>
+>          <CodeBlock language="bash">{`etcdctl --endpoints=\${ENDPOINTS} endpoint status -w table`}</CodeBlock>
+>        </td>
+>        <td>
+>          Вывести статус узлов ETCD кластера в табличном формате
+>        </td>
+>      </tr>
+>      <tr>
+>        <td>
+>          <CodeBlock language="bash">{`etcdctl --endpoints=\${ENDPOINTS} get prefix /`}</CodeBlock>
+>        </td>
+>        <td>
+>          Вывести все ключи и значения, чей ключ удовлетворяет заданному префиксу.
+>          Возможна комбианация с флагамаи `--keys-only` и `--print-value-only`
+>        </td>
+>      </tr>
+>      <tr>
+>        <td>
+>          <CodeBlock language="bash">{`etcdctl --endpoints=\${ENDPOINTS} snapshot save PATH_TO_SAVE.db`}</CodeBlock>
+>        </td>
+>        <td>
+>          Создать моментальный снимок состояния базы данных ETCD_api_address
+>        </td>
+>      </tr>
+>      <tr>
+>        <td>
+>          <CodeBlock language="bash">{`etcdctl --endpoints=\${ENDPOINT_1} defrag`}</CodeBlock>
+>        </td>
+>        <td>
+>          Выполнить дефрагментацию файлов БД. (При выключенном кластере применяется с флагом --data-dir и указыванием пути до файла)
+>        </td>
+>      </tr>
+>      <tr>
+>        <td>
+>          <CodeBlock language="bash">{`etcdctl --endpoints=\${ENDPOINT_1} companation 1`}</CodeBlock>
+>        </td>
+>        <td>
+>          Выполнить компоновку данных и назначить номер ревизии
+>        </td>
+>      </tr>
+>      <tr>
+>        <td>
+>          <CodeBlock language="bash">{`etcdctl --endpoints=\${ENDPOINTS} companation 1`}</CodeBlock>
+>        </td>
+>        <td>
+>          Выполнить компоновку данных и назначить номер ревизии
+>        </td>
+>      </tr>
+>      <tr>
+>        <td>
+>          <CodeBlock language="bash">
+>{`etcdctl --endpoints=\${ENDPOINTS} get /registry --prefix --keys-only \\
+>    | grep -v ^$ | awk -F '/'  '{ h[$3]++ } END {for (k in h) print h[k], k}' \\
+>    | sort -nr
+>`}
+>          </CodeBlock>
+>        </td>
+>        <td>
+>          Посчитать количество ключей по корневым префиксам
+>        </td>
+>      </tr>
+>    </table>
+>  </TabItem>
+>  <TabItem value='ectl'>
+>    <table>
+>      <tr><th>Команды</th><th>Описание</th></tr>
+>      <tr>
+>        <td>
+>          <CodeBlock language="bash">{`ectl member list -w table`}</CodeBlock>
+>        </td>
+>        <td>
+>          Вывести перечень узлов ETCD кластера с одного из узлов в табличном формате
+>        </td>
+>      </tr>
+>      <tr>
+>        <td>
+>          <CodeBlock language="bash">{`ectl --cluster endpoint status -w table`}</CodeBlock>
+>        </td>
+>        <td>
+>          Вывести статус узлов ETCD кластера в табличном формате
+>        </td>
+>      </tr>
+>      <tr>
+>        <td>
+>          <CodeBlock language="bash">{`ectl --cluster get prefix /`}</CodeBlock>
+>        </td>
+>        <td>
+>          Вывести все ключи и значения, чей ключ удовлетворяет заданному префиксу.
+>          Возможна комбианация с флагамаи `--keys-only` и `--print-value-only`
+>        </td>
+>      </tr>
+>      <tr>
+>        <td>
+>          <CodeBlock language="bash">{`ectl snapshot save PATH_TO_SAVE.db`}</CodeBlock>
+>        </td>
+>        <td>
+>          Создать моментальный снимок состояния базы данных ETCD (Снимок будет сохранен внутри контейнера)
+>        </td>
+>      </tr>
+>      <tr>
+>        <td>
+>          <CodeBlock language="bash">{`ectl defrag`}</CodeBlock>
+>        </td>
+>        <td>
+>          Выполнить дефрагментацию файлов БД на запущенном кластере.
+>        </td>
+>      </tr>
+>      <tr>
+>        <td>
+>          <CodeBlock language="bash">{`ectl companation 1`}</CodeBlock>
+>        </td>
+>        <td>
+>          Выполнить компоновку данных и назначить номер ревизии
+>        </td>
+>      </tr>
+>      <tr>
+>        <td>
+>          <CodeBlock language="bash">{`ectl --cluster companation 1`}</CodeBlock>
+>        </td>
+>        <td>
+>          Выполнить компоновку данных и назначить номер ревизии
+>        </td>
+>      </tr>
+>      <tr>
+>        <td>
+>          <CodeBlock language="bash">
+>{`ectl get /registry --prefix --keys-only \\
+>    | grep -v ^$ \| awk -F '/'  '{ h[$3]++ } END {for (k in h) print h[k], k}' \\
+>    | sort -nr
+>`}
+>          </CodeBlock>
+>        </td>
+>        <td>
+>          Посчитать количество ключей по корневым префиксам
+>        </td>
+>      </tr>
+>    </table>
+>  </TabItem>
+>  <TabItem value='nectl'>
+>    <table>
+>      <tr><th>Команды</th><th>Описание</th></tr>
+>      <tr>
+>        <td>
+>          <CodeBlock language="bash">{`nectl member list -w table`}</CodeBlock>
+>        </td>
+>        <td>
+>          Вывести перечень узлов ETCD кластера с одного из узлов в табличном формате
+>        </td>
+>      </tr>
+>      <tr>
+>        <td>
+>          <CodeBlock language="bash">{`nectl --cluster endpoint status -w table`}</CodeBlock>
+>        </td>
+>        <td>
+>          Вывести статус узлов ETCD кластера в табличном формате
+>        </td>
+>      </tr>
+>      <tr>
+>        <td>
+>          <CodeBlock language="bash">{`nectl --cluster get prefix /`}</CodeBlock>
+>        </td>
+>        <td>
+>          Вывести все ключи и значения, чей ключ удовлетворяет заданному префиксу.
+>          Возможна комбианация с флагамаи `--keys-only` и `--print-value-only`
+>        </td>
+>      </tr>
+>      <tr>
+>        <td>
+>          <CodeBlock language="bash">{`nectl snapshot save PATH_TO_SAVE.db`}</CodeBlock>
+>        </td>
+>        <td>
+>          Создать моментальный снимок состояния базы данных ETCD (Снимок будет сохранен внутри контейнера)
+>        </td>
+>      </tr>
+>      <tr>
+>        <td>
+>          <CodeBlock language="bash">{`nectl defrag`}</CodeBlock>
+>        </td>
+>        <td>
+>          Выполнить дефрагментацию файлов БД на запущенном кластере.
+>        </td>
+>      </tr>
+>      <tr>
+>        <td>
+>          <CodeBlock language="bash">{`nectl companation 1`}</CodeBlock>
+>        </td>
+>        <td>
+>          Выполнить компоновку данных и назначить номер ревизии
+>        </td>
+>      </tr>
+>      <tr>
+>        <td>
+>          <CodeBlock language="bash">{`nectl --cluster companation 1`}</CodeBlock>
+>        </td>
+>        <td>
+>          Выполнить компоновку данных и назначить номер ревизии
+>        </td>
+>      </tr>
+>      <tr>
+>        <td>
+>          <CodeBlock language="bash">
+>{`nectl get /registry --prefix --keys-only \\
+>    | grep -v ^$ \| awk -F '/'  '{ h[$3]++ } END {for (k in h) print h[k], k}' \\
+>    | sort -nr
+>`}
+>          </CodeBlock>
+>        </td>
+>        <td>
+>          Посчитать количество ключей по корневым префиксам
+>        </td>
+>      </tr>
+>    </table>
+>  </TabItem>
+>  <TabItem value='kectl'>
+>    <table>
+>      <tr><th>Команды</th><th>Описание</th></tr>
+>      <tr>
+>        <td>
+>          <CodeBlock language="bash">{`kectl member list -w table`}</CodeBlock>
+>        </td>
+>        <td>
+>          Вывести перечень узлов ETCD кластера с одного из узлов в табличном формате
+>        </td>
+>      </tr>
+>      <tr>
+>        <td>
+>          <CodeBlock language="bash">{`kectl --cluster endpoint status -w table`}</CodeBlock>
+>        </td>
+>        <td>
+>          Вывести статус узлов ETCD кластера в табличном формате
+>        </td>
+>      </tr>
+>      <tr>
+>        <td>
+>          <CodeBlock language="bash">{`kectl --cluster get prefix /`}</CodeBlock>
+>        </td>
+>        <td>
+>          Вывести все ключи и значения, чей ключ удовлетворяет заданному префиксу.
+>          Возможна комбианация с флагамаи `--keys-only` и `--print-value-only`
+>        </td>
+>      </tr>
+>      <tr>
+>        <td>
+>          <CodeBlock language="bash">{`kectl snapshot save PATH_TO_SAVE.db`}</CodeBlock>
+>        </td>
+>        <td>
+>          Создать моментальный снимок состояния базы данных ETCD (Снимок будет сохранен внутри контейнера)
+>        </td>
+>      </tr>
+>      <tr>
+>        <td>
+>          <CodeBlock language="bash">{`kectl defrag`}</CodeBlock>
+>        </td>
+>        <td>
+>          Выполнить дефрагментацию файлов БД на запущенном кластере.
+>        </td>
+>      </tr>
+>      <tr>
+>        <td>
+>          <CodeBlock language="bash">{`kectl companation 1`}</CodeBlock>
+>        </td>
+>        <td>
+>          Выполнить компоновку данных и назначить номер ревизии
+>        </td>
+>      </tr>
+>      <tr>
+>        <td>
+>          <CodeBlock language="bash">{`kectl --cluster companation 1`}</CodeBlock>
+>        </td>
+>        <td>
+>          Выполнить компоновку данных и назначить номер ревизии
+>        </td>
+>      </tr>
+>      <tr>
+>        <td>
+>          <CodeBlock language="bash">
+>{`kectl get /registry --prefix --keys-only \\
+>    | grep -v ^$ \| awk -F '/'  '{ h[$3]++ } END {for (k in h) print h[k], k}' \\
+>    | sort -nr
+>`}
+>          </CodeBlock>
+>        </td>
+>        <td>
+>          Посчитать количество ключей по корневым префикасам
+>        </td>
+>      </tr>
+>    </table>
+>  </TabItem>
+></Tabs>
 
 *****
 
@@ -1008,48 +1008,48 @@ Etcdctl можно получить из опубликованных релиз
 
 #### Создание мгновенных снимков
 
-<Tabs groupId="install-type">
-  <TabItem value='nsenter и проброс mount (положить бекап)'>
-    TODO тудутудутудутудутудутуду
-  </TabItem>
-  <TabItem value='etcdctl'>
-    Наиболее рекомендуемый метод. Позволяет сохранить дамп за пределами контейнера ETCD.
-
-    <CodeBlock language="bash">{`etcdctl --endpoints=\${ENDPOINTS} snapshot save PATH_TO_SAVE/backup.db`}</CodeBlock>
-
-  </TabItem>
-  <TabItem value='ectl'>
-    Рабочий вариант, когда нет исполняемого файла под рукой. Дамп будет сохранен внутри
-    файловой системы контейнера. Поэтому рекомендуется указывать путь в примонтированные области.
-
-    <CodeBlock language="bash">{`ectl snapshot save ${ETCD_data_dir}/backup.db`}</CodeBlock>
-
-    :::note
-    В кластерах B-Cloud файлы ETCD по умолчанию хранятся на мастере по одноименному пути <code>{ETCD_data_dir}</code>
-    :::
-
-    Теперь на хостовой машине вы можете скопировать файл <code>{ETCD_data_dir}/backup.db</code>
-    в другое место, чтобы сохранить его. Например:
-
-    <CodeBlock language="bash">{`cp ${ETCD_data_dir}/backup.db ${ETCD_workdir}/backup.db`}</CodeBlock>
-
-  </TabItem>
-  <TabItem value='kectl'>
-    Нерекомендуемый вариант. Т.к. файл будет сохранен внутри контейнера и даже если сохранить в
-    примонтированную на хост директорию, все равно придется подключаться к ВМ, чтобы скопировать файл.
-
-    <CodeBlock language="bash">{`kectl snapshot save ${ETCD_data_dir}/backup.db`}</CodeBlock>
-
-    :::note
-    В кластерах B-Cloud файлы ETCD по умолчанию хранятся на мастере по одноименному пути <code>{ETCD_data_dir}</code>
-    :::
-
-    Теперь на хостовой машине вы можете скопировать файл <code>{ETCD_data_dir}/backup.db</code> в другое место, чтобы сохранить его. Например:
-
-    <CodeBlock language="bash">{`cp ${ETCD_data_dir}/backup.db ${ETCD_workdir}/backup.db`}</CodeBlock>
-
-  </TabItem>
-</Tabs>
+><Tabs groupId="install-type">
+>  <TabItem value='etcdctl'>
+>    Наиболее рекомендуемый метод. Позволяет сохранить дамп за пределами контейнера ETCD.
+>
+>    <CodeBlock language="bash">{`etcdctl --endpoints=\${ENDPOINTS} snapshot save PATH_TO_SAVE/backup.db`}</CodeBlock>
+>
+>  </TabItem>
+>  <TabItem value='ectl'>
+>    Рабочий вариант, когда нет исполняемого файла под рукой. Дамп будет сохранен внутри
+>    файловой системы контейнера. Поэтому рекомендуется указывать путь в примонтированные области.
+>
+>    <CodeBlock language="bash">{`ectl snapshot save ${ETCD_data_dir}/backup.db`}</CodeBlock>
+>
+>    :::note
+>    В кластерах B-Cloud файлы ETCD по умолчанию хранятся на мастере по одноименному пути <code>{ETCD_data_dir}</code>
+>    :::
+>
+>    Теперь на хостовой машине вы можете скопировать файл <code>{ETCD_data_dir}/backup.db</code>
+>    в другое место, чтобы сохранить его. Например:
+>
+>    <CodeBlock language="bash">{`cp ${ETCD_data_dir}/backup.db ${ETCD_workdir}/backup.db`}</CodeBlock>
+>
+>  </TabItem>
+>  <TabItem value='nsenter'>
+>    TODO Описать процесс с пробросом mount (положить бекап).
+>  </TabItem>
+>  <TabItem value='kectl'>
+>    Нерекомендуемый вариант. Т.к. файл будет сохранен внутри контейнера и даже если сохранить в
+>    примонтированную на хост директорию, все равно придется подключаться к ВМ, чтобы скопировать файл.
+>
+>    <CodeBlock language="bash">{`kectl snapshot save ${ETCD_data_dir}/backup.db`}</CodeBlock>
+>
+>    :::note
+>    В кластерах B-Cloud файлы ETCD по умолчанию хранятся на мастере по одноименному пути <code>{ETCD_data_dir}</code>
+>    :::
+>
+>    Теперь на хостовой машине вы можете скопировать файл <code>{ETCD_data_dir}/backup.db</code> в другое место, чтобы сохранить его. Например:
+>
+>    <CodeBlock language="bash">{`cp ${ETCD_data_dir}/backup.db ${ETCD_workdir}/backup.db`}</CodeBlock>
+>
+>  </TabItem>
+></Tabs>
 
 *****
 
@@ -1070,7 +1070,11 @@ Etcdctl можно получить из опубликованных релиз
 
 ### Восстановление кластера
 
-#### Восстановление с одного узла из мгновенного снимка .
+1. [Восстановление с одного узла из мгновенного снимка](#восстановление-с-одного-узла-из-мгновенного-снимка)
+2. [Восстановление всех трех узлов из мгновенного снимка](#восстановление-всех-трех-узлов-из-мгновенного-снимка)
+3. [Восстановление кластера при конфликтах или проблемах с кворумом](#восстановление-кластера-при-конфликтах-или-проблемах-с-кворумом)
+
+#### Восстановление с одного узла из мгновенного снимка
 
 Данный вариант подразумевает, что бэкап разворачивается на первом узле и кластер запускается в режиме одного узла.
 Далее поочередно будут добавляться другие узлы кластера.
@@ -1078,492 +1082,835 @@ Etcdctl можно получить из опубликованных релиз
 но еще недобавленных в метаданные восстановленной базы данных
 они незамедлительно упадут с ошибкой и приостановят свою работу уступив место новому кластеру.
 
-<Tabs groupId="install-type">
-  <TabItem value='Master-1'>
-    1. Загрузите файл мгновенного снимка на ВМ первого узла кластера по пути <code>{ETCD_workdir}/backup.db</code> при помощи rsync
-
-    <CodeBlock language="bash">
-{`ssh capv@$\{K8S_NODE_ADDRESS_1} "mkdir -p ${ETCD_workdir}"
-  rsync --rsync-path="sudo rsync" \\
-    LOCAL_PATH_TO_BACKUP/backup.db \\
-    capv@$\{K8S_NODE_ADDRESS_1}:${ETCD_workdir}/backup.db
-`}
-    </CodeBlock>
-
-    2. Подключитесь к ВМ первого узла кластера по ssh и переключитесь на суперпользователя.
-    Затем остановите `kubelet`, чтобы не позволить ему запускать ETCD.
-
-    <CodeBlock language="bash">{`systemctl stop kubelet`}</CodeBlock>
-
-    3. Остановите и удалите контейнер `etcd`:
-
-    <CodeBlock language="bash">
-{`export CONTAINER_ID="$(crictl ps -a  \\
-    --label io.kubernetes.container.name=etcd \\
-    --label io.kubernetes.pod.namespace=kube-system \\
-    | awk 'NR>1{r=$1} $0~/Running/{exit} END{print r}')"
-  crictl stop \${CONTAINER_ID}
-  crictl rm \${CONTAINER_ID}
-`}
-    </CodeBlock>
-
-    4. Создайте [резервную копию](#создание-резервной-копии-файлов-бд).
-
-    5. Удалите старые файлы из директории <code>{ETCD_data_dir}</code>
-
-    <CodeBlock language="bash">{`rm -rf ${ETCD_data_dir}/*`}</CodeBlock>
-
-    6. Подготовьте БД из снимка:
-    <CodeBlock language="bash">
-{`etcdctl snapshot restore ${ETCD_workdir}/backup.db \\
-    --name=\${K8S_NODE_1} \\
-    --data-dir ${ETCD_data_dir} \\
-    --initial-advertise-peer-urls=https://\${K8S_NODE_ADDRESS_1}:2380 \\
-    --initial-cluster=\${K8S_NODE_1}=https://\${K8S_NODE_ADDRESS_1}:2380
-`}
-    </CodeBlock>
-
-    :::note
-    Обратите внимание, что запускается локальный файл `etcdctl` и снимок так же расположен на мастере в директории <code>{ETCD_workdir}</code>.
-    В качестве `data-dir` указана директория, которая монтируется внутрь контейнера ETCD и будет использоваться в качестве хранения файлов БД.
-    :::
-
-    7. Проверьте и по необходимости отредактируйте параметры запуска ETCD в файле <code>${ETCD_base_k8s_path}/manifests/etcd.yaml</code>.
-    А именно проверьте наличие необходимых полей и их значения, поля не входящий в данный перечень удалять не нужно!
-
-    <CodeBlock language="bash">
-{`--advertise-client-urls=${ETCD_endpoint_1}
-  --cert-file=${ETCD_serv_cert_path}
-  --client-cert-auth=true
-  --data-dir=${ETCD_data_dir}
-  --key-file=${ETCD_serv_key_path}
-  --listen-client-urls=https://127.0.0.1:${ETCD_serv_port},${ETCD_endpoint_1}
-  --listen-metrics-urls=http://0.0.0.0:${ETCD_metr_port}
-  --listen-peer-urls=https://${ETCD_k8s_node_address_1}:${ETCD_peer_port}
-  --name=${ETCD_k8s_node_1}
-  --peer-cert-file=${ETCD_peer_cert_path}
-  --peer-client-cert-auth=true
-  --peer-key-file=${ETCD_peer_key_path}
-  --peer-trusted-ca-file=${ETCD_ca_cert_path}
-  --trusted-ca-file=${ETCD_ca_key_path}
-`}
-    </CodeBlock>
-
-    <table>
-      <tr><th>Параметр</th><th>Описание</th></tr>
-      <tr>`advertise-client-urls` <td></td><td>Анонсируемый адрес узла, для подключения клиентов. Совпадает с IP адресом узла k8s кластера</td></tr>
-      <tr>`cert-file`             <td></td><td>Путь до сертификата ETCD кластера</td></tr>
-      <tr>`client-cert-auth`      <td></td><td>Включить/выключить авторизацию пользователей по сертификату</td></tr>
-      <tr>`data-dir`              <td></td><td>Директория в которой хранятся файлы БД ETCD</td></tr>
-      <tr>`key-file`              <td></td><td>Путь до ключа сертификата ETCD кластера</td></tr>
-      <tr>`listen-client-urls`    <td></td><td>Точка подключения, на которой ETCD будет принимать клиентские запросы (`0.0.0.0`, `127.0.0.1` или IP адрес узла k8s кластера)</td></tr>
-      <tr>`listen-metrics-urls`   <td></td><td>Точка подключения, на которой ETCD будет принимать запросы к метрикам (`0.0.0.0`, `127.0.0.1` или IP адрес узла k8s кластера)</td></tr>
-      <tr>`listen-peer-urls`      <td></td><td>Точка подключения, на которой ETCD будет принимать запросы от других узлов ETCD кластера (`0.0.0.0`, `127.0.0.1` или IP адрес узла k8s кластера)</td></tr>
-      <tr>`name`                  <td></td><td>Имя узла ETCD кластера</td></tr>
-      <tr>`peer-cert-file`        <td></td><td>Путь до сертификата для подключения между узлами ETCD кластера</td></tr>
-      <tr>`peer-client-cert-auth` <td></td><td>Путь до сертификата для авторизации подключений между узлами ETCD кластера</td></tr>
-      <tr>`peer-key-file`         <td></td><td>Путь до ключа сертификата для подключения между узлами ETCD кластера</td></tr>
-      <tr>`peer-trusted-ca-file`  <td></td><td>Путь до корневого доверенного сертификата для подключения между узлами ETCD кластера</td></tr>
-      <tr>`trusted-ca-file`       <td></td><td>Путь до корневого доверенного сертификата ETCD кластера</td></tr>
-    </table>
-
-    :::note
-    Параметры, имя которых начинается со слова `initial` будут игнорироваться.
-    Данные параметры используются только при запуске ETCD без существующей БД и метаданных в ней.
-    В нашем случае, мы уже восстановили файлы БД и внесли метаданные на этапе подготовки БД из снимка.
-    :::
-
-    8. Запустите kubelet:
-
-    <CodeBlock language="bash">{`systemctl start kubelet`}</CodeBlock>
-
-    9. Проверьте состояние контейнера и наличие ошибок
-
-    <CodeBlock language="bash">
-{`export CONTAINER_ID="$(crictl ps -a  \\
-    --label io.kubernetes.container.name=etcd \\
-    --label io.kubernetes.pod.namespace=kube-system \\
-    | awk 'NR>1{r=$1} $0~/Running/{exit} END{print r}')"
-
-  crictl ps --id $CONTAINER_ID
-
-  crictl logs $CONTAINER_ID
-`}
-    </CodeBlock>
-
-    10. Повторите этапы сбора [пререквизитов](#подготовка-окружения) и [подключения](#подключение-к-etcd) к кластеру ETCD только для текущего узла.
-
-    11. При помощи команд `member list` и `endpoint status` описанных выше [проверьте состояние кластера](#проверка-подключения-и-состояния-кластера).
-
-    12. Добавьте вторую ноду кластера в режиме обучающегося:
-
-    <CodeBlock language="bash">{`etcdctl member add node2 --peer-urls=https://\${K8S_NODE_ADDRESS_2}:2380 --learner ;`}</CodeBlock>
-
-    13. переходите к настройке второго узла.
-
-  </TabItem>
-  <TabItem value='Master-2'>
-    1. Подключитесь к ВМ  второго узла кластера по ssh и остановите `kubelet`, чтобы не позволить ему запускать ETCD.
-
-    <CodeBlock language="bash">{`systemctl stop kubelet`}</CodeBlock>
-
-    2. Остановите и удалите контейнер `etcd`:
-
-    <CodeBlock language="bash">
-{`export CONTAINER_ID="$(crictl ps -a  \\
-    --label io.kubernetes.container.name=etcd \\
-    --label io.kubernetes.pod.namespace=kube-system \\
-    | awk 'NR>1{r=$1} $0~/Running/{exit} END{print r}')"
-  crictl stop \${CONTAINER_ID}
-  crictl rm \${CONTAINER_ID}
-`}
-    </CodeBlock>
-
-    3. Создайте [резервную копию](#создание-резервной-копии-файлов-бд).
-
-    4. Удалите старые файлы из директории <code>{ETCD_data_dir}</code>
-
-    <CodeBlock language="bash">{`rm -rf ${ETCD_workdir}/*`}</CodeBlock>
-
-    5. Откройте на редактирование файл <code>${ETCD_base_k8s_path}/manifests/etcd.yaml</code>:
-    Найдите и замените значение следующих ключей в разделе `spec.containers[0].command` аналогично примеру ниже
-    в соответствии с вашими параметрамии таблицей с описанием:
-
-TODO заменить на переменные
-
-    <CodeBlock language="bash">
-{`--advertise-client-urls=${ETCD_endpoint_2}
-  --cert-file=${ETCD_serv_cert_path}
-  --client-cert-auth=true
-  --data-dir=${ETCD_data_dir}
-  --initial-advertise-peer-urls=https://${ETCD_k8s_node_address_2}:${ETCD_peer_port}
-  --initial-cluster=${ETCD_k8s_node_1}=https://${ETCD_k8s_node_address_1}:${ETCD_peer_port},${ETCD_k8s_node_2}=https://${ETCD_k8s_node_address_2}:${ETCD_peer_port}
-  --initial-cluster-state=existing
-  --key-file=${ETCD_serv_key_path}
-  --listen-client-urls=https://127.0.0.1:${ETCD_serv_port},${ETCD_endpoint_2}
-  --listen-metrics-urls=http://0.0.0.0:${ETCD_metr_port}
-  --listen-peer-urls=https://${ETCD_k8s_node_address_2}:${ETCD_peer_port}
-  --name=${ETCD_k8s_node_2}
-  --peer-cert-file=${ETCD_peer_cert_path}
-  --peer-client-cert-auth=true
-  --peer-key-file=${ETCD_peer_key_path}
-  --peer-trusted-ca-file=${ETCD_ca_cert_path}
-  --trusted-ca-file=${ETCD_ca_key_path}
-`}
-    </CodeBlock>
-
-    <table>
-      <tr><th>Параметр</th><th>Описание</th></tr>
-      <tr>`advertise-client-urls`       <td></td><td>Анонсируемый адрес узла, для подключения клиентов. Совпадает с IP адресом узла k8s кластера</td></tr>
-      <tr>`cert-file`                   <td></td><td>Путь до сертификата ETCD кластера</td></tr>
-      <tr>`client-cert-auth`            <td></td><td>Включить/выключить авторизацию пользователей по сертификату</td></tr>
-      <tr>`data-dir`                    <td></td><td>Директория в которой хранятся файлы БД ETCD</td></tr>
-      <tr>`key-file`                    <td></td><td>Путь до ключа сертификата ETCD кластера</td></tr>
-      <tr>`initial-advertise-peer-urls` <td></td><td>TODO описать</td></tr>
-      <tr>`initial-cluster`             <td></td><td>TODO описать</td></tr>
-      <tr>`initial-cluster-state`       <td></td><td>TODO описать</td></tr>
-      <tr>`listen-client-urls`          <td></td><td>Точка подключения, на которой ETCD будет принимать клиентские запросы (`0.0.0.0`, `127.0.0.1` или IP адрес узла k8s кластера)</td></tr>
-      <tr>`listen-metrics-urls`         <td></td><td>Точка подключения, на которой ETCD будет принимать запросы к метрикам (`0.0.0.0`, `127.0.0.1` или IP адрес узла k8s кластера)</td></tr>
-      <tr>`listen-peer-urls`            <td></td><td>Точка подключения, на которой ETCD будет принимать запросы от других узлов ETCD кластера (`0.0.0.0`, `127.0.0.1` или IP адрес узла k8s кластера)</td></tr>
-      <tr>`name`                        <td></td><td>Имя узла ETCD кластера</td></tr>
-      <tr>`peer-cert-file`              <td></td><td>Путь до сертификата для подключения между узлами ETCD кластера</td></tr>
-      <tr>`peer-client-cert-auth`       <td></td><td>Путь до сертификата для авторизации подключений между узлами ETCD кластера</td></tr>
-      <tr>`peer-key-file`               <td></td><td>Путь до ключа сертификата для подключения между узлами ETCD кластера</td></tr>
-      <tr>`peer-trusted-ca-file`        <td></td><td>Путь до корневого доверенного сертификата для подключения между узлами ETCD кластера</td></tr>
-      <tr>`trusted-ca-file`             <td></td><td>Путь до корневого доверенного сертификата ETCD кластера</td></tr>
-    </table>
-
-    6. Запустите kubelet:
-
-    ```bash
-    systemctl start kubelet
-    ```
-
-    7. Проверьте состояние контейнера и наличие ошибок
-
-    ```bash
-    export CONTAINER_ID="$(crictl ps -a  \
-      --label io.kubernetes.container.name=etcd \
-      --label io.kubernetes.pod.namespace=kube-system \
-      | awk 'NR>1{r=$1} $0~/Running/{exit} END{print r}')"
-
-    crictl ps --id $CONTAINER_ID
-
-    crictl logs $CONTAINER_ID
-    ```
-
-    8. Вернитесь к первому узлу кластера и проверьте, что второй узел определился (Его состояние должно быть `started`):
-
-    ```bash
-    ectl member list -w table
-    ```
-
-    9. После этого переведите второй узел в рабочий режим:
-
-    ```bash
-    ectl member promote ${K8S_NODE_2}
-    ```
-
-    10. При помощи команд `member list` и `endpoint status` описанных выше проверьте состояние кластера.
-
-    11. Переходите к третьему узла кластера
-  </TabItem>
-  <TabItem value='Master-3'>
-
-TODO отредактировать третий мастер аналогично второму.
-
-    1) Подключитесь к ВМ  третьего узла кластера по ssh и остановите `kubelet`, чтобы не позволить ему запускать ETCD.
-
-    <CodeBlock language="bash">{`systemctl stop kubelet`}</CodeBlock>
-
-    2) Остановите и удалите контейнер `etcd`:
-
-    <CodeBlock language="bash">
-{`export CONTAINER_ID="$(crictl ps -a  \\
-    --label io.kubernetes.container.name=etcd \\
-    --label io.kubernetes.pod.namespace=kube-system \\
-    | awk 'NR>1{r=$1} $0~/Running/{exit} END{print r}')"
-  crictl stop \${CONTAINER_ID}
-  crictl rm \${CONTAINER_ID}
-`}
-    </CodeBlock>
-
-    3) Создайте [резервную копию](#создание-резервной-копии-файлов-бд).
-
-    4) Удалите старые файлы из директории <code>{ETCD_data_dir}</code>
-
-    <CodeBlock language="bash">
-      {`
-        rm -rf ${ETCD_workdir}/*
-      `}
-    </CodeBlock>
-
-    5) Вернитесь на первый узел и добавьте третий узел кластера в режиме обучающегося:
-
-    ```bash
-    etcdctl member add node2 --peer-urls=https://\${K8S_NODE_ADDRESS_3}:2380 --learner ;
-    ```
-
-    6) Вернитесь на третий узел и откройте на редактирование файл <code>${ETCD_base_k8s_path}/manifests/etcd.yaml</code>:
-    Найдите и замените значение следующих ключей в разделе `spec.containers[0].command` аналогично примеру ниже:
-    <CodeBlock language="bash">
-{`--advertise-client-urls=${ETCD_endpoint_3}
-  --cert-file=${ETCD_serv_cert_path}
-  --client-cert-auth=true
-  --data-dir=${ETCD_data_dir}
-  --initial-advertise-peer-urls=https://${ETCD_k8s_node_address_3}:${ETCD_peer_port}
-  --initial-cluster=${ETCD_k8s_node_1}=https://${ETCD_k8s_node_address_1}:${ETCD_peer_port},${ETCD_k8s_node_2}=https://${ETCD_k8s_node_address_2}:${ETCD_peer_port},${ETCD_k8s_node_3}=https://${ETCD_k8s_node_address_3}:${ETCD_peer_port}
-  --initial-cluster-state=existing
-  --key-file=${ETCD_serv_key_path}
-  --listen-client-urls=https://127.0.0.1:${ETCD_serv_port},${ETCD_endpoint_3}
-  --listen-metrics-urls=http://0.0.0.0:${ETCD_metr_port}
-  --listen-peer-urls=https://${ETCD_k8s_node_address_3}:${ETCD_peer_port}
-  --name=${ETCD_k8s_node_3}
-  --peer-cert-file=${ETCD_peer_cert_path}
-  --peer-client-cert-auth=true
-  --peer-key-file=${ETCD_peer_key_path}
-  --peer-trusted-ca-file=${ETCD_ca_cert_path}
-  --trusted-ca-file=${ETCD_ca_key_path}
-`}
-    </CodeBlock>
-
-    7) Запустите kubelet:
-
-    ```bash
-    systemctl start kubelet
-    ```
-
-    7) Проверьте состояние контейнера и наличие ошибок
-
-    ```bash
-    export CONTAINER_ID="$(crictl ps -a  \
-      --label io.kubernetes.container.name=etcd \
-      --label io.kubernetes.pod.namespace=kube-system \
-      | awk 'NR>1{r=$1} $0~/Running/{exit} END{print r}')"
-
-    crictl ps --id $CONTAINER_ID
-
-    crictl logs $CONTAINER_ID
-    ```
-
-    8) Вернитесь к первому узлу кластера и проверьте, что третий узел определился (Его состояние должно быть `started`):
-
-    ```bash
-    ectl member list -w table
-    ```
-
-    9) После этого переведите третий узел в рабочий режим:
-
-    ```bash
-    ectl member promote ${K8S_NODE_3}
-    ```
-
-    10) При помощи команд `member list` и `endpoint status` описанных выше проверьте состояние кластера.
-
-  </TabItem>
-</Tabs>
+><Tabs groupId="install-type">
+>  <TabItem value='Master-1'>
+>    1. Загрузите файл мгновенного снимка на ВМ первого узла кластера по пути <code>{ETCD_workdir}/backup.db</code> при помощи rsync
+>
+>    <CodeBlock language="bash">
+>{`ssh capv@$\{K8S_NODE_ADDRESS_1} "mkdir -p ${ETCD_workdir}"
+>  rsync --rsync-path="sudo rsync" \\
+>    LOCAL_PATH_TO_BACKUP/backup.db \\
+>    capv@$\{K8S_NODE_ADDRESS_1}:${ETCD_workdir}/backup.db
+>`}
+>    </CodeBlock>
+>
+>    2. Подключитесь к ВМ первого узла кластера по ssh и переключитесь на суперпользователя.
+>    Затем остановите `kubelet`, чтобы не позволить ему запускать ETCD.
+>
+>    <CodeBlock language="bash">{`systemctl stop kubelet`}</CodeBlock>
+>
+>    3. Остановите и удалите контейнер `etcd`:
+>
+>    <CodeBlock language="bash">
+>{`export CONTAINER_ID="$(crictl ps -a  \\
+>    --label io.kubernetes.container.name=etcd \\
+>    --label io.kubernetes.pod.namespace=kube-system \\
+>    | awk 'NR>1{r=$1} $0~/Running/{exit} END{print r}')"
+>  crictl stop \${CONTAINER_ID}
+>  crictl rm \${CONTAINER_ID}
+>`}
+>    </CodeBlock>
+>
+>    4. Создайте [резервную копию](#создание-резервной-копии-файлов-бд).
+>
+>    5. Удалите старые файлы из директории <code>{ETCD_data_dir}</code>
+>
+>    <CodeBlock language="bash">{`rm -rf ${ETCD_data_dir}/*`}</CodeBlock>
+>
+>    6. Подготовьте БД из снимка:
+>    <CodeBlock language="bash">
+>{`etcdctl snapshot restore ${ETCD_workdir}/backup.db \\
+>    --name=\${K8S_NODE_1} \\
+>    --data-dir ${ETCD_data_dir} \\
+>    --initial-advertise-peer-urls=https://\${K8S_NODE_ADDRESS_1}:2380 \\
+>    --initial-cluster=\${K8S_NODE_1}=https://\${K8S_NODE_ADDRESS_1}:2380
+>`}
+>    </CodeBlock>
+>
+>    :::note
+>    Обратите внимание, что запускается локальный файл `etcdctl` и снимок так же расположен на мастере в директории <code>{ETCD_workdir}</code>.
+>    В качестве `data-dir` указана директория, которая монтируется внутрь контейнера ETCD и будет использоваться в качестве хранения файлов БД.
+>    :::
+>
+>    7. Проверьте и по необходимости отредактируйте параметры запуска ETCD в файле <code>${ETCD_base_k8s_path}/manifests/etcd.yaml</code>
+>    указанные в разделе `spec.containers[0].command`.
+>    А именно проверьте наличие необходимых полей и их значения, поля не входящий в данный перечень удалять не нужно!
+>
+>    <CodeBlock language="bash">
+>{`--advertise-client-urls=${ETCD_endpoint_1}
+>  --cert-file=${ETCD_serv_cert_path}
+>  --client-cert-auth=true
+>  --data-dir=${ETCD_data_dir}
+>  --key-file=${ETCD_serv_key_path}
+>  --listen-client-urls=https://127.0.0.1:${ETCD_serv_port},${ETCD_endpoint_1}
+>  --listen-metrics-urls=http://0.0.0.0:${ETCD_metr_port}
+>  --listen-peer-urls=https://${ETCD_k8s_node_address_1}:${ETCD_peer_port}
+>  --name=${ETCD_k8s_node_1}
+>  --peer-cert-file=${ETCD_peer_cert_path}
+>  --peer-client-cert-auth=true
+>  --peer-key-file=${ETCD_peer_key_path}
+>  --peer-trusted-ca-file=${ETCD_ca_cert_path}
+>  --trusted-ca-file=${ETCD_ca_key_path}
+>`}
+>    </CodeBlock>
+>
+>    <table>
+>      <tr><th>Параметр</th><th>Описание</th></tr>
+>      <tr><td>`advertise-client-urls` </td><td>Анонсируемые точки подключения к узлу, для подключения клиентов. Совпадает с IP адресом узла k8s кластера</td></tr>
+>      <tr><td>`cert-file`             </td><td>Путь до сертификата ETCD кластера</td></tr>
+>      <tr><td>`client-cert-auth`      </td><td>Включить/выключить авторизацию пользователей по сертификату</td></tr>
+>      <tr><td>`data-dir`              </td><td>Директория в которой хранятся файлы БД ETCD</td></tr>
+>      <tr><td>`key-file`              </td><td>Путь до ключа сертификата ETCD кластера</td></tr>
+>      <tr><td>`listen-client-urls`    </td><td>Точка подключения, на которой ETCD будет принимать клиентские запросы (`0.0.0.0`, `127.0.0.1` или IP адрес узла k8s кластера)</td></tr>
+>      <tr><td>`listen-metrics-urls`   </td><td>Точка подключения, на которой ETCD будет принимать запросы к метрикам (`0.0.0.0`, `127.0.0.1` или IP адрес узла k8s кластера)</td></tr>
+>      <tr><td>`listen-peer-urls`      </td><td>Точка подключения, на которой ETCD будет принимать запросы от других узлов ETCD кластера (`0.0.0.0`, `127.0.0.1` или IP адрес узла k8s кластера)</td></tr>
+>      <tr><td>`name`                  </td><td>Имя узла ETCD кластера</td></tr>
+>      <tr><td>`peer-cert-file`        </td><td>Путь до сертификата для подключения между узлами ETCD кластера</td></tr>
+>      <tr><td>`peer-client-cert-auth` </td><td>Путь до сертификата для авторизации подключений между узлами ETCD кластера</td></tr>
+>      <tr><td>`peer-key-file`         </td><td>Путь до ключа сертификата для подключения между узлами ETCD кластера</td></tr>
+>      <tr><td>`peer-trusted-ca-file`  </td><td>Путь до корневого доверенного сертификата для подключения между узлами ETCD кластера</td></tr>
+>      <tr><td>`trusted-ca-file`       </td><td>Путь до корневого доверенного сертификата ETCD кластера</td></tr>
+>    </table>
+>
+>    :::note
+>    Если параметр `initial-cluster-state` равен значению "existing" или отсутствуют файлы БД и метаданных в ней,
+>    тогда все прочие параметры, имя которых начинается со слова `initial` будут игнорироваться.
+>    В нашем случае, мы уже восстановили файлы БД и внесли метаданные на этапе подготовки БД из снимка.
+>    :::
+>
+>    8. Запустите kubelet:
+>
+>    <CodeBlock language="bash">{`systemctl start kubelet`}</CodeBlock>
+>
+>    9. Проверьте состояние контейнера и наличие ошибок
+>
+>    <CodeBlock language="bash">
+>{`export CONTAINER_ID="$(crictl ps -a  \\
+>    --label io.kubernetes.container.name=etcd \\
+>    --label io.kubernetes.pod.namespace=kube-system \\
+>    | awk 'NR>1{r=$1} $0~/Running/{exit} END{print r}')"
+>
+>  crictl ps --id $CONTAINER_ID
+>
+>  crictl logs $CONTAINER_ID
+>`}
+>    </CodeBlock>
+>
+>    10. Повторите этапы сбора [пререквизитов](#подготовка-окружения) и [подключения](#подключение-к-etcd) к кластеру ETCD только для текущего узла.
+>
+>    11. При помощи команд `member list` и `endpoint status` описанных выше [проверьте состояние кластера](#проверка-подключения-и-состояния-кластера).
+>
+>    12. переходите к настройке второго узла.
+>
+>  </TabItem>
+>  <TabItem value='Master-2'>
+>
+>    1. На первом узле ETCD кластера добавьте второй узел кластера в режиме обучающегося:
+>
+>    <CodeBlock language="bash">{`etcdctl member add \${K8S_NODE_2} --peer-urls=https://\${K8S_NODE_ADDRESS_2}:2380 --learner ;`}</CodeBlock>
+>
+>    2. Подключитесь к ВМ  второго узла кластера по ssh и остановите `kubelet`, чтобы не позволить ему запускать ETCD.
+>
+>    <CodeBlock language="bash">{`systemctl stop kubelet`}</CodeBlock>
+>
+>    3. Остановите и удалите контейнер `etcd`:
+>
+>    <CodeBlock language="bash">
+>{`export CONTAINER_ID="$(crictl ps -a  \\
+>    --label io.kubernetes.container.name=etcd \\
+>    --label io.kubernetes.pod.namespace=kube-system \\
+>    | awk 'NR>1{r=$1} $0~/Running/{exit} END{print r}')"
+>  crictl stop \${CONTAINER_ID}
+>  crictl rm \${CONTAINER_ID}
+>`}
+>    </CodeBlock>
+>
+>    4. Создайте [резервную копию](#создание-резервной-копии-файлов-бд).
+>
+>    5. Удалите старые файлы из директории <code>{ETCD_data_dir}</code>
+>
+>    <CodeBlock language="bash">{`rm -rf ${ETCD_workdir}/*`}</CodeBlock>
+>
+>    6. Откройте на редактирование файл <code>${ETCD_base_k8s_path}/manifests/etcd.yaml</code>:
+>    Найдите и замените значение следующих ключей в разделе `spec.containers[0].command` аналогично примеру ниже
+>    в соответствии с вашими параметрамии таблицей с описанием:
+>
+>    <CodeBlock language="bash">
+>{`--advertise-client-urls=${ETCD_endpoint_2}
+>  --cert-file=${ETCD_serv_cert_path}
+>  --client-cert-auth=true
+>  --data-dir=${ETCD_data_dir}
+>  --initial-advertise-peer-urls=https://${ETCD_k8s_node_address_2}:${ETCD_peer_port}
+>  --initial-cluster=${ETCD_k8s_node_1}=https://${ETCD_k8s_node_address_1}:${ETCD_peer_port},${ETCD_k8s_node_2}=https://${ETCD_k8s_node_address_2}:${ETCD_peer_port}
+>  --key-file=${ETCD_serv_key_path}
+>  --listen-client-urls=https://127.0.0.1:${ETCD_serv_port},${ETCD_endpoint_2}
+>  --listen-metrics-urls=http://0.0.0.0:${ETCD_metr_port}
+>  --listen-peer-urls=https://${ETCD_k8s_node_address_2}:${ETCD_peer_port}
+>  --name=${ETCD_k8s_node_2}
+>  --peer-cert-file=${ETCD_peer_cert_path}
+>  --peer-client-cert-auth=true
+>  --peer-key-file=${ETCD_peer_key_path}
+>  --peer-trusted-ca-file=${ETCD_ca_cert_path}
+>  --trusted-ca-file=${ETCD_ca_key_path}
+>`}
+>    </CodeBlock>
+>
+>    <table>
+>      <tr><th>Параметр</th><th>Описание</th></tr>
+>      <tr><td>`advertise-client-urls`       </td><td>Анонсируемые точки подключения к узлу, для подключения клиентов. Совпадает с IP адресом узла k8s кластера</td></tr>
+>      <tr><td>`cert-file`                   </td><td>Путь до сертификата ETCD кластера</td></tr>
+>      <tr><td>`client-cert-auth`            </td><td>Включить/выключить авторизацию пользователей по сертификату</td></tr>
+>      <tr><td>`data-dir`                    </td><td>Директория в которой хранятся файлы БД ETCD</td></tr>
+>      <tr><td>`key-file`                    </td><td>Путь до ключа сертификата ETCD кластера</td></tr>
+>      <tr><td>`initial-advertise-peer-urls` </td><td>Анонсируемые точки подключения к данному узлу для подключения между узлами ETCD кластера</td></tr>
+>      <tr><td>`initial-cluster`             </td><td>Перечень узлов кластера ETCD и их точки подключения для взаимодействия между узлами ETCD кластера, которые будут добавлены в метаданные БД при запуске текущего узла.</td></tr>
+>      <tr><td>`listen-client-urls`          </td><td>Точка подключения, на которой ETCD будет принимать клиентские запросы (`0.0.0.0`, `127.0.0.1` или IP адрес узла k8s кластера)</td></tr>
+>      <tr><td>`listen-metrics-urls`         </td><td>Точка подключения, на которой ETCD будет принимать запросы к метрикам (`0.0.0.0`, `127.0.0.1` или IP адрес узла k8s кластера)</td></tr>
+>      <tr><td>`listen-peer-urls`            </td><td>Точка подключения, на которой ETCD будет принимать запросы от других узлов ETCD кластера (`0.0.0.0`, `127.0.0.1` или IP адрес узла k8s кластера)</td></tr>
+>      <tr><td>`name`                        </td><td>Имя узла ETCD кластера</td></tr>
+>      <tr><td>`peer-cert-file`              </td><td>Путь до сертификата для подключения между узлами ETCD кластера</td></tr>
+>      <tr><td>`peer-client-cert-auth`       </td><td>Путь до сертификата для авторизации подключений между узлами ETCD кластера</td></tr>
+>      <tr><td>`peer-key-file`               </td><td>Путь до ключа сертификата для подключения между узлами ETCD кластера</td></tr>
+>      <tr><td>`peer-trusted-ca-file`        </td><td>Путь до корневого доверенного сертификата для подключения между узлами ETCD кластера</td></tr>
+>      <tr><td>`trusted-ca-file`             </td><td>Путь до корневого доверенного сертификата ETCD кластера</td></tr>
+>    </table>
+>
+>    7. Запустите kubelet:
+>
+>    <CodeBlock language="bash">{`systemctl start kubelet`}</CodeBlock>
+>
+>    8. Проверьте состояние контейнера и наличие ошибок
+>
+>    <CodeBlock language="bash">
+>{`export CONTAINER_ID="$(crictl ps -a  \
+>    --label io.kubernetes.container.name=etcd \
+>    --label io.kubernetes.pod.namespace=kube-system \
+>    | awk 'NR>1{r=$1} $0~/Running/{exit} END{print r}')"
+>
+>  crictl ps --id $CONTAINER_ID
+>
+>  crictl logs $CONTAINER_ID
+>`}
+>    </CodeBlock>
+>
+>    9. Вернитесь к первому узлу кластера и проверьте, что второй узел определился (Его состояние должно быть `started`):
+>
+>    <CodeBlock language="bash">{`ectl member list -w table`}</CodeBlock>
+>
+>    10. После этого переведите второй узел в рабочий режим:
+>
+>    <CodeBlock language="bash">{`ectl member promote \${K8S_NODE_2}`}</CodeBlock>
+>
+>    11. При помощи команд `member list` и `endpoint status` описанных выше [проверьте состояние кластера](#проверка-подключения-и-состояния-кластера).
+>
+>    12. Переходите к третьему узла кластера
+>  </TabItem>
+>  <TabItem value='Master-3'>
+>
+>    1. Подключитесь к первому узлу ETCD кластера и добавьте третий узел кластера в режиме обучающегося:
+>
+>    <CodeBlock language="bash">{`etcdctl member add \${K8S_NODE_3} --peer-urls=https://\${K8S_NODE_ADDRESS_3}:2380 --learner ;`}</CodeBlock>
+>
+>    2. Подключитесь к ВМ  третьего узла кластера по ssh и остановите `kubelet`, чтобы не позволить ему запускать ETCD.
+>
+>    <CodeBlock language="bash">{`systemctl stop kubelet`}</CodeBlock>
+>
+>    3. Остановите и удалите контейнер `etcd`:
+>
+>    <CodeBlock language="bash">
+>{`export CONTAINER_ID="$(crictl ps -a  \\
+>    --label io.kubernetes.container.name=etcd \\
+>    --label io.kubernetes.pod.namespace=kube-system \\
+>    | awk 'NR>1{r=$1} $0~/Running/{exit} END{print r}')"
+>  crictl stop \${CONTAINER_ID}
+>  crictl rm \${CONTAINER_ID}
+>`}
+>    </CodeBlock>
+>
+>    4. Создайте [резервную копию](#создание-резервной-копии-файлов-бд).
+>
+>    5. Удалите старые файлы из директории <code>{ETCD_data_dir}</code>
+>
+>    <CodeBlock language="bash">{`rm -rf ${ETCD_workdir}/*`}</CodeBlock>
+>
+>    6. Откройте на редактирование файл <code>${ETCD_base_k8s_path}/manifests/etcd.yaml</code>:
+>    Найдите и замените значение следующих ключей в разделе `spec.containers[0].command` аналогично примеру ниже
+>    в соответствии с вашими параметрамии таблицей с описанием:
+>
+>    <CodeBlock language="bash">
+>{`--advertise-client-urls=${ETCD_endpoint_3}
+>  --cert-file=${ETCD_serv_cert_path}
+>  --client-cert-auth=true
+>  --data-dir=${ETCD_data_dir}
+>  --initial-advertise-peer-urls=https://${ETCD_k8s_node_address_3}:${ETCD_peer_port}
+>  --initial-cluster=${ETCD_k8s_node_1}=https://${ETCD_k8s_node_address_1}:${ETCD_peer_port},${ETCD_k8s_node_2}=https://${ETCD_k8s_node_address_2}:${ETCD_peer_port},${ETCD_k8s_node_3}=https://${ETCD_k8s_node_address_3}:${ETCD_peer_port}
+>  --key-file=${ETCD_serv_key_path}
+>  --listen-client-urls=https://127.0.0.1:${ETCD_serv_port},${ETCD_endpoint_3}
+>  --listen-metrics-urls=http://0.0.0.0:${ETCD_metr_port}
+>  --listen-peer-urls=https://${ETCD_k8s_node_address_3}:${ETCD_peer_port}
+>  --name=${ETCD_k8s_node_3}
+>  --peer-cert-file=${ETCD_peer_cert_path}
+>  --peer-client-cert-auth=true
+>  --peer-key-file=${ETCD_peer_key_path}
+>  --peer-trusted-ca-file=${ETCD_ca_cert_path}
+>  --trusted-ca-file=${ETCD_ca_key_path}
+>`}
+>    </CodeBlock>
+>
+>    <table>
+>      <tr><th>Параметр</th><th>Описание</th></tr>
+>      <tr><td>`advertise-client-urls`       </td><td>Анонсируемые точки подключения к узлу, для подключения клиентов. Совпадает с IP адресом узла k8s кластера</td></tr>
+>      <tr><td>`cert-file`                   </td><td>Путь до сертификата ETCD кластера</td></tr>
+>      <tr><td>`client-cert-auth`            </td><td>Включить/выключить авторизацию пользователей по сертификату</td></tr>
+>      <tr><td>`data-dir`                    </td><td>Директория в которой хранятся файлы БД ETCD</td></tr>
+>      <tr><td>`key-file`                    </td><td>Путь до ключа сертификата ETCD кластера</td></tr>
+>      <tr><td>`initial-advertise-peer-urls` </td><td>Анонсируемые точки подключения к данному узлу для подключения между узлами ETCD кластера</td></tr>
+>      <tr><td>`initial-cluster`             </td><td>Перечень узлов кластера ETCD и их точки подключения для взаимодействия между узлами ETCD кластера, которые будут добавлены в метаданные БД при запуске текущего узла.</td></tr>
+>      <tr><td>`listen-client-urls`          </td><td>Точка подключения, на которой ETCD будет принимать клиентские запросы (`0.0.0.0`, `127.0.0.1` или IP адрес узла k8s кластера)</td></tr>
+>      <tr><td>`listen-metrics-urls`         </td><td>Точка подключения, на которой ETCD будет принимать запросы к метрикам (`0.0.0.0`, `127.0.0.1` или IP адрес узла k8s кластера)</td></tr>
+>      <tr><td>`listen-peer-urls`            </td><td>Точка подключения, на которой ETCD будет принимать запросы от других узлов ETCD кластера (`0.0.0.0`, `127.0.0.1` или IP адрес узла k8s кластера)</td></tr>
+>      <tr><td>`name`                        </td><td>Имя узла ETCD кластера</td></tr>
+>      <tr><td>`peer-cert-file`              </td><td>Путь до сертификата для подключения между узлами ETCD кластера</td></tr>
+>      <tr><td>`peer-client-cert-auth`       </td><td>Путь до сертификата для авторизации подключений между узлами ETCD кластера</td></tr>
+>      <tr><td>`peer-key-file`               </td><td>Путь до ключа сертификата для подключения между узлами ETCD кластера</td></tr>
+>      <tr><td>`peer-trusted-ca-file`        </td><td>Путь до корневого доверенного сертификата для подключения между узлами ETCD кластера</td></tr>
+>      <tr><td>`trusted-ca-file`             </td><td>Путь до корневого доверенного сертификата ETCD кластера</td></tr>
+>    </table>
+>
+>
+>    7. Запустите kubelet:
+>
+>    <CodeBlock language="bash">{`systemctl start kubelet`}</CodeBlock>
+>
+>    8. Проверьте состояние контейнера и наличие ошибок
+>
+>    <CodeBlock language="bash">
+>{`export CONTAINER_ID="$(crictl ps -a  \
+>    --label io.kubernetes.container.name=etcd \
+>    --label io.kubernetes.pod.namespace=kube-system \
+>    | awk 'NR>1{r=$1} $0~/Running/{exit} END{print r}')"
+>
+>  crictl ps --id $CONTAINER_ID
+>
+>  crictl logs $CONTAINER_ID
+>`}
+>    </CodeBlock>
+>
+>    9. Вернитесь к первому узлу кластера и проверьте, что третий узел определился (Его состояние должно быть `started`):
+>
+>    <CodeBlock language="bash">{`ectl member list -w table`}</CodeBlock>
+>
+>    10. После этого переведите третий узел в рабочий режим:
+>
+>    <CodeBlock language="bash">{`ectl member promote \${K8S_NODE_3}`}</CodeBlock>
+>
+>    11. При помощи команд `member list` и `endpoint status` описанных выше [проверьте состояние кластера](#проверка-подключения-и-состояния-кластера).
+>
+>  </TabItem>
+></Tabs>
+
+После выполнения работ на всех трех узлах ETCD кластера, кластер восстановлен и готов к работе.
 
 *****
 
-## Остановился здесь
+#### Восстановление всех трех узлов из мгновенного снимка
 
-Просмотрите текущие параметры запуска etcd через `kubectl` или в статик манифесте `/etc/kubernetes/manifests/etcd.yaml`.
-Нас интересуют параметры:
+Данный вариант подразумевает, восстановление БД и ее метаданных на всех трех узлах одновременно.
 
-<CodeBlock language="bash">
-  {`
-    initial-cluster-token        #Если есть.
-    initial-advertise-peer-urls  #Для каждой ноды кластера.
-    initial-cluster              #общий для всех
-  `}
-</CodeBlock>
-
-Соответственно заполнив параметры вашему кластеру выполняем следующие команды, чтобы запустить восстановление.
-
-!!!!!!!! СНАЧАЛА ДЕЛАЕМ БЕКАП ПОТОМ РЕСТОР)
-
-TODO ссылаться на переменные полученные в Пререквизитах
-```bash
-#На первой ноде кластера
-ectl snapshot restore /home/mistrikov/testetcd/snap1.db \
-  --endpoints=$ENDPOINTS \
-  --name=test-etcd-1 \
-  --data-dir /var/lib/etcd/new \
-  --initial-cluster-token=test_etcd\
-  --initial-advertise-peer-urls=https://10.10.10.5:2380 \
-  --initial-cluster=test-etcd-1=https://10.10.10.5:2380,test-etcd-2=https://10.10.10.4:2380,test-etcd-3=https://10.10.10.5:2380
-
-#На второй ноде кластера
-ectl snapshot restore /home/mistrikov/testetcd/snap1.db \
-  --endpoints=$ENDPOINTS \
-  --name=test-etcd-2 \
-  --data-dir /var/lib/etcd/new \
-  --initial-cluster-token=test_etcd\
-  --initial-advertise-peer-urls=https://10.10.10.4:2380 \
-  --initial-cluster=test-etcd-1=https://10.10.10.5:2380,test-etcd-2=https://10.10.10.4:2380,test-etcd-3=https://10.10.10.5:2380
-
-#На третьей ноде кластера
-ectl snapshot restore /home/mistrikov/testetcd/snap1.db \
-  --endpoints=$ENDPOINTS \
-  --name=test-etcd-3 \
-  --data-dir /var/lib/etcd/new \
-  --initial-cluster-token=test_etcd\
-  --initial-advertise-peer-urls=https://10.10.10.5:2380 \
-  --initial-cluster=test-etcd-1=https://10.10.10.5:2380,test-etcd-2=https://10.10.10.4:2380,test-etcd-3=https://10.10.10.5:2380
-```
-
-## Восстановление кластера при конфликтах или проблемах с кворумом.
-
-Для начала подключитесь к терминалу ноды, на которой запущен один из узлов ETCD (Желательно лидер или оставшийся рабочий узел).
-
-### Бэкап
-
-Если есть проблемы с подключением к etcd и стандартный метод с сохранением snapshot невозможен, что вероятнее всего в подобной ситуации, нужно сделать бэкап данных:
-
-```bash
-cp -r /var/lib/etcd/member /tmp/etcd/backup/
-```
-
-TODO часть блока полезных команд
-### Дефрагментация
-
-Проверьте размер файла `/var/lib/etcd/member/snap/db`. Если его размер превышает 2 GB рекомендуем запустить дефрагментацию.
-Для этого рекомендуется использовать бинарный файл etcdctl расположенный на ВМ за пределами контейнера (Например поместите его в директорию /tmp/etcd/etcdctl):
-
-```bash
-ls -l /var/lib/etcd/member/snap/db
-/tmp/etcd/etcdctl defrag --data-dir /var/lib/etcd
-```
-
-:::note
-Для корректной работы etcd кластера, в том числе для запуска дефрагментации, размер ОЗУ должен быть таким же как и размер БД.
+:::warning
+В данном случае, если при запуске восстановленного узла ETCD кластера, в его конфигурации будут присутствовать
+точки подключения и имена других узлов, которые не сконфигурированы для работы с восстановленным узлом,
+тогда под восстановленного узла может падать с ошибкой, до тех пор, пока на других узлах не появится корректная конфигурация.
 :::
 
-TODO нету compaction!!!!!
+Шаги с 1 по 8 рекомендуется выполнять синхронно на всех трех узлах ETCD кластера.
 
+><Tabs groupId="install-type">
+>  <TabItem value='Master-1'>
+>    1. Загрузите файл мгновенного снимка на ВМ первого узла кластера по пути <code>{ETCD_workdir}/backup.db</code> при помощи rsync
+>
+>    <CodeBlock language="bash">
+>{`ssh capv@$\{K8S_NODE_ADDRESS_1} "mkdir -p ${ETCD_workdir}"
+>  rsync --rsync-path="sudo rsync" \\
+>    LOCAL_PATH_TO_BACKUP/backup.db \\
+>    capv@$\{K8S_NODE_ADDRESS_1}:${ETCD_workdir}/backup.db
+>`}
+>    </CodeBlock>
+>
+>    2. Подключитесь к ВМ первого узла кластера по ssh и переключитесь на суперпользователя.
+>    Затем остановите `kubelet`, чтобы не позволить ему запускать ETCD.
+>
+>    <CodeBlock language="bash">{`systemctl stop kubelet`}</CodeBlock>
+>
+>    3. Остановите и удалите контейнер `etcd`:
+>
+>    <CodeBlock language="bash">
+>{`export CONTAINER_ID="$(crictl ps -a  \\
+>    --label io.kubernetes.container.name=etcd \\
+>    --label io.kubernetes.pod.namespace=kube-system \\
+>    | awk 'NR>1{r=$1} $0~/Running/{exit} END{print r}')"
+>  crictl stop \${CONTAINER_ID}
+>  crictl rm \${CONTAINER_ID}
+>`}
+>    </CodeBlock>
+>
+>    4. Создайте [резервную копию](#создание-резервной-копии-файлов-бд).
+>
+>    5. Удалите старые файлы из директории <code>{ETCD_data_dir}</code>
+>
+>    <CodeBlock language="bash">{`rm -rf ${ETCD_data_dir}/*`}</CodeBlock>
+>
+>    6. Подготовьте БД из снимка:
+>    <CodeBlock language="bash">
+>{`etcdctl snapshot restore ${ETCD_workdir}/backup.db \\
+>    --name=\${K8S_NODE_1} \\
+>    --data-dir ${ETCD_data_dir} \\
+>    --initial-advertise-peer-urls=https://\${K8S_NODE_ADDRESS_1}:2380 \\
+>    --initial-cluster=\${K8S_NODE_1}=https://\${K8S_NODE_ADDRESS_1}:${ETCD_peer_port},\${K8S_NODE_2}=https://\${K8S_NODE_ADDRESS_2}:${ETCD_peer_port},\${K8S_NODE_3}=https://\${K8S_NODE_ADDRESS_3}:${ETCD_peer_port}
+>`}
+>    </CodeBlock>
+>
+>    :::note
+>    Обратите внимание, что запускается локальный файл `etcdctl` и снимок так же расположен на мастере в директории <code>{ETCD_workdir}</code>.
+>    В качестве `data-dir` указана директория на хосте, которая монтируется внутрь контейнера ETCD и будет использоваться в качестве хранения файлов БД.
+>    :::
+>
+>    7. Проверьте и по необходимости отредактируйте параметры запуска ETCD в файле <code>${ETCD_base_k8s_path}/manifests/etcd.yaml</code>
+>    указанные в разделе `spec.containers[0].command`.
+>    А именно проверьте наличие необходимых полей и их значения, поля не входящий в данный перечень удалять не нужно!
+>
+>    <CodeBlock language="bash">
+>{`--advertise-client-urls=${ETCD_endpoint_1}
+>  --cert-file=${ETCD_serv_cert_path}
+>  --client-cert-auth=true
+>  --data-dir=${ETCD_data_dir}
+>  --key-file=${ETCD_serv_key_path}
+>  --listen-client-urls=https://127.0.0.1:${ETCD_serv_port},${ETCD_endpoint_1}
+>  --listen-metrics-urls=http://0.0.0.0:${ETCD_metr_port}
+>  --listen-peer-urls=https://${ETCD_k8s_node_address_1}:${ETCD_peer_port}
+>  --name=${ETCD_k8s_node_1}
+>  --peer-cert-file=${ETCD_peer_cert_path}
+>  --peer-client-cert-auth=true
+>  --peer-key-file=${ETCD_peer_key_path}
+>  --peer-trusted-ca-file=${ETCD_ca_cert_path}
+>  --trusted-ca-file=${ETCD_ca_key_path}
+>`}
+>    </CodeBlock>
+>
+>    <table>
+>      <tr><th>Параметр</th><th>Описание</th></tr>
+>      <tr><td>`advertise-client-urls` </td><td>Анонсируемые точки подключения к узлу, для подключения клиентов. Совпадает с IP адресом узла k8s кластера</td></tr>
+>      <tr><td>`cert-file`             </td><td>Путь до сертификата ETCD кластера</td></tr>
+>      <tr><td>`client-cert-auth`      </td><td>Включить/выключить авторизацию пользователей по сертификату</td></tr>
+>      <tr><td>`data-dir`              </td><td>Директория в которой хранятся файлы БД ETCD</td></tr>
+>      <tr><td>`key-file`              </td><td>Путь до ключа сертификата ETCD кластера</td></tr>
+>      <tr><td>`listen-client-urls`    </td><td>Точка подключения, на которой ETCD будет принимать клиентские запросы (`0.0.0.0`, `127.0.0.1` или IP адрес узла k8s кластера)</td></tr>
+>      <tr><td>`listen-metrics-urls`   </td><td>Точка подключения, на которой ETCD будет принимать запросы к метрикам (`0.0.0.0`, `127.0.0.1` или IP адрес узла k8s кластера)</td></tr>
+>      <tr><td>`listen-peer-urls`      </td><td>Точка подключения, на которой ETCD будет принимать запросы от других узлов ETCD кластера (`0.0.0.0`, `127.0.0.1` или IP адрес узла k8s кластера)</td></tr>
+>      <tr><td>`name`                  </td><td>Имя узла ETCD кластера</td></tr>
+>      <tr><td>`peer-cert-file`        </td><td>Путь до сертификата для подключения между узлами ETCD кластера</td></tr>
+>      <tr><td>`peer-client-cert-auth` </td><td>Путь до сертификата для авторизации подключений между узлами ETCD кластера</td></tr>
+>      <tr><td>`peer-key-file`         </td><td>Путь до ключа сертификата для подключения между узлами ETCD кластера</td></tr>
+>      <tr><td>`peer-trusted-ca-file`  </td><td>Путь до корневого доверенного сертификата для подключения между узлами ETCD кластера</td></tr>
+>      <tr><td>`trusted-ca-file`       </td><td>Путь до корневого доверенного сертификата ETCD кластера</td></tr>
+>    </table>
+>
+>    :::note
+>    Если параметр `initial-cluster-state` равен значению "existing" или отсутствуют файлы БД и метаданных в ней,
+>    тогда все прочие параметры, имя которых начинается со слова `initial` будут игнорироваться.
+>    В нашем случае, мы уже восстановили файлы БД и внесли метаданные на этапе подготовки БД из снимка.
+>    :::
+>
+>    8. Выполните аналогичные действия на остальных узлах ETCD кластера.
+>
+>    9. Запустите kubelet:
+>
+>    <CodeBlock language="bash">{`systemctl start kubelet`}</CodeBlock>
+>
+>    10. Проверьте состояние контейнера и наличие ошибок
+>
+>    <CodeBlock language="bash">
+>{`export CONTAINER_ID="$(crictl ps -a  \\
+>    --label io.kubernetes.container.name=etcd \\
+>    --label io.kubernetes.pod.namespace=kube-system \\
+>    | awk 'NR>1{r=$1} $0~/Running/{exit} END{print r}')"
+>
+>  crictl ps --id $CONTAINER_ID
+>
+>  crictl logs $CONTAINER_ID
+>`}
+>    </CodeBlock>
+>  </TabItem>
+>  <TabItem value='Master-2'>
+>    1. Загрузите файл мгновенного снимка на ВМ первого узла кластера по пути <code>{ETCD_workdir}/backup.db</code> при помощи rsync
+>
+>    <CodeBlock language="bash">
+>{`ssh capv@$\{K8S_NODE_ADDRESS_1} "mkdir -p ${ETCD_workdir}"
+>  rsync --rsync-path="sudo rsync" \\
+>    LOCAL_PATH_TO_BACKUP/backup.db \\
+>    capv@$\{K8S_NODE_ADDRESS_1}:${ETCD_workdir}/backup.db
+>`}
+>    </CodeBlock>
+>
+>    2. Подключитесь к ВМ первого узла кластера по ssh и переключитесь на суперпользователя.
+>    Затем остановите `kubelet`, чтобы не позволить ему запускать ETCD.
+>
+>    <CodeBlock language="bash">{`systemctl stop kubelet`}</CodeBlock>
+>
+>    3. Остановите и удалите контейнер `etcd`:
+>
+>    <CodeBlock language="bash">
+>{`export CONTAINER_ID="$(crictl ps -a  \\
+>    --label io.kubernetes.container.name=etcd \\
+>    --label io.kubernetes.pod.namespace=kube-system \\
+>    | awk 'NR>1{r=$1} $0~/Running/{exit} END{print r}')"
+>  crictl stop \${CONTAINER_ID}
+>  crictl rm \${CONTAINER_ID}
+>`}
+>    </CodeBlock>
+>
+>    4. Создайте [резервную копию](#создание-резервной-копии-файлов-бд).
+>
+>    5. Удалите старые файлы из директории <code>{ETCD_data_dir}</code>
+>
+>    <CodeBlock language="bash">{`rm -rf ${ETCD_data_dir}/*`}</CodeBlock>
+>
+>    6. Подготовьте БД из снимка:
+>    <CodeBlock language="bash">
+>{`etcdctl snapshot restore ${ETCD_workdir}/backup.db \\
+>    --name=\${K8S_NODE_1} \\
+>    --data-dir ${ETCD_data_dir} \\
+>    --initial-advertise-peer-urls=https://\${K8S_NODE_ADDRESS_1}:2380 \\
+>    --initial-cluster=\${K8S_NODE_1}=https://\${K8S_NODE_ADDRESS_1}:${ETCD_peer_port},\${K8S_NODE_2}=https://\${K8S_NODE_ADDRESS_2}:${ETCD_peer_port},\${K8S_NODE_3}=https://\${K8S_NODE_ADDRESS_3}:${ETCD_peer_port}
+>`}
+>    </CodeBlock>
+>
+>    :::note
+>    Обратите внимание, что запускается локальный файл `etcdctl` и снимок так же расположен на мастере в директории <code>{ETCD_workdir}</code>.
+>    В качестве `data-dir` указана директория на хосте, которая монтируется внутрь контейнера ETCD и будет использоваться в качестве хранения файлов БД.
+>    :::
+>
+>    7. Проверьте и по необходимости отредактируйте параметры запуска ETCD в файле <code>${ETCD_base_k8s_path}/manifests/etcd.yaml</code>
+>    указанные в разделе `spec.containers[0].command`.
+>    А именно проверьте наличие необходимых полей и их значения, поля не входящий в данный перечень удалять не нужно!
+>
+>    <CodeBlock language="bash">
+>{`--advertise-client-urls=${ETCD_endpoint_1}
+>  --cert-file=${ETCD_serv_cert_path}
+>  --client-cert-auth=true
+>  --data-dir=${ETCD_data_dir}
+>  --key-file=${ETCD_serv_key_path}
+>  --listen-client-urls=https://127.0.0.1:${ETCD_serv_port},${ETCD_endpoint_1}
+>  --listen-metrics-urls=http://0.0.0.0:${ETCD_metr_port}
+>  --listen-peer-urls=https://${ETCD_k8s_node_address_1}:${ETCD_peer_port}
+>  --name=${ETCD_k8s_node_1}
+>  --peer-cert-file=${ETCD_peer_cert_path}
+>  --peer-client-cert-auth=true
+>  --peer-key-file=${ETCD_peer_key_path}
+>  --peer-trusted-ca-file=${ETCD_ca_cert_path}
+>  --trusted-ca-file=${ETCD_ca_key_path}
+>`}
+>    </CodeBlock>
+>
+>    <table>
+>      <tr><th>Параметр</th><th>Описание</th></tr>
+>      <tr><td>`advertise-client-urls` </td><td>Анонсируемые точки подключения к узлу, для подключения клиентов. Совпадает с IP адресом узла k8s кластера</td></tr>
+>      <tr><td>`cert-file`             </td><td>Путь до сертификата ETCD кластера</td></tr>
+>      <tr><td>`client-cert-auth`      </td><td>Включить/выключить авторизацию пользователей по сертификату</td></tr>
+>      <tr><td>`data-dir`              </td><td>Директория в которой хранятся файлы БД ETCD</td></tr>
+>      <tr><td>`key-file`              </td><td>Путь до ключа сертификата ETCD кластера</td></tr>
+>      <tr><td>`listen-client-urls`    </td><td>Точка подключения, на которой ETCD будет принимать клиентские запросы (`0.0.0.0`, `127.0.0.1` или IP адрес узла k8s кластера)</td></tr>
+>      <tr><td>`listen-metrics-urls`   </td><td>Точка подключения, на которой ETCD будет принимать запросы к метрикам (`0.0.0.0`, `127.0.0.1` или IP адрес узла k8s кластера)</td></tr>
+>      <tr><td>`listen-peer-urls`      </td><td>Точка подключения, на которой ETCD будет принимать запросы от других узлов ETCD кластера (`0.0.0.0`, `127.0.0.1` или IP адрес узла k8s кластера)</td></tr>
+>      <tr><td>`name`                  </td><td>Имя узла ETCD кластера</td></tr>
+>      <tr><td>`peer-cert-file`        </td><td>Путь до сертификата для подключения между узлами ETCD кластера</td></tr>
+>      <tr><td>`peer-client-cert-auth` </td><td>Путь до сертификата для авторизации подключений между узлами ETCD кластера</td></tr>
+>      <tr><td>`peer-key-file`         </td><td>Путь до ключа сертификата для подключения между узлами ETCD кластера</td></tr>
+>      <tr><td>`peer-trusted-ca-file`  </td><td>Путь до корневого доверенного сертификата для подключения между узлами ETCD кластера</td></tr>
+>      <tr><td>`trusted-ca-file`       </td><td>Путь до корневого доверенного сертификата ETCD кластера</td></tr>
+>    </table>
+>
+>    :::note
+>    Если параметр `initial-cluster-state` равен значению "existing" или отсутствуют файлы БД и метаданных в ней,
+>    тогда все прочие параметры, имя которых начинается со слова `initial` будут игнорироваться.
+>    В нашем случае, мы уже восстановили файлы БД и внесли метаданные на этапе подготовки БД из снимка.
+>    :::
+>
+>    8. Выполните аналогичные действия на остальных узлах ETCD кластера.
+>
+>    9. Запустите kubelet:
+>
+>    <CodeBlock language="bash">{`systemctl start kubelet`}</CodeBlock>
+>
+>    10. Проверьте состояние контейнера и наличие ошибок
+>
+>    <CodeBlock language="bash">
+>{`export CONTAINER_ID="$(crictl ps -a  \\
+>    --label io.kubernetes.container.name=etcd \\
+>    --label io.kubernetes.pod.namespace=kube-system \\
+>    | awk 'NR>1{r=$1} $0~/Running/{exit} END{print r}')"
+>
+>  crictl ps --id $CONTAINER_ID
+>
+>  crictl logs $CONTAINER_ID
+>`}
+>    </CodeBlock>
+>  </TabItem>
+>  <TabItem value='Master-3'>
+>    1. Загрузите файл мгновенного снимка на ВМ первого узла кластера по пути <code>{ETCD_workdir}/backup.db</code> при помощи rsync
+>
+>    <CodeBlock language="bash">
+>{`ssh capv@$\{K8S_NODE_ADDRESS_1} "mkdir -p ${ETCD_workdir}"
+>  rsync --rsync-path="sudo rsync" \\
+>    LOCAL_PATH_TO_BACKUP/backup.db \\
+>    capv@$\{K8S_NODE_ADDRESS_1}:${ETCD_workdir}/backup.db
+>`}
+>    </CodeBlock>
+>
+>    2. Подключитесь к ВМ первого узла кластера по ssh и переключитесь на суперпользователя.
+>    Затем остановите `kubelet`, чтобы не позволить ему запускать ETCD.
+>
+>    <CodeBlock language="bash">{`systemctl stop kubelet`}</CodeBlock>
+>
+>    3. Остановите и удалите контейнер `etcd`:
+>
+>    <CodeBlock language="bash">
+>{`export CONTAINER_ID="$(crictl ps -a  \\
+>    --label io.kubernetes.container.name=etcd \\
+>    --label io.kubernetes.pod.namespace=kube-system \\
+>    | awk 'NR>1{r=$1} $0~/Running/{exit} END{print r}')"
+>  crictl stop \${CONTAINER_ID}
+>  crictl rm \${CONTAINER_ID}
+>`}
+>    </CodeBlock>
+>
+>    4. Создайте [резервную копию](#создание-резервной-копии-файлов-бд).
+>
+>    5. Удалите старые файлы из директории <code>{ETCD_data_dir}</code>
+>
+>    <CodeBlock language="bash">{`rm -rf ${ETCD_data_dir}/*`}</CodeBlock>
+>
+>    6. Подготовьте БД из снимка:
+>    <CodeBlock language="bash">
+>{`etcdctl snapshot restore ${ETCD_workdir}/backup.db \\
+>    --name=\${K8S_NODE_1} \\
+>    --data-dir ${ETCD_data_dir} \\
+>    --initial-advertise-peer-urls=https://\${K8S_NODE_ADDRESS_1}:2380 \\
+>    --initial-cluster=\${K8S_NODE_1}=https://\${K8S_NODE_ADDRESS_1}:${ETCD_peer_port},\${K8S_NODE_2}=https://\${K8S_NODE_ADDRESS_2}:${ETCD_peer_port},\${K8S_NODE_3}=https://\${K8S_NODE_ADDRESS_3}:${ETCD_peer_port}
+>`}
+>    </CodeBlock>
+>
+>    :::note
+>    Обратите внимание, что запускается локальный файл `etcdctl` и снимок так же расположен на мастере в директории <code>{ETCD_workdir}</code>.
+>    В качестве `data-dir` указана директория на хосте, которая монтируется внутрь контейнера ETCD и будет использоваться в качестве хранения файлов БД.
+>    :::
+>
+>    7. Проверьте и по необходимости отредактируйте параметры запуска ETCD в файле <code>${ETCD_base_k8s_path}/manifests/etcd.yaml</code>
+>    указанные в разделе `spec.containers[0].command`.
+>    А именно проверьте наличие необходимых полей и их значения, поля не входящий в данный перечень удалять не нужно!
+>
+>    <CodeBlock language="bash">
+>{`--advertise-client-urls=${ETCD_endpoint_1}
+>  --cert-file=${ETCD_serv_cert_path}
+>  --client-cert-auth=true
+>  --data-dir=${ETCD_data_dir}
+>  --key-file=${ETCD_serv_key_path}
+>  --listen-client-urls=https://127.0.0.1:${ETCD_serv_port},${ETCD_endpoint_1}
+>  --listen-metrics-urls=http://0.0.0.0:${ETCD_metr_port}
+>  --listen-peer-urls=https://${ETCD_k8s_node_address_1}:${ETCD_peer_port}
+>  --name=${ETCD_k8s_node_1}
+>  --peer-cert-file=${ETCD_peer_cert_path}
+>  --peer-client-cert-auth=true
+>  --peer-key-file=${ETCD_peer_key_path}
+>  --peer-trusted-ca-file=${ETCD_ca_cert_path}
+>  --trusted-ca-file=${ETCD_ca_key_path}
+>`}
+>    </CodeBlock>
+>
+>    <table>
+>      <tr><th>Параметр</th><th>Описание</th></tr>
+>      <tr><td>`advertise-client-urls` </td><td>Анонсируемые точки подключения к узлу, для подключения клиентов. Совпадает с IP адресом узла k8s кластера</td></tr>
+>      <tr><td>`cert-file`             </td><td>Путь до сертификата ETCD кластера</td></tr>
+>      <tr><td>`client-cert-auth`      </td><td>Включить/выключить авторизацию пользователей по сертификату</td></tr>
+>      <tr><td>`data-dir`              </td><td>Директория в которой хранятся файлы БД ETCD</td></tr>
+>      <tr><td>`key-file`              </td><td>Путь до ключа сертификата ETCD кластера</td></tr>
+>      <tr><td>`listen-client-urls`    </td><td>Точка подключения, на которой ETCD будет принимать клиентские запросы (`0.0.0.0`, `127.0.0.1` или IP адрес узла k8s кластера)</td></tr>
+>      <tr><td>`listen-metrics-urls`   </td><td>Точка подключения, на которой ETCD будет принимать запросы к метрикам (`0.0.0.0`, `127.0.0.1` или IP адрес узла k8s кластера)</td></tr>
+>      <tr><td>`listen-peer-urls`      </td><td>Точка подключения, на которой ETCD будет принимать запросы от других узлов ETCD кластера (`0.0.0.0`, `127.0.0.1` или IP адрес узла k8s кластера)</td></tr>
+>      <tr><td>`name`                  </td><td>Имя узла ETCD кластера</td></tr>
+>      <tr><td>`peer-cert-file`        </td><td>Путь до сертификата для подключения между узлами ETCD кластера</td></tr>
+>      <tr><td>`peer-client-cert-auth` </td><td>Путь до сертификата для авторизации подключений между узлами ETCD кластера</td></tr>
+>      <tr><td>`peer-key-file`         </td><td>Путь до ключа сертификата для подключения между узлами ETCD кластера</td></tr>
+>      <tr><td>`peer-trusted-ca-file`  </td><td>Путь до корневого доверенного сертификата для подключения между узлами ETCD кластера</td></tr>
+>      <tr><td>`trusted-ca-file`       </td><td>Путь до корневого доверенного сертификата ETCD кластера</td></tr>
+>    </table>
+>
+>    :::note
+>    Если параметр `initial-cluster-state` равен значению "existing" или отсутствуют файлы БД и метаданных в ней,
+>    тогда все прочие параметры, имя которых начинается со слова `initial` будут игнорироваться.
+>    В нашем случае, мы уже восстановили файлы БД и внесли метаданные на этапе подготовки БД из снимка.
+>    :::
+>
+>    8. Выполните аналогичные действия на остальных узлах ETCD кластера.
+>
+>    9. Запустите kubelet:
+>
+>    <CodeBlock language="bash">{`systemctl start kubelet`}</CodeBlock>
+>
+>    10. Проверьте состояние контейнера и наличие ошибок
+>
+>    <CodeBlock language="bash">
+>{`export CONTAINER_ID="$(crictl ps -a  \\
+>    --label io.kubernetes.container.name=etcd \\
+>    --label io.kubernetes.pod.namespace=kube-system \\
+>    | awk 'NR>1{r=$1} $0~/Running/{exit} END{print r}')"
+>
+>  crictl ps --id $CONTAINER_ID
+>
+>  crictl logs $CONTAINER_ID
+>`}
+>    </CodeBlock>
+>  </TabItem>
+></Tabs>
 
-TODO ЗАЧЕМ плюс остановка kubelet что бы не поднимался
-### Остановка etcd (TODO ЗАЧЕМ?!!!!)
+11. Повторите этапы сбора [пререквизитов](#подготовка-окружения) и [подключения](#подключение-к-etcd) к кластеру ETCD.
 
-Остановите сервис kubelet на ноде: (ЗАЧЕМ?!)
+12. При помощи команд `member list` и `endpoint status` описанных выше [проверьте состояние кластера](#проверка-подключения-и-состояния-кластера).
 
-```bash
-systemctl stop kubelet
-```
+После выполнения работ на всех трех узлах ETCD кластера, кластер восстановлен и готов к работе.
 
-Остановите контейнер etcd. (ЗАЧЕМ?!)
+******
 
-```bash
-CONTAINER_ID=$(crictl ps -a --label io.kubernetes.container.name=etcd --label io.kubernetes.pod.namespace=kube-system | awk 'NR>1{r=$1} $0~/Running/{exit} END{print r}')
+#### Восстановление кластера при конфликтах или проблемах с кворумом
 
-crictl stop $CONTAINER_ID
-```
+Данная необходимость может возникнуть в случаях:
 
-### Перезапуск etcd в режиме нового кластера (ЗАЧЕМ?!)
+I. При обновлении кластера появилось больше или меньше 3х управляющих узлов K8s кластера.
+II. Распался кворум ETCD кластера.
+III. Повреждены метаданные БД на одном или нескольких узлах ETCD кластера.
 
-Перезапустите etcd с использованием ранее сохраненного снимка и параметром --force-new-cluster.
+1. Определите текущее количество узлов ETCD кластера.
 
-Обновите конфигурационный файл etcd (`/etc/kubernetes/manifests/etcd.yaml`) или измените параметры запуска, добавив следующие ключи:
+><Tabs groupId="etcd-endpoints">
+>  <TabItem value='KubeAPI восстанавливаемого кластера'>
+>    Если  KubeAPI восстанавливаемого  кластера доступно, тогда используйте этот вариант.
+>
+>    2. Подключитесь к KubeAPI и введите команду:
+>    <CodeBlock language="bash">{`kubectl get pod -n kube-system -l component=etcd -o wide`}</CodeBlock>
+>
+>    3. Выберите под узла ETCD кластера из полученной таблицы, на основе которого вы будете восстанавливать кластер.
+>
+>  </TabItem>
+>  <TabItem value='kubeAPI инфра кластера'>
+>    2. Подключитесь к KubeAPI инфраструктурного кластера и введите команду:
+>
+>    <CodeBlock language="bash">
+>{`kubectl get machine -n bcloud-k8s-sandbox-test-csko-1
+>  -l cluster.x-k8s.io/control-plane=
+>  -o custom-columns=NAME:.metadata.name,ADDRESSES:status.addresses\[0\].address
+>`}
+>    </CodeBlock>
+>    3. Выберите узел k8s кластера, с которого вы будете восстанавливать кластер.
+>  </TabItem>
+></Tabs>
 
-TODO - что мне даст этот ключ (ВОПРОС?) во вторых дай полную команду
-```bash
-- --force-new-cluster
-- Обновите initial-cluster так, чтобы он содержал только оставшуюся ноду.
-```
+4. Подключитесь к выбранному вами узлу K8s кластера или узлу K8s кластера выбранного вами пода.
 
-TODO - А ПОТОМ НАДО ЛИ УБЕРАТЬ^?
+5. Cоберите все возможные [пререквизиты](#подготовка-окружения) для подключения к ETCD и K8s кластеру.
 
+><Tabs groupId="etcd-endpoints">
+>  <TabItem value='ETCD кластер работает'>
+>    6. Если удается подключиться к ETCD кластеру, тогда создайте [резервную копию](#создание-резервных-копий)
+>    и [выполните восстановление кластера](#восстановление-с-одного-узла-из-мгновенного-снимка) с дальнейшим подключением
+>    остальных узлов ETCD кластера.
+>  </TabItem>
+>  <TabItem value='ETCD кластер не работает'>
+>    6. Если подключение к ETCD кластеру невозможно, сделайте [резервную копию файлов БД](#создание-резервной-копии-файлов-бд).
+>
+>    7. Откройте на редактирование файл <code>${ETCD_base_k8s_path}/manifests/etcd.yaml</code>.
+>    8. В параметрах запуска ETCD указанных в разделе `spec.containers[0].command`
+>    добавьте ключ:
+>    <CodeBlock language="bash">{`--force-new-cluster`}</CodeBlock>
+>    Здесь же измените параметр `initial-cluster` так, чтобы в нем остался только текущий узел ETCD кластера.
+>    <CodeBlock language="bash">{`\--initial-cluster=${ETCD_k8s_node_1}=https://${ETCD_k8s_node_address_1}:${ETCD_peer_port} `}</CodeBlock>
+>    Таким образом, при следущем запуске ETCD будут удалены все текущие метаданные из файлов БД,
+>    и туда будут записаны новые, указанные в разделе `spec.containers[0].command` с суффиксом initial.
+>
+>    9. Дождитесь, когда пересоздастся под ETCD узла и проверьте его состояние.
+>
+>    10. В файле <code>${ETCD_base_k8s_path}/manifests/etcd.yaml</code>
+>    в параметрах запуска ETCD указанных в разделе `spec.containers[0].command`
+>    удалите ключ:
+>    <CodeBlock language="bash">{`--force-new-cluster`}</CodeBlock>
+>    В противном случае, при каждом перезапуске пода/контейнера будут удаляться все метаданные из БД.
+>
+>    10. Добавьте 2й и 3й узлы кластера ETCD как это указано в инструкции к
+>    [восстановлению с одного узла](#восстановление-с-одного-узла-из-мгновенного-снимка) для `Master-2` и `Master-3`.
+>  </TabItem>
+></Tabs>
 
-TODO часть блока полезных команд
-### Проверьте работоспособность etcd
+На этом восстановление кластера завершено.
 
-Убедитесь, что etcd запущен и работает корректно.
-Повторите процедуру подключения к etcd при помощи crictl описанную выше.
-Выполните команду:
+*****
 
-```bash
-etcdctl endpoint health
-```
+### Дефрагментация
 
-TODO добавить добавили удалить забыли!
-### Добавление новых нод в кластер
+В случае если размер БД становится большим, следует выполнить процесс дефрагментации данных.
 
-Для восстановления избыточности кластера добавьте новые ноды.
+Проверьте размер файла `/var/lib/etcd/member/snap/db`.
 
-Отредактируйте манифест на всех нодах, внеся туда инормацию о пирах и эндпоинтах других нод в соответствующие ключи:
+:::note
+Если его размер превышает 2 GB рекомендуем запустить дефрагментацию.
+:::
 
-TODO - что мне даст этот ключ (ВОПРОС?) во вторых дай полную команду
-```bash
---peer-urls
---endpoints
-```
+Для выполнения дефрагментации рекомендуем использовать локальный etcdctl расположенный на ВМ за пределами контейнера.
+Возможны две ситуации, запуска дефрагментации:
 
-Переведите состояние кластера в "существующий"
+1. База данных запущена и работает.
+2. База данных остановлена или в нерабочем состоянии.
 
-TODO - что мне даст этот ключ (ВОПРОС?) во вторых дай полную команду
-```bash
---initial-cluster-state existing
-```
+><Tabs groupId="etcd-endpoints">
+>  <TabItem value='ETCD кластер работает'>
+>    Выполните [подключение к ETCD кластеру](#подключение-к-etcd). И запустите команду:
+>
+>    <CodeBlock language="bash">{`etcdctl defrag`}</CodeBlock>
+>
+>  </TabItem>
+>  <TabItem value='ETCD кластер не работает'>
+>    1. Подключитесь к ВМ с узлом ETCD кластера.
+>
+>    2. Остановите kubelet, чтобы он не пытался поднять под с узлом ETCD кластера.
+>
+>    <CodeBlock language="bash">{`systemctl stop kubelet`}</CodeBlock>
+>
+>    3. Остановите и удалите контейнер `etcd`, чтобы не возникало блокировок с файлами БД:
+>
+>    <CodeBlock language="bash">
+>{`export CONTAINER_ID="$(crictl ps -a  \\
+>    --label io.kubernetes.container.name=etcd \\
+>    --label io.kubernetes.pod.namespace=kube-system \\
+>    | awk 'NR>1{r=$1} $0~/Running/{exit} END{print r}')"
+>  crictl stop \${CONTAINER_ID}
+>  crictl rm \${CONTAINER_ID}
+>`}
+>    </CodeBlock>
+>
+>    4. При помощи локального `etcdctl` выполните команду дефрагментации передав ей путь до директории с файлами БД:
+>
+>    <CodeBlock language="bash">{`etcdctl defrag --data-dir ${ETCD_data_dir}`}</CodeBlock>
+>
+>    5. Запустите kubelet:
+>
+>    <CodeBlock language="bash">{`systemctl start kubelet`}</CodeBlock>
+>
+>  </TabItem>
+></Tabs>
 
-TODO часть блока полезных команд
-### Проверка etcd
-
-Убедитесь, что все члены кластера работают:
-
-TODO - что мне даст этот ключ (ВОПРОС?) во вторых дай полную команду
-```bash
-etcdctl member list
-```
+:::warning
+Для корректной работы etcd кластера, в том числе для запуска дефрагментации, размер ОЗУ должен быть больше и размера БД.
+В процессе своей работы, ETCD может загружать весь объем данных в оперативную память.
+:::
 
 TODO опиши как работает gardener etcd-backup (в режиме снапшотов)
 
-TODO нештатная история
-1) заехала нода лишняя и застряла (добавился лишний невалидный endpoint)
-2) пропала нода
-3) не поднимается кластер (доступ к member list недоступен)
 *****
-
-
-```bash
-export ENDPOINTS=$(kubectl get pod -n kube-system -l component=etcd -o custom-columns=ip:.status.podIP --no-headers | sed 's/.*/https\:\/\/&:2379/' | tr '\n' ',' | head -c -1)
-```
