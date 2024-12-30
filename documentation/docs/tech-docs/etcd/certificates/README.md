@@ -30,31 +30,31 @@
 | Поле                                                            | Тип         | Описание                                                                                                                                                      |
 | :-------------------------------------------------------------- | :---------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | centerAuthority                                                 | директория  | Хранение инструкций по жизненному циклу ЦА                                                                                                                    |
-| centerAuthority/{{caName}}                                      | директория  | Хранение инструкций конкретного ЦА                                                                                                                            |
-| centerAuthority/{{caName}}/*.mdx                                | файл        | Инструкция жизненного цикла ЦА для конкретного инструмента, например OpenSSL                                                                                  |
-| centerAuthority/{{caName}}/main.mdx                             | файл        | Основная инструкция жизненного цикла ЦА, объединяющая файлы `centerAuthority/{{caName}}/*.mdx`                                                                  |
-| centerAuthority/main.mdx                                        | файл        | Описывающий все сертификаты компонентов, описанные в `centerAuthority/{{caName}}/main.mdx `                                                                     |
+| centerAuthority/$caName                                      | директория  | Хранение инструкций конкретного ЦА                                                                                                                            |
+| centerAuthority/$caName/*.mdx                                | файл        | Инструкция жизненного цикла ЦА для конкретного инструмента, например OpenSSL                                                                                  |
+| centerAuthority/$caName/main.mdx                             | файл        | Основная инструкция жизненного цикла ЦА, объединяющая файлы `centerAuthority/$caName/*.mdx`                                                                  |
+| centerAuthority/main.mdx                                        | файл        | Описывающий все сертификаты компонентов, описанные в `centerAuthority/$caName/main.mdx `                                                                     |
 | components                                                      | директория  | Хранение папок компонентов продукта (по одной папке на компонент)                                                                                             |
-| components/{{componentName}}                                    | директория  | Хранение инструкций по жизненному циклу сертификатов конкретного компонента                                                                                   |
-| components/main.mdx                                             | файл        | Описывающий все сертификаты компонентов, описанные в `components/{{componentName}}/{{certificateDirection}}/*` (данный файл имеем итоговую структуру документа) |
-| components/{{componentName}}/{{certificateDirection}}           | директория  | Хранение инструкций для конкретного назначения сертификата в компоненте, например etcdClient или kubernetesServer                                             |
-| components/{{componentName}}/{{certificateDirection}}/main.mdx  | файл        | Основная инструкция жизненного цикла сертификата компонента, объединяющая файлы `components/{{componentName}}/{{certificateDirection}}/*.mdx `                  |
-| components/{{componentName}}/{{certificateDirection}}/*.mdx     | файл        | Инструкция жизненного цикла сертификата компонента для конкретного инструмента, например OpenSSL                                                              |
+| components/$componentName                                    | директория  | Хранение инструкций по жизненному циклу сертификатов конкретного компонента                                                                                   |
+| components/main.mdx                                             | файл        | Описывающий все сертификаты компонентов, описанные в `components/$componentName/$certificateDirection/*` (данный файл имеем итоговую структуру документа) |
+| components/$componentName/$certificateDirection           | директория  | Хранение инструкций для конкретного назначения сертификата в компоненте, например etcdClient или kubernetesServer                                             |
+| components/$componentName/$certificateDirection/main.mdx  | файл        | Основная инструкция жизненного цикла сертификата компонента, объединяющая файлы `components/$componentName/$certificateDirection/*.mdx `                  |
+| components/$componentName/$certificateDirection/*.mdx     | файл        | Инструкция жизненного цикла сертификата компонента для конкретного инструмента, например OpenSSL                                                              |
 | certificateAuthorityCerts.mdx                                   | файл        | Описывающий все сертификаты ЦА, описанные в `centerAuthority/main.mdx` (данный файл имеем итоговую структуру документа)                                         |
 | componentsCerts.mdx                                             | файл        | Описывающий все сертификаты компонентов, описанные в `components/main.mdx` (данный файл имеем итоговую структуру документа)                                     |
 
 
-1. *{{caName}}*:
+1. *$caName*:
 
    - Имя должно быть записано в стиле `camelCase` (также известном как `dromedaryCase`).
    - Имя должно быть интуитивно понятным и отражать суть.
 
-2. *{{componentName}}*:
+2. *$componentName*:
 
    - Имя должно быть записано в стиле `camelCase` (также известном как `dromedaryCase`).
    - Имя должно быть интуитивно понятным и отвечать на вопрос: "Что это за компонент?"
 
-3. *{{certificateDirection}}*:
+3. *$certificateDirection*:
 
    - Имя должно быть записано в стиле `camelCase` (также известном как `dromedaryCase`).
    - Имя должно быть интуитивно понятным и отвечать на вопрос: "Для чего используется данный сертификат?"

@@ -1,11 +1,8 @@
 
-// import CRISetup               from '@site/docs/tech-docs/kubernetes/components/cri/main.mdx'
 import ETCDSetup              from '@site/docs/tech-docs/kubernetes/components/etcd/staticPod.mdx'
 import ControllerManagerSetup from '@site/docs/tech-docs/kubernetes/components/controllerManager/staticPod.mdx'
 import SchedulerSetup         from '@site/docs/tech-docs/kubernetes/components/scheduler/staticPod.mdx'
 import KubeAPISetup           from '@site/docs/tech-docs/kubernetes/components/kubeAPI/staticPod.mdx'
-import KubeletSetup           from '@site/docs/tech-docs/kubernetes/components/kubelet/main.mdx'
-import { FancyboxDiagram }    from '@site/src/components/commonBlocks/FancyboxDiagram'
 import { CUSTOM_VALUE }       from '@site/src/constants/kubernetes/customValue'
 import CodeBlock              from '@theme/CodeBlock'
 import {ETCD_ARGS}            from '@site/src/constants/kubernetes/etcdArgs'
@@ -26,7 +23,7 @@ import KubeadmJoinConfig      from '@site/docs/tech-docs/kubernetes/components/k
 6. `secret`: Ключ доступа программы к интеграционному узлу.
 
 <div className="center">
-  <FancyboxDiagram>
+
 ```mermaid
 ---
 config:
@@ -51,13 +48,11 @@ flowchart TD
   end
 
 ```
-   </FancyboxDiagram>
+
 </div>
 
 
 ### Настройка Services
-<CRISetup />
-<KubeletSetup />
 
 <Tabs groupId="current-master">
   <TabItem value='master-1'>
