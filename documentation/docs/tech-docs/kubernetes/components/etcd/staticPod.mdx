@@ -13,7 +13,7 @@ import {ETCD_ARGS}                from '@site/src/constants/kubernetes/etcdArgs'
 **Инструкция StaticPod**
 
 <CodeBlock language="bash">
-{`cat <<EOF > $\{BASE_K8S_PATH\}/manifests/etcd.yaml
+{`cat <<EOF > $\{BASE_K8S_PATH}/manifests/etcd.yaml
   apiVersion: v1
   kind: Pod
   metadata:
@@ -85,7 +85,7 @@ import {ETCD_ARGS}                from '@site/src/constants/kubernetes/etcdArgs'
       volumeMounts:
       - mountPath: /var/lib/etcd
         name: etcd-data
-      - mountPath: $\{BASE_K8S_PATH\}/pki/etcd
+      - mountPath: $\{BASE_K8S_PATH}/pki/etcd
         name: etcd-certs
     hostNetwork: true
     priority: 2000001000
@@ -95,7 +95,7 @@ import {ETCD_ARGS}                from '@site/src/constants/kubernetes/etcdArgs'
         type: RuntimeDefault
     volumes:
     - hostPath:
-        path: $\{BASE_K8S_PATH\}/pki/etcd
+        path: $\{BASE_K8S_PATH}/pki/etcd
         type: DirectoryOrCreate
       name: etcd-certs
     - hostPath:

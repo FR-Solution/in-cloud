@@ -174,12 +174,12 @@ export const kubernetesTHW = [
               {
                 type: 'doc',
                 label: '5.1.2.1. Фазы',
-                id: 'tech-docs/kubernetes-thw/phase-kubeadm',
+                id: 'tech-docs/kubernetes/components/kubeadm/phases/phases',
               },
               {
                 type: 'doc',
                 label: '5.1.2.2. Настройка',
-                id: 'tech-docs/kubernetes-thw/phase-kubeadm',
+                id: 'tech-docs/kubernetes/components/kubeadm/configs/init',
               },
               {
                 type: 'doc',

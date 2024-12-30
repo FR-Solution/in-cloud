@@ -5,7 +5,7 @@ import { CUSTOM_VALUE }         from '@site/src/constants/kubernetes/customValue
 import { PORTS }                from '@site/src/constants/kubernetes/ports'
 
 
-<details open>
+<details>
 <summary>Конфигурация Kubeadm для подключения мастер ноды к кластеру</summary>
 
   <h4>Переменные окружния для шаблона конфигурационного файла</h4>
@@ -20,7 +20,7 @@ import { PORTS }                from '@site/src/constants/kubernetes/ports'
 
   <h4>Конфигурационный файл kubeadm для подключения мастера к кластеру</h4>
   <CodeBlock>
-    {dedent`cat <<EOF > $\{BASE_K8S_PATH\}/kubeadm-join.conf
+    {dedent`cat <<EOF > $\{BASE_K8S_PATH}/kubeadm-join.conf
       ---
       apiVersion: kubeadm.k8s.io/v1beta3
       controlPlane:

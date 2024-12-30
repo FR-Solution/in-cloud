@@ -220,7 +220,7 @@ EOF
     <details open>
     <summary>Cluster-Info</summary>
     <CodeBlock>
-{`kubectl --kubeconfig=$\{BASE_K8S_PATH\}/super-admin.conf apply -f - <<EOF
+{`kubectl --kubeconfig=$\{BASE_K8S_PATH}/super-admin.conf apply -f - <<EOF
   ---
   apiVersion: v1
   kind: ConfigMap
@@ -233,7 +233,7 @@ EOF
       clusters:
       - cluster:
           certificate-authority-data: $(cat /etc/kubernetes/pki/ca.crt | base64 | tr -d '\n')
-          server: https://api.$\{KUBERNETES_CLUSTER_NAME\}.$\{KUBERNETES_BASE_DOMAIN\}:${KUBE_API_ARGS.securePort.value}
+          server: https://api.$\{KUBERNETES_CLUSTER_NAME}.$\{KUBERNETES_BASE_DOMAIN}:$\{KUBE_API_ARGS.securePort.value}
         name: ""
       contexts: null
       current-context: ""

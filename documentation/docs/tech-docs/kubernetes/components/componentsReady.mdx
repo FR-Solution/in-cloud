@@ -14,148 +14,36 @@ import {KUBE_API_ARGS}        from '@site/src/constants/kubernetes/kubeAPIArgs'
 import TabItem                from '@theme/TabItem'
 import Tabs                   from '@theme/Tabs'
 
-import KubeadmInitConfig      from '@site/docs/tech-docs/kubernetes/components/kubeadm/configs/initConfig.mdx'
-import KubeadmJoinConfig      from '@site/docs/tech-docs/kubernetes/components/kubeadm/configs/joinConfig.mdx'
-
-
 
 # 5.1.1.3. Проверка
 ## 5.1.1.3.1 Проверка готовности окружения
 
+
 <Tabs groupId="current-master">
   <TabItem value='master-1'>
-
-    <Tabs groupId="install-type">
-
-      <TabItem value='HardWay'>
-        :::warning
-        Чтобы проверить правильность установки всех базовых компонентов, выполните команду:
-
-        ```bash
-        kubeadm init phase preflight \
-          --dry-run
-        ```
-        Если все установлено корректно, команда выполнится без ошибок, и вы увидите следующий вывод:
-        ```bash
-        [preflight] Running pre-flight checks
-        [preflight] Would pull the required images (like 'kubeadm config images pull')
-        ```
-        :::
-      </TabItem>
-
-      <TabItem value='Kubeadm'>
-        <KubeadmInitConfig/>
-        :::warning
-        Чтобы проверить правильность установки всех базовых компонентов, выполните команду:
-
-        ```bash
-        kubeadm init phase preflight \
-          --dry-run
-        ```
-        Если все установлено корректно, команда выполнится без ошибок, и вы увидите следующий вывод:
-        ```bash
-        [preflight] Running pre-flight checks
-        [preflight] Would pull the required images (like 'kubeadm config images pull')
-        ```
-        :::
-      </TabItem>
-
-    </Tabs>
+      ```bash
+      kubeadm init phase preflight \
+        --dry-run
+      ```
+      Если все установлено корректно, команда выполнится без ошибок, и вы увидите следующий вывод:
+      ```bash
+      [preflight] Running pre-flight checks
+      [preflight] Would pull the required images (like 'kubeadm config images pull')
+      ```
   </TabItem>
 
   <TabItem value='master-2'>
-    <Tabs groupId="install-type">
-
-      <TabItem value='HardWay'>
-        :::warning
-        Чтобы проверить правильность установки всех базовых компонентов, выполните команду:
-
-        ```bash
-        kubeadm init phase preflight \
-          --dry-run
-        ```
-        Если все установлено корректно, команда выполнится без ошибок, и вы увидите следующий вывод:
-        ```bash
-        [preflight] Running pre-flight checks
-        [preflight] Reading configuration from the cluster...
-        [preflight] FYI: You can look at this config file with 'kubectl -n kube-system get cm kubeadm-config -o yaml'
-        [preflight] Running pre-flight checks before initializing the new control plane instance
-        [preflight] Would pull the required images (like 'kubeadm config images pull')
-        ```
-        :::
-      </TabItem>
-
-      <TabItem value='Kubeadm'>
-        <KubeadmJoinConfig/>
-
-        :::warning
-        Чтобы проверить правильность установки всех базовых компонентов, выполните команду:
-
-        ```bash
-        kubeadm join phase preflight \
-          --config=/etc/kubernetes/kubeadm-join.conf \
-          --dry-run
-        ```
-        Если все установлено корректно, команда выполнится без ошибок, и вы увидите следующий вывод:
-        ```bash
-        [preflight] Running pre-flight checks
-        [preflight] Reading configuration from the cluster...
-        [preflight] FYI: You can look at this config file with 'kubectl -n kube-system get cm kubeadm-config -o yaml'
-        [preflight] Running pre-flight checks before initializing the new control plane instance
-        [preflight] Would pull the required images (like 'kubeadm config images pull')
-        ```
-        :::
-      </TabItem>
-
-    </Tabs>
-
+      ```bash
+      kubeadm init phase preflight \
+        --dry-run
+      ```
   </TabItem>
 
   <TabItem value='master-3'>
-    <Tabs groupId="install-type">
-
-      <TabItem value='HardWay'>
-        :::warning
-        Чтобы проверить правильность установки всех базовых компонентов, выполните команду:
-
-        ```bash
-        kubeadm init phase preflight \
-          --dry-run
-        ```
-        Если все установлено корректно, команда выполнится без ошибок, и вы увидите следующий вывод:
-        ```bash
-        [preflight] Running pre-flight checks
-        [preflight] Reading configuration from the cluster...
-        [preflight] FYI: You can look at this config file with 'kubectl -n kube-system get cm kubeadm-config -o yaml'
-        [preflight] Running pre-flight checks before initializing the new control plane instance
-        [preflight] Would pull the required images (like 'kubeadm config images pull')
-        ```
-        :::
-      </TabItem>
-      
-      <TabItem value='Kubeadm'>
-        <KubeadmJoinConfig/>
-        :::warning
-        Чтобы проверить правильность установки всех базовых компонентов, выполните команду:
-
-        ```bash
-        kubeadm join phase preflight \
-          --config=/etc/kubernetes/kubeadm-join.conf \
-          --dry-run
-        ```
-        Если все установлено корректно, команда выполнится без ошибок, и вы увидите следующий вывод:
-        ```bash
-        [preflight] Running pre-flight checks
-        [preflight] Reading configuration from the cluster...
-        [preflight] FYI: You can look at this config file with 'kubectl -n kube-system get cm kubeadm-config -o yaml'
-        [preflight] Running pre-flight checks before initializing the new control plane instance
-        [preflight] Would pull the required images (like 'kubeadm config images pull')
-        ```
-        :::
-      </TabItem>
-
-    </Tabs>
-
+      ```bash
+      kubeadm init phase preflight \
+        --dry-run
+      ```
   </TabItem>
 
 </Tabs>
