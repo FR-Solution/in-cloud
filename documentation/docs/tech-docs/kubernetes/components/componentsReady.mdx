@@ -1,3 +1,7 @@
+---
+id: components-ready
+---
+
 
 import ETCDSetup              from '@site/docs/tech-docs/kubernetes/components/etcd/staticPod.mdx'
 import ControllerManagerSetup from '@site/docs/tech-docs/kubernetes/components/controllerManager/staticPod.mdx'
@@ -14,45 +18,9 @@ import KubeadmInitConfig      from '@site/docs/tech-docs/kubernetes/components/k
 import KubeadmJoinConfig      from '@site/docs/tech-docs/kubernetes/components/kubeadm/configs/joinConfig.mdx'
 
 
-#### Каждый компоненты мы представляем как набор сущностей:
-1. `service`: Systemd unit, ориентированный на запуск сценария при старте ОС.
-2. `service.d`: Конфигурационные файлы Systemd unit.
-3. `env`: Переменные окружения программы.
-4. `exec`: Исполняемый файл программы
-5. `config`: Конфигурационный файл программы
-6. `secret`: Ключ доступа программы к интеграционному узлу.
 
-<div className="center">
-
-```mermaid
----
-config:
-  look: handDrawn
-  theme: dark  
----
-
-flowchart TD
-
-  service[service]
-  env[env]
-  exec[exec]
-  config[config]
-  secret[secret]
-
-  subgraph component
-   service-->env
-   service-->service.d
-   service-->exec
-   exec-->config
-   exec-->secret
-  end
-
-```
-
-</div>
-
-
-### Настройка Services
+# 5.1.1.3. Проверка
+## 5.1.1.3.1 Проверка готовности окружения
 
 <Tabs groupId="current-master">
   <TabItem value='master-1'>
@@ -76,7 +44,7 @@ flowchart TD
       </TabItem>
 
       <TabItem value='Kubeadm'>
-        <KubeadmInitConfig />
+        <KubeadmInitConfig/>
         :::warning
         Чтобы проверить правильность установки всех базовых компонентов, выполните команду:
 

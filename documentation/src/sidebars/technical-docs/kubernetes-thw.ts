@@ -162,7 +162,7 @@ export const kubernetesTHW = [
               {
                 type: 'doc',
                 label: '5.1.1.3. Проверка',
-                id: 'tech-docs/kubernetes-thw/step-by-step-os',
+                id: 'tech-docs/kubernetes/components/components-ready',
               },
             ]
           },
