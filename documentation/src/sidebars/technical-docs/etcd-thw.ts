@@ -1,20 +1,5 @@
 export const ETCDTHW = [
   {
-    type: 'doc',
-    label: 'Введение',
-    id: 'tech-docs/etcd/etcd-about',
-  },
-  {
-    type: 'doc',
-    label: 'Компоненты',
-    id: 'tech-docs/etcd/etcd-components',
-  },
-  {
-    type: 'doc',
-    label: 'Архитектура',
-    id: 'tech-docs/etcd/etcd-architecture',
-  },
-  {
     type: 'category',
     label: 'Как начать',
     collapsed: true,
