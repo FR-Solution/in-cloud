@@ -14,7 +14,7 @@ import { COMPONENTS_VERSION }   from '@site/src/constants/kubernetes/componentsV
 <h4>Инструкция загрузки</h4>
 <CodeBlock language="bash">
     {dedent`
-        wget  -O ${DOWNLOAD_VERSION.crictl.path}      ${DOWNLOAD_VERSION.crictl.templateUrl}
+        wget  -O ${DOWNLOAD_VERSION.crictl.path} ${DOWNLOAD_VERSION.crictl.templateUrl}
         chmod +x ${DOWNLOAD_VERSION.crictl.path}
         tar   -C "/usr/local/bin"  -xvf /tmp/crictl.tar.gz
     `}
