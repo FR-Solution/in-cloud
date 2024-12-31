@@ -8,10 +8,6 @@ import { PORTS }                from '@site/src/constants/kubernetes/ports'
 import { CUSTOM_VALUE }         from '@site/src/constants/kubernetes/customValue'
 import { COMPONENTS_VERSION }   from '@site/src/constants/kubernetes/componentsVersion'
 import { CERTIFICATES }         from '@site/src/constants/kubernetes/certs'
-import MastersTabs      from '@site/docs/tech-docs/kubernetes/setupEnvironments/preparingTheEnvironment.mdx'
-
-
-<MastersTabs/>
 
 <details>
 <summary>Конфигурация Kubeadm для инициализации кластера</summary>
@@ -20,10 +16,32 @@ import MastersTabs      from '@site/docs/tech-docs/kubernetes/setupEnvironments/
 
   <CodeBlock language="bash">
       {dedent`
+        export KUBELET_SERVER_PORT=${PORTS.kubeletServer.portNumber}
+        export KUBELET_READ_ONLY_PORT=${PORTS.kubeletReadOnlyPort.portNumber}
+        export KUBE_APISERVER_PORT=${PORTS.kubeAPIServer.portNumber}
+        export ETCD_SERVER_PORT=${PORTS.etcdServer.portNumber}
+      `}
+  </CodeBlock>
+
+  <CodeBlock language="bash">
+      {dedent`
         export BASE_K8S_PATH="${CUSTOM_VALUE.kuberneteBaseFolderPath.value}"
         export SERVICE_CIDR="${CUSTOM_VALUE.kubernetesServiceCIDR.value}"
         export MACHINE_LOCAL_ADDRESS=${CUSTOM_VALUE.virtualMachineLocalAddress.value}
+        export BASE_DOCKER_REGISTRY="${CUSTOM_VALUE.baseDockerRegistry.value}"
+        export KUBERNETES_CLUSTER_NAME="${CUSTOM_VALUE.kubernetesClusterName.value}"
+        export KUBERNETES_BASE_DOMAIN="${CUSTOM_VALUE.kubernetesBaseDomain.value}"
+        export FULL_HOST_NAME="${CUSTOM_VALUE.virtualMachineFullName.value}"
+        export KUBERNETES_CLUSTER_DOMAIN="${CUSTOM_VALUE.kubernetesClusterDomain.value}"
         export KUBERNETES_VERSION="${COMPONENTS_VERSION.kubernetes.value}"
+        export ETCD_SERVERS="https://127.0.0.1:$\{ETCD_SERVER_PORT}"
+      `}
+  </CodeBlock>
+
+  <CodeBlock language="bash">
+      {dedent`
+        export KUBERNETES_CA_KEY_PATH="${CERTIFICATES.kubernetesCA.keyPath}"
+        export KUBERNETES_CA_CRT_PATH="${CERTIFICATES.kubernetesCA.crtPath}"
         export KUBERNETES_SERVICE_ACCOUNT_KEY_PATH="${CERTIFICATES.kubernetesSA.keyPath}"
         export KUBERNETES_SERVICE_ACCOUNT_CRT_PATH="${CERTIFICATES.kubernetesSA.crtPath}"
         export KUBERNETES_SERVER_KEY_PATH="${CERTIFICATES.kubernetesServer.keyPath}"
@@ -35,24 +53,12 @@ import MastersTabs      from '@site/docs/tech-docs/kubernetes/setupEnvironments/
         export KUBERNETES_FRONT_PROXY_CLIENT_CN="${CERTIFICATES.kubernetesFrontProxyClient.cname}"
         export KUBERNETES_ETCD_CLIENT_KEY_PATH="${CERTIFICATES.kubernetesEtcdClient.keyPath}"
         export KUBERNETES_ETCD_CLIENT_CRT_PATH="${CERTIFICATES.kubernetesEtcdClient.crtPath}"
-        export KUBERNETES_CLUSTER_NAME="${CUSTOM_VALUE.kubernetesClusterName.value}"
-        export KUBERNETES_CA_KEY_PATH="${CERTIFICATES.kubernetesCA.keyPath}"
-        export KUBERNETES_CA_CRT_PATH="${CERTIFICATES.kubernetesCA.crtPath}"
-        export KUBERNETES_BASE_DOMAIN="${CUSTOM_VALUE.kubernetesBaseDomain.value}"
-        export KUBELET_SERVER_PORT=${PORTS.kubeletServer.portNumber}
-        export KUBELET_READ_ONLY_PORT=${PORTS.kubeletReadOnlyPort.portNumber}
-        export KUBE_APISERVER_PORT=${PORTS.kubeAPIServer.portNumber}
-        export KUBERNETES_CLUSTER_DOMAIN=$\{KUBERNETES_CLUSTER_NAME}.$\{KUBERNETES_BASE_DOMAIN}
-        export FULL_HOST_NAME=$\{HOST_NAME}.$\{KUBERNETES_CLUSTER_DOMAIN}
         export FRONT_PROXY_CA_CRT_PATH="${CERTIFICATES.frontProxyCA.crtPath}"
-        export ETCD_SERVER_PORT=${PORTS.etcdServer.portNumber}
-        export ETCD_SERVERS="https://127.0.0.1:$\{ETCD_SERVER_PORT}"
         export ETCD_SERVER_KEY_PATH="${CERTIFICATES.etcdServer.keyPath}"
         export ETCD_SERVER_CRT_PATH="${CERTIFICATES.etcdServer.crtPath}"
         export ETCD_PEER_KEY_PATH="${CERTIFICATES.etcdPeer.keyPath}"
         export ETCD_PEER_CRT_PATH="${CERTIFICATES.etcdPeer.crtPath}"
         export ETCD_CA_CRT_PATH="${CERTIFICATES.etcdCA.crtPath}"
-        export BASE_DOCKER_REGISTRY="${CUSTOM_VALUE.baseDockerRegistry.value}"
       `}
   </CodeBlock>
 

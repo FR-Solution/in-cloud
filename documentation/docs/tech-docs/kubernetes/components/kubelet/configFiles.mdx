@@ -15,7 +15,7 @@ import { CERTIFICATES }         from '@site/src/constants/kubernetes/certs'
         export SERVICE_DNS="${CUSTOM_VALUE.kubernetesDNSAddress.value}"
         export KUBERNETES_CLUSTER_NAME="${CUSTOM_VALUE.kubernetesClusterName.value}"
         export KUBERNETES_BASE_DOMAIN="${CUSTOM_VALUE.kubernetesBaseDomain.value}"
-        export KUBERNETES_CLUSTER_DOMAIN=$\{KUBERNETES_CLUSTER_NAME}.$\{KUBERNETES_BASE_DOMAIN}
+        export KUBERNETES_CLUSTER_DOMAIN="${CUSTOM_VALUE.kubernetesClusterDomain.value}"
         export KUBELET_CURRENT_SERVER_CRT_PATH="${CERTIFICATES.kubeletCurrentServer.crtPath}"
     `}
 </CodeBlock>

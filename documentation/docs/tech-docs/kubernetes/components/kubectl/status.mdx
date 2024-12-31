@@ -4,10 +4,9 @@ import CodeBlock                from '@theme/CodeBlock'
 import { DOWNLOAD_VERSION }     from '@site/src/constants/kubernetes/downloads'
 import { COMPONENTS_VERSION }   from '@site/src/constants/kubernetes/componentsVersion'
 
-### Запуск компонента
 <CodeBlock language="bash">
     {dedent`
-        kubectl --help
+        kubectl version
     `}
 </CodeBlock>
 
@@ -16,11 +15,9 @@ import { COMPONENTS_VERSION }   from '@site/src/constants/kubernetes/componentsV
 
 <CodeBlock language="bash">
     {dedent`
-        root@compute:~/$ kubectl --help
-        kubectl controls the Kubernetes cluster manager.
-
-        Find more information at: https://kubernetes.io/docs/reference/kubectl/
-        ******
+        Client Version: v1.30.4
+        Kustomize Version: v5.0.4-0.20230601165947-6ce0bf390ce3
+        The connection to the server localhost:8080 was refused - did you specify the right host or port?
     `}
 </CodeBlock>
 :::

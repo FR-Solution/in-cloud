@@ -22,8 +22,8 @@ import { CERTIFICATES }         from '@site/src/constants/kubernetes/certs'
   export BASE_DOCKER_REGISTRY="${CUSTOM_VALUE.baseDockerRegistry.value}"
   export PAUSED_IMAGE="${CUSTOM_VALUE.pausedImage.value}"
   export KUBERNETES_BASE_DOMAIN="${CUSTOM_VALUE.kubernetesBaseDomain.value}"
-  export KUBERNETES_CLUSTER_DOMAIN=$\{KUBERNETES_CLUSTER_NAME}.$\{KUBERNETES_BASE_DOMAIN}
-  export FULL_HOST_NAME=$\{HOST_NAME}.$\{KUBERNETES_CLUSTER_DOMAIN}
+  export KUBERNETES_CLUSTER_DOMAIN="${CUSTOM_VALUE.kubernetesClusterDomain.value}"
+  export FULL_HOST_NAME="${CUSTOM_VALUE.virtualMachineFullName.value}"
 
 `}
 </CodeBlock>
