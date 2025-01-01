@@ -6,17 +6,17 @@ import dedent           from 'dedent'
 
 ### 5.1.3.2.2.1. Переменные окружения PKI
 <CodeBlock language="bash">
-{dedent`
-    export BASE_K8S_PATH="${CUSTOM_VALUE.kuberneteBaseFolderPath.value}"
-    export ETCD_CLIENT_CN="${CERTIFICATES.etcdClient.cname}"
-    export ETCD_CLIENT_CRT_CONF="${CERTIFICATES.etcdClient.crtConf}"
-    export ETCD_CLIENT_CRT_PATH="${CERTIFICATES.etcdClient.crtPath}"
-    export ETCD_CLIENT_CSR_PATH="${CERTIFICATES.etcdClient.csrPath}"
-    export ETCD_CLIENT_KEY_PATH="${CERTIFICATES.etcdClient.keyPath}"
-    export ETCD_CLIENT_KEY_SIZE=${CERTIFICATES.etcdClient.keySize}
-    export ETCD_CA_CRT_PATH="${CERTIFICATES.kubernetesCA.crtPath}"
-    export ETCD_CA_KEY_PATH="${CERTIFICATES.kubernetesCA.keyPath}"
-`}
+    {dedent`
+        export BASE_K8S_PATH="${CUSTOM_VALUE.kuberneteBaseFolderPath.value}"
+        export ETCD_CLIENT_CN="${CERTIFICATES.etcdClient.cname}"
+        export ETCD_CLIENT_CRT_CONF="${CERTIFICATES.etcdClient.crtConf}"
+        export ETCD_CLIENT_CRT_PATH="${CERTIFICATES.etcdClient.crtPath}"
+        export ETCD_CLIENT_CSR_PATH="${CERTIFICATES.etcdClient.csrPath}"
+        export ETCD_CLIENT_KEY_PATH="${CERTIFICATES.etcdClient.keyPath}"
+        export ETCD_CLIENT_KEY_SIZE=${CERTIFICATES.etcdClient.keySize}
+        export ETCD_CA_CRT_PATH="${CERTIFICATES.kubernetesCA.crtPath}"
+        export ETCD_CA_KEY_PATH="${CERTIFICATES.kubernetesCA.keyPath}"
+    `}
 </CodeBlock>
 
 ### 5.1.3.2.2.2. Рабочая директория для PKI

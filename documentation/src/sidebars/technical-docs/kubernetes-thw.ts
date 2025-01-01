@@ -203,6 +203,11 @@ export const kubernetesTHW = [
                 label: '5.1.3.2. Сертификаты',
                 id: 'tech-docs/kubernetes/certificates/all-certificates',
               },
+              {
+                type: 'doc',
+                label: '5.1.3.3. Проверка',
+                id: 'tech-docs/kubernetes/certificates/examination',
+              },
             ],
           },
           {
