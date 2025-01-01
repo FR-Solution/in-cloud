@@ -5,11 +5,7 @@ import MastersTabs      from '@site/docs/tech-docs/kubernetes/setupEnvironments/
 import CodeBlock        from '@theme/CodeBlock'
 import dedent           from 'dedent'
 
-### ETCD peer certificate
-#### Переменные окружения openssl для сертификата `etcd-peer`
-
-<MastersTabs/>
-
+### 5.1.3.2.4.1. Переменные окружения PKI
 <CodeBlock language="bash">
 {dedent`
     export KUBERNETES_CLUSTER_NAME="${CUSTOM_VALUE.kubernetesClusterName.value}"
@@ -34,8 +30,15 @@ import dedent           from 'dedent'
 `}
 </CodeBlock>
 
-#### Конфигурация openssl `etcd-peer`
+### 5.1.3.2.4.2. Рабочая директория для PKI
+<CodeBlock language="bash">
+    {dedent`
+        mkdir -p $\{BASE_K8S_PATH}/pki
+        mkdir -p $\{BASE_K8S_PATH}/openssl/csr
+    `}
+</CodeBlock>
 
+### 5.1.3.2.4.3. Конфигурация PKI
 ```bash
 cat <<EOF > ${ETCD_PEER_CRT_CONF}
 [ req ]
@@ -68,15 +71,13 @@ subjectAltName=@alt_names
 EOF
 ```
 
-#### Генерация приватных ключей сертификатов
-
+### 5.1.3.2.4.4. Генерация приватного ключа
 ```bash
 openssl genrsa \
     -out "${ETCD_PEER_KEY_PATH}" ${ETCD_PEER_KEY_SIZE}
 ```
 
-#### Генерация CSR будущих сертификатов
-
+### 5.1.3.2.4.5. Генерация CSR
 ```bash
 openssl req \
     -new \
@@ -85,8 +86,7 @@ openssl req \
     -config "${ETCD_PEER_CRT_CONF}"
 ```
 
-#### Подпись CSR ключом центра аутентификации (ЦА)
-
+### 5.1.3.2.4.6. Подпись CSR
 ```bash
 openssl x509 \
     -req \

@@ -5,11 +5,7 @@ import MastersTabs      from '@site/docs/tech-docs/kubernetes/setupEnvironments/
 import CodeBlock        from '@theme/CodeBlock'
 import dedent           from 'dedent'
 
-### K8S-API server certificate
-#### Переменные окружения openssl для сертификата `kubernetes-server`
-
-<MastersTabs/>
-
+### 5.1.3.2.7.1. Переменные окружения PKI
 <CodeBlock language="bash">
 {dedent`
     export KUBERNETES_CLUSTER_NAME="${CUSTOM_VALUE.kubernetesClusterName.value}"
@@ -34,8 +30,16 @@ import dedent           from 'dedent'
 `}
 </CodeBlock>
 
-#### Конфигурация openssl для сертификата `kubernetes-server`
+### 5.1.3.2.7.2. Рабочая директория для PKI
+<CodeBlock language="bash">
+    {dedent`
+        mkdir -p $\{BASE_K8S_PATH}/pki
+        mkdir -p $\{BASE_K8S_PATH}/openssl/csr
+    `}
+</CodeBlock>
 
+
+### 5.1.3.2.7.3. Конфигурация PKI
 ```bash
 cat <<EOF > ${KUBERNETES_SERVER_CRT_CONF}
 [ req ]
@@ -69,13 +73,13 @@ subjectAltName=@alt_names
 EOF
 ```
 
-#### Генерация приватного ключа сертификата `kubernetes-server`
+### 5.1.3.2.7.4. Генерация приватного ключа
 ```bash
 openssl genrsa \
     -out "${KUBERNETES_SERVER_KEY_PATH}" ${KUBERNETES_SERVER_KEY_SIZE}
 ```
 
-#### Генерация CSR на базе ключа и инструкции openssl `kubernetes-server`
+### 5.1.3.2.7.5. Генерация CSR
 ```bash
 openssl req \
     -new \
@@ -84,7 +88,7 @@ openssl req \
     -config "${KUBERNETES_SERVER_CRT_CONF}"
 ```
 
-#### Подпись CSR ключом ЦА, сертификата `kubernetes-server`
+### 5.1.3.2.7.6. Подпись CSR
 ```bash
 openssl x509 \
     -req \

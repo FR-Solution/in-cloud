@@ -4,3 +4,12 @@
 @use './sidebar';
 @use './table-of-contents';
 @use './global';
+
+// TODO dobry_kot для увеличения ширины боковой навигационной панели по заголовкам
+.tableOfContents_bqdL {
+  max-height: calc(100vh - (var(--ifm-navbar-height) + 2rem));
+  overflow-y: auto;
+  position: sticky;
+  margin-right: -30px; // этот параметр исправляет в нужную сторону
+  top: calc(var(--ifm-navbar-height) + 1rem);
+}

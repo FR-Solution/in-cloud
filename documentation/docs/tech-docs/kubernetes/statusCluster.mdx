@@ -26,7 +26,7 @@ import Tabs                     from '@theme/Tabs'
     +------------------+---------+---------------------------------+----------------------------+----------------------------+------------+
     |        ID        | STATUS  |              NAME               |         PEER ADDRS         |        CLIENT ADDRS        | IS LEARNER |
     +------------------+---------+---------------------------------+----------------------------+----------------------------+------------+
-    | 4a182a6f514944cc | started | master-1.example.prorobotech.ru | https://192.168.10.26:2380 | https://192.168.10.26:2379 |      false |
+    | 4a182a6f514944cc | started | master-1.example.example.com | https://192.168.10.26:2380 | https://192.168.10.26:2379 |      false |
     +------------------+---------+---------------------------------+----------------------------+----------------------------+------------+
     ```
     :::
@@ -40,7 +40,7 @@ import Tabs                     from '@theme/Tabs'
 
     ```bash
     NAME                              STATUS     ROLES            AGE   VERSION   INTERNAL-IP     EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION     CONTAINER-RUNTIME
-    master-1.example.prorobotech.ru   NotReady   control-plane    1m    v1.30.4   192.168.10.26   <none>        Ubuntu 24.04.1 LTS   6.8.0-47-generic   containerd://1.7.19
+    master-1.example.example.com   NotReady   control-plane    1m    v1.30.4   192.168.10.26   <none>        Ubuntu 24.04.1 LTS   6.8.0-47-generic   containerd://1.7.19
     ```
   </TabItem>
 
@@ -55,8 +55,8 @@ import Tabs                     from '@theme/Tabs'
     +------------------+---------+---------------------------------+----------------------------+----------------------------+------------+
     |        ID        | STATUS  |              NAME               |         PEER ADDRS         |        CLIENT ADDRS        | IS LEARNER |
     +------------------+---------+---------------------------------+----------------------------+----------------------------+------------+
-    | 4a182a6f514944cc | started | master-1.example.prorobotech.ru | https://192.168.10.26:2380 | https://192.168.10.26:2379 |      false |
-    | fe3b7ffe25176e2e | started | master-2.example.prorobotech.ru | https://192.168.10.18:2380 | https://192.168.10.18:2379 |      false |
+    | 4a182a6f514944cc | started | master-1.example.example.com | https://192.168.10.26:2380 | https://192.168.10.26:2379 |      false |
+    | fe3b7ffe25176e2e | started | master-2.example.example.com | https://192.168.10.18:2380 | https://192.168.10.18:2379 |      false |
     +------------------+---------+---------------------------------+----------------------------+----------------------------+------------+
 
     ```
@@ -71,8 +71,8 @@ import Tabs                     from '@theme/Tabs'
 
     ```bash
     NAME                              STATUS     ROLES            AGE   VERSION   INTERNAL-IP     EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION     CONTAINER-RUNTIME
-    master-1.example.prorobotech.ru   NotReady   control-plane    5m    v1.30.4   192.168.10.26   <none>        Ubuntu 24.04.1 LTS   6.8.0-47-generic   containerd://1.7.19
-    master-2.example.prorobotech.ru   NotReady   <none>           1m    v1.30.4   192.168.10.18   <none>        Ubuntu 24.04.1 LTS   6.8.0-47-generic   containerd://1.7.19
+    master-1.example.example.com   NotReady   control-plane    5m    v1.30.4   192.168.10.26   <none>        Ubuntu 24.04.1 LTS   6.8.0-47-generic   containerd://1.7.19
+    master-2.example.example.com   NotReady   <none>           1m    v1.30.4   192.168.10.18   <none>        Ubuntu 24.04.1 LTS   6.8.0-47-generic   containerd://1.7.19
     ```
   </TabItem>
 
@@ -87,9 +87,9 @@ import Tabs                     from '@theme/Tabs'
     +------------------+---------+---------------------------------+----------------------------+----------------------------+------------+
     |        ID        | STATUS  |              NAME               |         PEER ADDRS         |        CLIENT ADDRS        | IS LEARNER |
     +------------------+---------+---------------------------------+----------------------------+----------------------------+------------+
-    | 4a182a6f514944cc | started | master-1.example.prorobotech.ru | https://192.168.10.26:2380 | https://192.168.10.26:2379 |      false |
-    | fe3b7ffe25176e2e | started | master-2.example.prorobotech.ru | https://192.168.10.18:2380 | https://192.168.10.18:2379 |      false |
-    | db8758b95c69469d | started | master-3.example.prorobotech.ru | https://192.168.10.9:2380  | https://192.168.10.9:2379  |      false |
+    | 4a182a6f514944cc | started | master-1.example.example.com | https://192.168.10.26:2380 | https://192.168.10.26:2379 |      false |
+    | fe3b7ffe25176e2e | started | master-2.example.example.com | https://192.168.10.18:2380 | https://192.168.10.18:2379 |      false |
+    | db8758b95c69469d | started | master-3.example.example.com | https://192.168.10.9:2380  | https://192.168.10.9:2379  |      false |
     +------------------+---------+---------------------------------+----------------------------+----------------------------+------------+
     ```
     :::
@@ -103,9 +103,9 @@ import Tabs                     from '@theme/Tabs'
 
     ```bash
     NAME                              STATUS     ROLES            AGE   VERSION   INTERNAL-IP     EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION     CONTAINER-RUNTIME
-    master-1.example.prorobotech.ru   NotReady   control-plane    10m   v1.30.4   192.168.10.26   <none>        Ubuntu 24.04.1 LTS   6.8.0-47-generic   containerd://1.7.19
-    master-2.example.prorobotech.ru   NotReady   control-plane    5m    v1.30.4   192.168.10.18   <none>        Ubuntu 24.04.1 LTS   6.8.0-47-generic   containerd://1.7.19
-    master-3.example.prorobotech.ru   NotReady   <none>           1m    v1.30.4   192.168.10.9    <none>        Ubuntu 24.04.1 LTS   6.8.0-47-generic   containerd://1.7.19
+    master-1.example.example.com   NotReady   control-plane    10m   v1.30.4   192.168.10.26   <none>        Ubuntu 24.04.1 LTS   6.8.0-47-generic   containerd://1.7.19
+    master-2.example.example.com   NotReady   control-plane    5m    v1.30.4   192.168.10.18   <none>        Ubuntu 24.04.1 LTS   6.8.0-47-generic   containerd://1.7.19
+    master-3.example.example.com   NotReady   <none>           1m    v1.30.4   192.168.10.9    <none>        Ubuntu 24.04.1 LTS   6.8.0-47-generic   containerd://1.7.19
     ```
   </TabItem>
 

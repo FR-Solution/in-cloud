@@ -8,7 +8,7 @@ export const CUSTOM_VALUE: TCustomValueItems = {
     value: 'pause:3.9',
   },
   kubernetesBaseDomain: {
-    value: 'prorobotech.ru',
+    value: 'example.com',
   },
   kubernetesClusterName: {
     value: 'example',

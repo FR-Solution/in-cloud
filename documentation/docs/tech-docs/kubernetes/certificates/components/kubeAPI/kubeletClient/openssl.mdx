@@ -4,9 +4,7 @@ import { CUSTOM_VALUE } from '@site/src/constants/kubernetes/customValue'
 import CodeBlock        from '@theme/CodeBlock'
 import dedent           from 'dedent'
 
-### Kubelet client certificate
-#### Переменные окружения openssl для сертификата `kubernetes-kubelet-client`
-
+### 5.1.3.2.6.1. Переменные окружения PKI
 <CodeBlock language="bash">
 {dedent`
     export BASE_K8S_PATH="${CUSTOM_VALUE.kuberneteBaseFolderPath.value}"
@@ -21,8 +19,15 @@ import dedent           from 'dedent'
 `}
 </CodeBlock>
 
-#### Конфигурация openssl для сертификата `kubernetes-kubelet-client`
+### 5.1.3.2.6.2. Рабочая директория для PKI
+<CodeBlock language="bash">
+    {dedent`
+        mkdir -p $\{BASE_K8S_PATH}/pki
+        mkdir -p $\{BASE_K8S_PATH}/openssl/csr
+    `}
+</CodeBlock>
 
+### 5.1.3.2.6.3. Конфигурация PKI
 ```bash
 cat <<EOF > ${KUBERNETES_KUBELET_CLIENT_CRT_CONF}
 [ req ]
@@ -44,13 +49,13 @@ EOF
 ```
 
 
-#### Генерация приватного ключа сертификата `kubernetes-kubelet-client`
+### 5.1.3.2.6.4. Генерация приватного ключа
 ```bash
 openssl genrsa \
     -out "${KUBERNETES_KUBELET_CLIENT_KEY_PATH}" ${KUBERNETES_KUBELET_CLIENT_KEY_SIZE}
 ```
 
-#### Генерация CSR на базе ключа и инструкции openssl `kubernetes-kubelet-client`
+### 5.1.3.2.6.5. Генерация CSR
 ```bash
 openssl req \
     -new \
@@ -59,7 +64,7 @@ openssl req \
     -config "${KUBERNETES_KUBELET_CLIENT_CRT_CONF}"
 ```
 
-#### Подпись CSR ключом ЦА, сертификата `kubernetes-kubelet-client`
+### 5.1.3.2.6.6. Подпись CSR
 ```bash
 openssl x509 \
     -req \
