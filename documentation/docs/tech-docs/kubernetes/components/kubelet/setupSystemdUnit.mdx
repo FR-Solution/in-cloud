@@ -51,11 +51,11 @@ import { CUSTOM_VALUE }         from '@site/src/constants/kubernetes/customValue
 
         ExecStart=
         ExecStart=/usr/local/bin/kubelet \
-        \$KUBELET_BASIC_ARGS \
-        \$KUBELET_NETWORKS_ARGS \
-        \$KUBELET_CONFIGS_ARGS \
-        \$KUBELET_KUBEADM_ARGS \
-        \$KUBELET_KUBECONFIG_ARGS
+        \\$KUBELET_BASIC_ARGS \
+        \\$KUBELET_NETWORKS_ARGS \
+        \\$KUBELET_CONFIGS_ARGS \
+        \\$KUBELET_KUBEADM_ARGS \
+        \\$KUBELET_KUBECONFIG_ARGS
         EOF
     `}
 </CodeBlock>

@@ -133,10 +133,28 @@ export const kubernetesTHW = [
                     id: 'tech-docs/kubernetes/components/kubectl/lifecycle',
                   },
                   {
-                    type: 'doc',
+                    type: 'category',
                     label: '5.1.1.2.5. Kubeadm',
-                    id: 'tech-docs/kubernetes/components/kubeadm/lifecycle',
+                    collapsed: true,
+                    items: [
+                      {
+                        type: 'doc',
+                        label: '5.1.1.2.5.1. Фазы',
+                        id: 'tech-docs/kubernetes/components/kubeadm/phases/phases',
+                      },
+                      {
+                        type: 'doc',
+                        label: '5.1.1.2.5.2. Установка',
+                        id: 'tech-docs/kubernetes/components/kubeadm/lifecycle',
+                      },
+                      {
+                        type: 'doc',
+                        label: '5.1.1.2.5.3. Пост обработка',
+                        id: 'tech-docs/kubernetes-thw/step-by-step-kubeadm-aditional',
+                      },
+                    ],
                   },
+
                   {
                     type: 'doc',
                     label: '5.1.1.2.6. Kubelet',
@@ -168,28 +186,6 @@ export const kubernetesTHW = [
           },
           {
             type: 'category',
-            label: '5.1.2. Kubeadm',
-            collapsed: true,
-            items: [
-              {
-                type: 'doc',
-                label: '5.1.2.1. Фазы',
-                id: 'tech-docs/kubernetes/components/kubeadm/phases/phases',
-              },
-              {
-                type: 'doc',
-                label: '5.1.2.2. Настройка',
-                id: 'tech-docs/kubernetes/components/kubeadm/configs/init',
-              },
-              {
-                type: 'doc',
-                label: '5.1.2.3. Пост обработка',
-                id: 'tech-docs/kubernetes-thw/step-by-step-kubeadm-aditional',
-              },
-            ],
-          },
-          {
-            type: 'category',
             label: '5.1.3. Аутентификация',
             collapsed: true,
             items: [
@@ -205,7 +201,12 @@ export const kubernetesTHW = [
               },
               {
                 type: 'doc',
-                label: '5.1.3.3. Проверка',
+                label: '5.1.3.3. Сервис Аккаунт',
+                id: 'tech-docs/kubernetes/certificates/service-account',
+              },
+              {
+                type: 'doc',
+                label: '5.1.3.4. Проверка',
                 id: 'tech-docs/kubernetes/certificates/examination',
               },
             ],

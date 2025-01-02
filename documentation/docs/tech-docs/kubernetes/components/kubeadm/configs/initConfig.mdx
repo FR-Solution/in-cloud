@@ -129,9 +129,9 @@ import { CERTIFICATES }         from '@site/src/constants/kubernetes/certs'
           etcd-servers: "${KUBE_API_ARGS.etcdServers.value}"
           kubelet-client-certificate: "${KUBE_API_ARGS.kubeletClientCertificate.value}"
           kubelet-client-key: "${KUBE_API_ARGS.kubeletClientKey.value}"
-          kubelet-port: "${KUBE_API_ARGS.kubeletServerPort.value}"
+          # DEPRECETADE 1.30.4 kubelet-port: "${KUBE_API_ARGS.kubeletServerPort.value}"
+          # DEPRECETADE 1.30.4 kubelet-read-only-port: "${KUBE_API_ARGS.kubeletReadOnlyPort.value}"
           kubelet-preferred-address-types: InternalIP,ExternalIP,Hostname
-          kubelet-read-only-port: "${KUBE_API_ARGS.kubeletReadOnlyPort.value}"
           proxy-client-cert-file: "${KUBE_API_ARGS.proxyClientCertFile.value}"
           proxy-client-key-file: "${KUBE_API_ARGS.proxyClientKeyFile.value}"
           requestheader-allowed-names: "${KUBE_API_ARGS.requestheaderAllowedNames.value}"

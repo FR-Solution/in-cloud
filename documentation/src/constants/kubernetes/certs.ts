@@ -122,8 +122,8 @@ export const CERTIFICATES: TCertsItems = {
     cname: '',
   },
   kubeletServer: {
-    keyPath: '${BASE_K8S_PATH}/pki/kubelet-server-key.pem',
-    crtPath: '${BASE_K8S_PATH}/pki/kubelet-server.pem',
+    keyPath: '${BASE_KUBELET_PATH}/pki/kubelet-server-key.pem',
+    crtPath: '${BASE_KUBELET_PATH}/pki/kubelet-server.pem',
     csrPath: '${BASE_K8S_PATH}/openssl/csr/kubelet-server.csr',
     crtConf: '${BASE_K8S_PATH}/openssl/kubelet-server.conf',
     keySize: '2048',
@@ -137,9 +137,26 @@ export const CERTIFICATES: TCertsItems = {
     keySize: '2048',
     cname: '',
   },
+  
+  kubeletNowClient: {
+    keyPath: '',
+    crtPath: "${BASE_KUBELET_PATH}/pki/kubelet-client-$(date '+%Y-%m-%d-%H-%M-%S').pem",
+    csrPath: '',
+    crtConf: '',
+    keySize: '2048',
+    cname: '',
+  },
   kubeletCurrentServer: {
     keyPath: '',
     crtPath: '${BASE_KUBELET_PATH}/pki/kubelet-server-current.pem',
+    csrPath: '',
+    crtConf: '',
+    keySize: '2048',
+    cname: '',
+  },
+  kubeletNowServer: {
+    keyPath: '',
+    crtPath: "${BASE_KUBELET_PATH}/pki/kubelet-server-$(date '+%Y-%m-%d-%H-%M-%S').pem",
     csrPath: '',
     crtConf: '',
     keySize: '2048',

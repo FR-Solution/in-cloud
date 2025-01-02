@@ -35,16 +35,16 @@ import { CERTIFICATES }         from '@site/src/constants/kubernetes/certs'
           x509:
             clientCAFile: $\{KUBERNETES_CA_CRT_PATH}
         authorization:
-            mode: Webhook
-            webhook:
-              cacheAuthorizedTTL: 0s
-              cacheUnauthorizedTTL: 0s
+          mode: Webhook
+          webhook:
+            cacheAuthorizedTTL: 0s
+            cacheUnauthorizedTTL: 0s
         cgroupDriver: systemd
         clusterDNS:
         - $\{SERVICE_DNS}
         clusterDomain: $\{KUBERNETES_CLUSTER_DOMAIN}
-        # tlsCertFile: "$\{KUBELET_CURRENT_SERVER_CRT_PATH}"
-        # tlsPrivateKeyFile: "$\{KUBELET_CURRENT_SERVER_CRT_PATH}"
+        tlsCertFile: "$\{KUBELET_CURRENT_SERVER_CRT_PATH}"
+        tlsPrivateKeyFile: "$\{KUBELET_CURRENT_SERVER_CRT_PATH}"
         containerLogMaxSize: "50Mi"
         cpuManagerReconcilePeriod: 0s
         evictionPressureTransitionPeriod: 5s
