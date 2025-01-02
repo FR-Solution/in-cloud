@@ -1,4 +1,3 @@
-
 import { CUSTOM_VALUE }           from '@site/src/constants/kubernetes/customValue'
 import { CERTIFICATES }           from '@site/src/constants/kubernetes/certs'
 import { PORTS }                  from '@site/src/constants/kubernetes/ports'
@@ -8,10 +7,7 @@ import {ETCD_ARGS}                from '@site/src/constants/kubernetes/etcdArgs'
 import dedent                     from 'dedent'
 import CodeBlock                  from '@theme/CodeBlock'
 
-<details open>
-<summary>ETCD</summary>
-
-
+## 5.1.4.1.1. Перменные окружения
 <CodeBlock language="bash">
     {dedent`
         export ETCD_METRICS_PORT=${PORTS.etcdMetricServer.portNumber}
@@ -41,21 +37,18 @@ import CodeBlock                  from '@theme/CodeBlock'
     `}
 </CodeBlock>
 
-### 5.1.3.2.12.2. Рабочая директория для PKI
+## 5.1.4.1.2. Рабочая директория
 <CodeBlock language="bash">
     {dedent`
         mkdir -p $\{BASE_K8S_PATH}/manifests
     `}
 </CodeBlock>
 
-
-
-**Инструкция StaticPod**
+## 5.1.4.1.3. Конфигурация
 
 <CodeBlock language="bash">
   {dedent`
     cat <<EOF > $\{BASE_K8S_PATH}/manifests/etcd.yaml
-    ---
     apiVersion: v1
     kind: Pod
     metadata:
@@ -148,5 +141,3 @@ import CodeBlock                  from '@theme/CodeBlock'
     EOF
   `}
 </CodeBlock>
-
-</details>

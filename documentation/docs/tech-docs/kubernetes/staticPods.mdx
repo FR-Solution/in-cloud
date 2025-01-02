@@ -13,10 +13,8 @@ import {KUBE_API_ARGS}          from '@site/src/constants/kubernetes/kubeAPIArgs
 import KubeadmInitStaticPods    from '@site/docs/tech-docs/kubernetes/components/kubeadm/initStaticPod.mdx'
 import KubeadmJoinStaticPods    from '@site/docs/tech-docs/kubernetes/components/kubeadm/joinStaticPod.mdx'
 
-:::note
-Статичные поды в Kubernetes — это особый вид подов, которые запускаются и управляются напрямую демоном kubelet на каждом узле, без участия API-сервера и контроллеров Kubernetes. Чтобы создать статический под, вы размещаете файл-манифест в определённой директории на узле (по умолчанию это **{CUSTOM_VALUE.kuberneteBaseFolderPath.value}**). Kubelet постоянно следит за этой директорией и автоматически запускает или перезапускает поды при обнаружении изменений в этих файлах.
-:::
 
+> Статичные поды в Kubernetes — это особый вид подов, которые запускаются и управляются напрямую демоном kubelet на каждом узле, без участия API-сервера и контроллеров Kubernetes. Чтобы создать статический под, вы размещаете файл-манифест в определённой директории на узле (по умолчанию это **{CUSTOM_VALUE.kuberneteBaseFolderPath.value}**). Kubelet постоянно следит за этой директорией и автоматически запускает или перезапускает поды при обнаружении изменений в этих файлах.
 
 <Tabs groupId="current-master">
   <TabItem value='master-1'>

@@ -1,12 +1,28 @@
-import CodeBlock            from '@theme/CodeBlock'
 import { CUSTOM_VALUE }     from '@site/src/constants/kubernetes/customValue'
 import { PORTS }     from '@site/src/constants/kubernetes/ports'
 import { COMPONENTS_VERSION } from '@site/src/constants/kubernetes/componentsVersion'
 
-<details open>
-<summary>Kube Scheduler</summary>
+import CodeBlock              from '@theme/CodeBlock'
+import dedent                 from 'dedent'
 
-**Инструкция StaticPod**
+## 5.1.4.4.1. Перменные окружения
+
+<CodeBlock language="bash">
+    {dedent`
+      export BASE_K8S_PATH="${CUSTOM_VALUE.kuberneteBaseFolderPath.value}"
+      export KUBERNETES_VERSION="${COMPONENTS_VERSION.kubernetes.value}"
+      export KUBE_SCHEDULER_PORT=${PORTS.kubeScheduler.portNumber}
+    `}
+</CodeBlock>
+
+## 5.1.4.4.2. Рабочая директория
+<CodeBlock language="bash">
+    {dedent`
+        mkdir -p $\{BASE_K8S_PATH}/manifests
+    `}
+</CodeBlock>
+
+## 5.1.4.4.3. Конфигурация
 ```bash
 cat <<EOF > ${BASE_K8S_PATH}/manifests/kube-scheduler.yaml
 apiVersion: v1
@@ -69,4 +85,3 @@ spec:
 status: {}
 EOF
 ```
-</details>

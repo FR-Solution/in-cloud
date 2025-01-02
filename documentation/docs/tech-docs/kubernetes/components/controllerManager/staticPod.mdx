@@ -1,13 +1,44 @@
-import CodeBlock              from '@theme/CodeBlock'
+---
+id: controller-static-pods
+---
+
 import { CUSTOM_VALUE }       from '@site/src/constants/kubernetes/customValue'
 import { CERTIFICATES }       from '@site/src/constants/kubernetes/certs'
 import { PORTS }              from '@site/src/constants/kubernetes/ports'
 import { COMPONENTS_VERSION } from '@site/src/constants/kubernetes/componentsVersion'
 
-<details open>
-<summary>Kube Controller Manager</summary>
+import dedent                     from 'dedent'
+import CodeBlock                  from '@theme/CodeBlock'
 
-**Инструкция StaticPod**
+# 5.1.4.3. Настройка Controller Manager
+
+## 5.1.4.3.1. Перменные окружения
+<CodeBlock language="bash">
+    {dedent`
+      export BASE_K8S_PATH="${CUSTOM_VALUE.kuberneteBaseFolderPath.value}"
+      export KUBERNETES_CLUSTER_NAME="${CUSTOM_VALUE.kubernetesClusterName.value}"
+      export KUBERNETES_VERSION="${COMPONENTS_VERSION.kubernetes.value}"
+      export KUBE_CONTROLLER_MANAGER_PORT=${PORTS.kubeControllerManager.portNumber}
+    `}
+</CodeBlock>
+<CodeBlock language="bash">
+    {dedent`
+      export KUBERNETES_CA_CRT_PATH="${CERTIFICATES.kubernetesCA.crtPath}"
+      export KUBERNETES_CA_KEY_PATH="${CERTIFICATES.kubernetesCA.keyPath}"
+      export FRONT_PROXY_CA_CRT_PATH="${CERTIFICATES.frontProxyCA.crtPath}"
+      export KUBERNETES_SERVICE_ACCOUNT_KEY_PATH="${CERTIFICATES.kubernetesSA.keyPath}"
+    `}
+</CodeBlock>
+
+
+## 5.1.4.3.2. Рабочая директория
+<CodeBlock language="bash">
+    {dedent`
+        mkdir -p $\{BASE_K8S_PATH}/manifests
+    `}
+</CodeBlock>
+
+## 5.1.4.3.3. Конфигурация
 ```bash
 cat <<EOF > ${BASE_K8S_PATH}/manifests/kube-controller-manager.yaml
 apiVersion: v1
@@ -137,4 +168,3 @@ spec:
 status: {}
 EOF
 ```
-</details>

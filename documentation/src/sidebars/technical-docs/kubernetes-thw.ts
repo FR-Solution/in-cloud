@@ -212,9 +212,31 @@ export const kubernetesTHW = [
             ],
           },
           {
-            type: 'doc',
+            type: 'category',
             label: '5.1.4. Настройка УК',
-            id: 'tech-docs/kubernetes-thw/step-by-step-static-pods',
+            collapsed: true,
+            items: [
+              {
+                type: 'doc',
+                label: '5.1.4.1. ETCD',
+                id: 'tech-docs/kubernetes/components/etcd/etcd-static-pods',
+              },
+              {
+                type: 'doc',
+                label: '5.1.4.2. API',
+                id: 'tech-docs/kubernetes/components/kubeAPI/api-static-pods',
+              },
+              {
+                type: 'doc',
+                label: '5.1.4.3. Controller',
+                id: 'tech-docs/kubernetes/components/controllerManager/controller-static-pods',
+              },
+              {
+                type: 'doc',
+                label: '5.1.4.4. Scheduler',
+                id: 'tech-docs/kubernetes/components/scheduler/scheduler-static-pods',
+              },
+            ]
           },
           {
             type: 'doc',
