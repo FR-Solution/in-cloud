@@ -1,0 +1,72 @@
+---
+id: defrag
+---
+
+import TabItem                  from '@theme/TabItem'
+import Tabs                     from '@theme/Tabs'
+import dedent                   from 'dedent'
+import CodeBlock                from '@theme/CodeBlock'
+
+# 5.1.5.3. Дефрагментация
+
+В случае если размер БД становится большим, следует выполнить процесс дефрагментации данных.
+
+Проверьте размер файла `/var/lib/etcd/member/snap/db`.
+
+:::note
+Если его размер превышает 2 GB рекомендуем запустить дефрагментацию.
+:::
+
+Для выполнения дефрагментации рекомендуем использовать локальный etcdctl расположенный на ВМ за пределами контейнера.
+Возможны две ситуации, запуска дефрагментации:
+
+1. База данных запущена и работает.
+2. База данных остановлена или в нерабочем состоянии.
+
+<Tabs groupId="etcd-status">
+  <TabItem value='ETCD кластер работает'>
+    Выполните [подключение к ETCD кластеру](#подключение-к-etcd). И запустите команду:
+
+    <CodeBlock language="bash">
+        {dedent`
+            etcdctl defrag --cluster
+        `}
+    </CodeBlock>
+
+  </TabItem>
+  <TabItem value='ETCD кластер не работает'>
+    1. Подключитесь к ВМ с узлом ETCD кластера.
+
+    2. Остановите kubelet, чтобы он не пытался поднять под с узлом ETCD кластера.
+
+    <CodeBlock language="bash">{`systemctl stop kubelet`}</CodeBlock>
+
+    3. Остановите и удалите контейнер `etcd`, чтобы не возникало блокировок с файлами БД:
+
+    <CodeBlock language="bash">
+{`export CONTAINER_ID="$(crictl ps -a  \\
+    --label io.kubernetes.container.name=etcd \\
+    --label io.kubernetes.pod.namespace=kube-system \\
+    | awk 'NR>1{r=$1} $0~/Running/{exit} END{print r}')"
+  crictl stop \${CONTAINER_ID}
+  crictl rm \${CONTAINER_ID}
+`}
+    </CodeBlock>
+
+    4. При помощи локального `etcdctl` выполните команду дефрагментации передав ей путь до директории с файлами БД:
+
+    <CodeBlock language="bash">{`etcdctl defrag --data-dir $\{ETCD_data_dir}`}</CodeBlock>
+
+    5. Запустите kubelet:
+
+    <CodeBlock language="bash">{`systemctl start kubelet`}</CodeBlock>
+
+  </TabItem>
+</Tabs>
+
+:::warning
+Для корректной работы etcd кластера, в том числе для запуска дефрагментации, размер ОЗУ должен быть больше и размера БД.
+В процессе своей работы, ETCD может загружать весь объем данных в оперативную память.
+:::
+
+*****

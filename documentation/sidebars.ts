@@ -1,13 +1,13 @@
 /* eslint-disable import/no-default-export */
-import { kubernetesTHW } from './src/sidebars/technical-docs/kubernetes-thw'
+import { main } from './src/sidebars/technical-docs/main'
 
 const sidebars = {
   techDocs: [
     {
       type: 'category',
-      label: 'Kubernetes-The-Hard-Way',
+      label: 'B-Cloud',
       collapsed: false,
-      items: kubernetesTHW,
+      items: main,
     },
   ],
 }

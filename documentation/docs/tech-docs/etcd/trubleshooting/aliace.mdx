@@ -1,0 +1,164 @@
+---
+id: aliace
+---
+
+import TabItem                  from '@theme/TabItem'
+import Tabs                     from '@theme/Tabs'
+import dedent                   from 'dedent'
+import CodeBlock                from '@theme/CodeBlock'
+import { CERTIFICATES }         from '@site/src/constants/kubernetes/certs'
+import { CUSTOM_VALUE }         from '@site/src/constants/kubernetes/customValue'
+
+# 5.1.5.1. Алиасы
+
+> Данный блок нам будет полезен с точки зрения оптимизации запросов на подключение. Рассмотрим несколько вариантов подключения к ETCD кластеру.
+
+- (aliace=**cidsearch**)    Поиск ID контейнера
+- (aliace=**cpidsearch**)   Поиск PID контейнера
+- (aliace=**etcdctl**)      Прямое подключение
+- (aliace=**ectl**)         Подключение через crictl
+- (aliace=**nectl**)        Подключение через nsenter
+
+:::warning
+Просьба обратить внимание, что все команды вводятся на узлах, где размещается ETCD инстанс.
+:::
+
+## 5.1.5.1. Поиск ID контейнера
+> Данный алиас поможет быстро найти ID контейнера по меткам `io.kubernetes.container.name` и `io.kubernetes.pod.namespace`
+
+```bash
+cidsearch() {
+  crictl ps \
+    --label io.kubernetes.container.name="$1" \
+    --label io.kubernetes.pod.namespace="$2" \
+    -o json | jq -r '.containers[].id'
+}
+```
+
+## 5.1.5.2. Поиск PID контейнера
+> Данный алиас поможет быстро найти PID контейнера по меткам `io.kubernetes.container.name` и `io.kubernetes.pod.namespace`
+
+```bash
+cpidsearch() {
+  crictl inspect \
+    $(cidsearch "$1" "$2") | jq .info.pid
+}
+```
+
+
+## 5.1.5.3. Прямое подключение
+> Прямое подключение подходит в ситуациях, когда мы знаем на каком узле находится ETCD инстанс, и сертификаты лежат в хостовой файловой системе.
+
+<CodeBlock language="bash">
+    {dedent`
+        export BASE_K8S_PATH="${CUSTOM_VALUE.kuberneteBaseFolderPath.value}"
+        export ETCD_PEER_CRT_PATH="${CERTIFICATES.etcdPeer.crtPath}"
+        export ETCD_PEER_KEY_PATH="${CERTIFICATES.etcdPeer.keyPath}"
+        export ETCD_CA_CRT_PATH="${CERTIFICATES.etcdCA.crtPath}"
+    `}
+</CodeBlock>
+
+```bash
+alias etcdctl='etcdctl \
+  --cert=${ETCD_PEER_CRT_PATH} \
+  --key=${ETCD_PEER_KEY_PATH} \
+  --cacert=${ETCD_CA_CRT_PATH}'
+```
+
+```bash
+etcdctlMembers() {
+  etcdctl member list \
+  --write-out=json | 
+  jq \
+  -r '[.members[].clientURLs[]] | join(",")'
+}
+```
+
+## 5.1.5.4. Подключение через crictl
+> Подключение через контейнер нам подходит в ситуациях, когда приклад запущен в виде контейнера, и все данные примонтированы внутрь контейнерной файловой системы.
+
+:::info
+Просьба обратить на зависимость от aliace=(`cidsearch`)
+:::
+
+<CodeBlock language="bash">
+    {dedent`
+        export SEARCH_NAMESPACE="kube-system"
+        export SEARCH_CONTAINER_NAME="etcd"
+    `}
+</CodeBlock>
+
+<CodeBlock language="bash">
+    {dedent`
+        export BASE_K8S_PATH="${CUSTOM_VALUE.kuberneteBaseFolderPath.value}"
+        export ETCD_PEER_CRT_PATH="${CERTIFICATES.etcdPeer.crtPath}"
+        export ETCD_PEER_KEY_PATH="${CERTIFICATES.etcdPeer.keyPath}"
+        export ETCD_CA_CRT_PATH="${CERTIFICATES.etcdCA.crtPath}"
+    `}
+</CodeBlock>
+
+
+```bash
+alias ectl='crictl exec \
+  -ti $(cidsearch ${SEARCH_CONTAINER_NAME} ${SEARCH_NAMESPACE}) \
+  etcdctl \
+  --cert=${ETCD_PEER_CRT_PATH} \
+  --key=${ETCD_PEER_KEY_PATH} \
+  --cacert=${ETCD_CA_CRT_PATH}'
+```
+
+```bash
+ectlMembers() {
+  ectl member list \
+  --write-out=json | 
+  jq \
+  -r '[.members[].clientURLs[]] | join(",")'
+}
+```
+
+
+## 5.1.5.5. Подключение через nsenter
+> Для использования etcdctl, который находится внутри пространства имен процесса запущенного контейнера, необходимо сначала получить CONTAINER_ID. На основе этого идентификатора можно определить PID процесса. Далее создадим псевдоним nectl (чтобы избежать конфликтов с другими псевдонимами). При каждом вызове этого псевдонима будем обновлять данные о текущем контейнере и процессе. Также важно указать путь к сертификатам.
+
+:::info
+Просьба обратить на зависимость от aliace=(`cpidsearch`)
+:::
+
+<CodeBlock language="bash">
+    {dedent`
+        export SEARCH_NAMESPACE="kube-system"
+        export SEARCH_CONTAINER_NAME="etcd"
+    `}
+</CodeBlock>
+
+<CodeBlock language="bash">
+    {dedent`
+        export BASE_K8S_PATH="${CUSTOM_VALUE.kuberneteBaseFolderPath.value}"
+        export ETCD_PEER_CRT_PATH="${CERTIFICATES.etcdPeer.crtPath}"
+        export ETCD_PEER_KEY_PATH="${CERTIFICATES.etcdPeer.keyPath}"
+        export ETCD_CA_CRT_PATH="${CERTIFICATES.etcdCA.crtPath}"
+    `}
+</CodeBlock>
+
+```bash
+alias nectl='nsenter \
+  -m -n -t \
+  $(cpidsearch ${SEARCH_CONTAINER_NAME} ${SEARCH_NAMESPACE}) \
+  etcdctl \
+  --cert=${ETCD_PEER_CRT_PATH} \
+  --key=${ETCD_PEER_KEY_PATH} \
+  --cacert=${ETCD_CA_CRT_PATH}'
+```
+
+```bash
+nectlMembers() {
+  nectl member list \
+  --write-out=json | 
+  jq \
+  -r '[.members[].clientURLs[]] | join(",")'
+}
+```
+
+
+## 5.1.5.6. Подключение через kubectl
+TODO

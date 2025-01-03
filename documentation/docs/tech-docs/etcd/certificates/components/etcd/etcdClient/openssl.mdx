@@ -14,8 +14,8 @@ import dedent           from 'dedent'
         export ETCD_CLIENT_CSR_PATH="${CERTIFICATES.etcdClient.csrPath}"
         export ETCD_CLIENT_KEY_PATH="${CERTIFICATES.etcdClient.keyPath}"
         export ETCD_CLIENT_KEY_SIZE=${CERTIFICATES.etcdClient.keySize}
-        export ETCD_CA_CRT_PATH="${CERTIFICATES.kubernetesCA.crtPath}"
-        export ETCD_CA_KEY_PATH="${CERTIFICATES.kubernetesCA.keyPath}"
+        export ETCD_CA_CRT_PATH="${CERTIFICATES.etcdCA.crtPath}"
+        export ETCD_CA_KEY_PATH="${CERTIFICATES.etcdCA.keyPath}"
     `}
 </CodeBlock>
 
