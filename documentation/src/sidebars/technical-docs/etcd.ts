@@ -83,27 +83,32 @@ export const etcd = [
     items: [
       {
         type: 'doc',
-        label: '5.1.5.1. Алиасы',
+        label: '5.1.5.1. Чек боксы',
+        id: 'tech-docs/etcd/trubleshooting/check-box',
+      },
+      {
+        type: 'doc',
+        label: '5.1.5.2. Алиасы',
         id: 'tech-docs/etcd/trubleshooting/aliace',
       },
       {
         type: 'doc',
-        label: '5.1.5.2. Команды',
+        label: '5.1.5.3. Команды',
         id: 'tech-docs/etcd/trubleshooting/commands',
       },
       {
         type: 'doc',
-        label: '5.1.5.3. Дефрагментация',
+        label: '5.1.5.4. Дефрагментация',
         id: 'tech-docs/etcd/trubleshooting/defrag',
       },
       {
         type: 'doc',
-        label: '5.1.5.3. Бекапы',
+        label: '5.1.5.5. Бекапы',
         id: 'tech-docs/etcd/trubleshooting/backups',
       },
       {
         type: 'doc',
-        label: '5.1.5.4. Восстановление',
+        label: '5.1.5.6. Восстановление',
         id: 'tech-docs/etcd/trubleshooting/restore',
       },
     ]
