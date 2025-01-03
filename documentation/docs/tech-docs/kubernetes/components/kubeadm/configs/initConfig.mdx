@@ -29,10 +29,10 @@ import { CERTIFICATES }         from '@site/src/constants/kubernetes/certs'
         export SERVICE_CIDR="${CUSTOM_VALUE.kubernetesServiceCIDR.value}"
         export MACHINE_LOCAL_ADDRESS=${CUSTOM_VALUE.virtualMachineLocalAddress.value}
         export BASE_DOCKER_REGISTRY="${CUSTOM_VALUE.baseDockerRegistry.value}"
-        export KUBERNETES_CLUSTER_NAME="${CUSTOM_VALUE.kubernetesClusterName.value}"
-        export KUBERNETES_BASE_DOMAIN="${CUSTOM_VALUE.kubernetesBaseDomain.value}"
+        export CLUSTER_NAME="${CUSTOM_VALUE.clusterName.value}"
+        export BASE_DOMAIN="${CUSTOM_VALUE.kubernetesBaseDomain.value}"
         export FULL_HOST_NAME="${CUSTOM_VALUE.virtualMachineFullName.value}"
-        export KUBERNETES_CLUSTER_DOMAIN="${CUSTOM_VALUE.kubernetesClusterDomain.value}"
+        export CLUSTER_DOMAIN="${CUSTOM_VALUE.kubernetesClusterDomain.value}"
         export KUBERNETES_VERSION="${COMPONENTS_VERSION.kubernetes.value}"
         export ETCD_SERVERS="https://127.0.0.1:$\{ETCD_SERVER_PORT}"
       `}
@@ -77,11 +77,11 @@ import { CERTIFICATES }         from '@site/src/constants/kubernetes/certs'
       ---
       apiVersion: kubeadm.k8s.io/v1beta3
       kind: ClusterConfiguration
-      controlPlaneEndpoint: api.$\{KUBERNETES_CLUSTER_NAME}.$\{KUBERNETES_BASE_DOMAIN}:${KUBE_API_ARGS.securePort.value}
+      controlPlaneEndpoint: api.$\{CLUSTER_NAME}.$\{BASE_DOMAIN}:${KUBE_API_ARGS.securePort.value}
       imageRepository: "$\{BASE_DOCKER_REGISTRY}"
       networking:
         serviceSubnet: "$\{SERVICE_CIDR}"
-        dnsDomain: "$\{KUBERNETES_CLUSTER_DOMAIN}"
+        dnsDomain: "$\{CLUSTER_DOMAIN}"
       kubernetesVersion: "$\{KUBERNETES_VERSION}"
       etcd:
         local:
@@ -152,7 +152,7 @@ import { CERTIFICATES }         from '@site/src/constants/kubernetes/certs'
           pathType: DirectoryOrCreate
         certSANs:
           - "$\{MACHINE_LOCAL_ADDRESS}"
-          - "api.$\{KUBERNETES_CLUSTER_NAME}.$\{KUBERNETES_BASE_DOMAIN}"
+          - "api.$\{CLUSTER_NAME}.$\{BASE_DOMAIN}"
           - "127.0.0.1"
         timeoutForControlPlane: 4m0s
 
@@ -167,7 +167,7 @@ import { CERTIFICATES }         from '@site/src/constants/kubernetes/certs'
           requestheader-client-ca-file: "$\{FRONT_PROXY_CA_CRT_PATH}"
           root-ca-file: "$\{KUBERNETES_CA_CRT_PATH}"
           service-account-private-key-file: "$\{KUBERNETES_SERVICE_ACCOUNT_KEY_PATH}"
-          cluster-name: "$\{KUBERNETES_CLUSTER_NAME}"
+          cluster-name: "$\{CLUSTER_NAME}"
           cluster-signing-duration: "720h"
           concurrent-replicaset-syncs: "20"
           authorization-always-allow-paths: "/healthz,/readyz,/livez,/metrics"

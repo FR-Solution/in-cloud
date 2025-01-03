@@ -119,7 +119,7 @@ import Tabs                     from '@theme/Tabs'
 Чтобы узнать причину текущего состояния ноды, вы можете использовать команду `describe` и обратить внимание на блок `Conditions`, как показано в примере ниже.
 
 ```bash
-export FULL_HOST_NAME=${HOST_NAME}.${KUBERNETES_CLUSTER_DOMAIN}
+export FULL_HOST_NAME=${HOST_NAME}.${CLUSTER_DOMAIN}
 
 kubectl describe no ${FULL_HOST_NAME}
 ```

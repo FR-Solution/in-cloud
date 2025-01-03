@@ -17,12 +17,12 @@ import { CERTIFICATES }         from '@site/src/constants/kubernetes/certs'
 <CodeBlock language="bash">
 {`export BASE_K8S_PATH="${CUSTOM_VALUE.kuberneteBaseFolderPath.value}"
   export BASE_KUBELET_PATH="${CUSTOM_VALUE.kuberneteKubeletFolderPath.value}"
-  export KUBERNETES_CLUSTER_NAME="${CUSTOM_VALUE.kubernetesClusterName.value}"
+  export CLUSTER_NAME="${CUSTOM_VALUE.clusterName.value}"
   export CRI_ENDPOINT="${CUSTOM_VALUE.criEndpoint.value}"
   export BASE_DOCKER_REGISTRY="${CUSTOM_VALUE.baseDockerRegistry.value}"
   export PAUSED_IMAGE="${CUSTOM_VALUE.pausedImage.value}"
-  export KUBERNETES_BASE_DOMAIN="${CUSTOM_VALUE.kubernetesBaseDomain.value}"
-  export KUBERNETES_CLUSTER_DOMAIN="${CUSTOM_VALUE.kubernetesClusterDomain.value}"
+  export BASE_DOMAIN="${CUSTOM_VALUE.kubernetesBaseDomain.value}"
+  export CLUSTER_DOMAIN="${CUSTOM_VALUE.kubernetesClusterDomain.value}"
   export FULL_HOST_NAME="${CUSTOM_VALUE.virtualMachineFullName.value}"
 
 `}
@@ -258,5 +258,5 @@ ln -s /etc/kubernetes/admin.conf $HOME/.kube/config
 </details>
 
 :::note
-Если вы когда-либо заглядывали в документацию от [Келси Хайтауэра](https://github.com/kelseyhightower/kubernetes-the-hard-way), то, возможно, заметили, что в конфигурационных файлах часто используются IP-адреса узлов. Этот метод, безусловно, работает, но есть более удобный способ. Чтобы упростить обслуживание и сделать дальнейшую шаблонизацию более гибкой, лучше использовать заранее известные FQDN-маски, как я уже упоминал для мастеров выше ```master-${INDEX}.${KUBERNETES_CLUSTER_NAME}.${KUBERNETES_BASE_DOMAIN}```.
+Если вы когда-либо заглядывали в документацию от [Келси Хайтауэра](https://github.com/kelseyhightower/kubernetes-the-hard-way), то, возможно, заметили, что в конфигурационных файлах часто используются IP-адреса узлов. Этот метод, безусловно, работает, но есть более удобный способ. Чтобы упростить обслуживание и сделать дальнейшую шаблонизацию более гибкой, лучше использовать заранее известные FQDN-маски, как я уже упоминал для мастеров выше ```master-${INDEX}.${CLUSTER_NAME}.${BASE_DOMAIN}```.
 :::

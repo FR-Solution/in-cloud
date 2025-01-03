@@ -89,23 +89,118 @@ export const kubernetesTHW = [
     collapsed: false,
     items: [
       {
+        type: 'doc',
+        label: '5.1. Настройка ОС',
+        id: 'tech-docs/kubernetes/setupEnvironments/base-os-setup',
+      },
+      {
         type: 'category',
-        label: '5.1. Kubernetes',
+        label: '5.1. Etcd',
         collapsed: false,
         items: [
           {
             type: 'category',
-            label: '5.1.1. Окружение',
+            label: '5.2.1. Окружение',
             collapsed: true,
             items: [
               {
                 type: 'doc',
-                label: '5.1.1.1. Настройка ОС',
-                id: 'tech-docs/kubernetes/setupEnvironments/os-setup',
+                label: '5.2.1.1. Настройка ОС',
+                id: 'tech-docs/etcd/setupEnvironments/os-setup',
               },
               {
                 type: 'category',
                 label: '5.1.1.2. Установка ПО',
+                collapsed: true,
+                // link: {
+                //   type: 'doc',
+                //   id: 'tech-docs/kubernetes/components/download'
+                // },
+                items: [
+                  {
+                    type: 'doc',
+                    label: '5.1.1.2.1. Etcd',
+                    id: 'tech-docs/etcd/components/etcd/lifecycle',
+                  },
+                  {
+                    type: 'doc',
+                    label: '5.1.1.2.2. Etcdctl',
+                    id: 'tech-docs/etcd/components/etcdctl/lifecycle',
+                  },
+                  {
+                    type: 'doc',
+                    label: '5.1.1.2.3. Etcdutl',
+                    id: 'tech-docs/etcd/components/etcdutl/lifecycle',
+                  },
+                ]
+              },
+              {
+                type: 'doc',
+                label: '5.1.1.3. Проверка',
+                id: 'tech-docs/etcd/components/components-ready',
+              },
+            ]
+          },
+          {
+            type: 'category',
+            label: '5.1.2. Аутентификация',
+            collapsed: true,
+            items: [
+              {
+                type: 'doc',
+                label: '5.1.2.1. ЦА',
+                id: 'tech-docs/etcd/certificates/all-center-authority',
+              },
+              {
+                type: 'doc',
+                label: '5.1.2.2. Сертификаты',
+                id: 'tech-docs/etcd/certificates/all-certificates',
+              },
+            ],
+          },
+          {
+            type: 'category',
+            label: '5.1.3. Настройка',
+            collapsed: true,
+            items: [
+              {
+                type: 'doc',
+                label: '5.1.3.1. Инициализация',
+                id: 'tech-docs/kubernetes/components/etcd/etcd-init-static-pods',
+              },
+            ]
+          },
+          {
+            type: 'doc',
+            label: '5.1.4. Тюнинг',
+            id: 'tech-docs/etcd/etcd-tuning',
+          },
+          {
+            type: 'doc',
+            label: '5.1.5. Диагностика',
+            id: 'tech-docs/etcd/etcd-main',
+          },
+  
+        ]
+      },
+      {
+        type: 'category',
+        label: '5.2. Kubernetes',
+        collapsed: false,
+        items: [
+          {
+            type: 'category',
+            label: '5.2.1. Окружение',
+            collapsed: true,
+            items: [
+              {
+                type: 'doc',
+                label: '5.2.1.1. Настройка ОС',
+                id: 'tech-docs/kubernetes/setupEnvironments/os-setup',
+              },
+              {
+                type: 'category',
+                label: '5.2.1.2. Установка ПО',
                 collapsed: true,
                 link: {
                   type: 'doc',
@@ -114,42 +209,42 @@ export const kubernetesTHW = [
                 items: [
                   {
                     type: 'doc',
-                    label: '5.1.1.2.1. Containerd',
+                    label: '5.2.1.2.1. Containerd',
                     id: 'tech-docs/kubernetes/components/containerd/lifecycle',
                   },
                   {
                     type: 'doc',
-                    label: '5.1.1.2.2. Runc',
+                    label: '5.2.1.2.2. Runc',
                     id: 'tech-docs/kubernetes/components/runc/lifecycle',
                   },
                   {
                     type: 'doc',
-                    label: '5.1.1.2.3. Crictl',
+                    label: '5.2.1.2.3. Crictl',
                     id: 'tech-docs/kubernetes/components/crictl/lifecycle',
                   },
                   {
                     type: 'doc',
-                    label: '5.1.1.2.4. Kubectl',
+                    label: '5.2.1.2.4. Kubectl',
                     id: 'tech-docs/kubernetes/components/kubectl/lifecycle',
                   },
                   {
                     type: 'category',
-                    label: '5.1.1.2.5. Kubeadm',
+                    label: '5.2.1.2.5. Kubeadm',
                     collapsed: true,
                     items: [
                       {
                         type: 'doc',
-                        label: '5.1.1.2.5.1. Фазы',
+                        label: '5.2.1.2.5.2. Фазы',
                         id: 'tech-docs/kubernetes/components/kubeadm/phases/phases',
                       },
                       {
                         type: 'doc',
-                        label: '5.1.1.2.5.2. Установка',
+                        label: '5.2.1.2.5.1. Установка',
                         id: 'tech-docs/kubernetes/components/kubeadm/lifecycle',
                       },
                       {
                         type: 'doc',
-                        label: '5.1.1.2.5.3. Пост обработка',
+                        label: '5.2.1.2.5.3. Пост обработка',
                         id: 'tech-docs/kubernetes-thw/step-by-step-kubeadm-aditional',
                       },
                     ],
@@ -157,105 +252,111 @@ export const kubernetesTHW = [
 
                   {
                     type: 'doc',
-                    label: '5.1.1.2.6. Kubelet',
+                    label: '5.2.1.2.6. Kubelet',
                     id: 'tech-docs/kubernetes/components/kubelet/lifecycle',
                   },
-                  {
-                    type: 'doc',
-                    label: '5.1.1.2.7. Etcd',
-                    id: 'tech-docs/etcd/components/etcd/lifecycle',
-                  },
-                  {
-                    type: 'doc',
-                    label: '5.1.1.2.8. Etcdctl',
-                    id: 'tech-docs/etcd/components/etcdctl/lifecycle',
-                  },
-                  {
-                    type: 'doc',
-                    label: '5.1.1.2.9. Etcdutl',
-                    id: 'tech-docs/etcd/components/etcdutl/lifecycle',
-                  },
+                  // {
+                  //   type: 'doc',
+                  //   label: '5.2.1.2.7. Etcd',
+                  //   id: 'tech-docs/etcd/components/etcd/lifecycle',
+                  // },
+                  // {
+                  //   type: 'doc',
+                  //   label: '5.2.1.2.8. Etcdctl',
+                  //   id: 'tech-docs/etcd/components/etcdctl/lifecycle',
+                  // },
+                  // {
+                  //   type: 'doc',
+                  //   label: '5.2.1.2.9. Etcdutl',
+                  //   id: 'tech-docs/etcd/components/etcdutl/lifecycle',
+                  // },
                 ]
               },
               {
                 type: 'doc',
-                label: '5.1.1.3. Проверка',
+                label: '5.2.1.3. Проверка',
                 id: 'tech-docs/kubernetes/components/components-ready',
               },
             ]
           },
           {
             type: 'category',
-            label: '5.1.3. Аутентификация',
+            label: '5.2.3. Аутентификация',
             collapsed: true,
             items: [
               {
                 type: 'doc',
-                label: '5.1.3.1. ЦА',
+                label: '5.2.3.1. Иниц-я ЦА',
                 id: 'tech-docs/kubernetes/certificates/all-center-authority',
               },
               {
                 type: 'doc',
-                label: '5.1.3.2. Сертификаты',
+                label: '5.2.3.1.  Тираж-е ЦА',
+                id: 'tech-docs/kubernetes/certificates/download-center-authority',
+              },
+              
+              {
+                type: 'doc',
+                label: '5.2.3.2. Сертификаты',
                 id: 'tech-docs/kubernetes/certificates/all-certificates',
               },
               {
                 type: 'doc',
-                label: '5.1.3.3. Сервис Аккаунт',
+                label: '5.2.3.3. Сервис Аккаунт',
                 id: 'tech-docs/kubernetes/certificates/service-account',
               },
               {
                 type: 'doc',
-                label: '5.1.3.4. Проверка',
+                label: '5.2.3.4. Проверка',
                 id: 'tech-docs/kubernetes/certificates/examination',
               },
             ],
           },
           {
             type: 'category',
-            label: '5.1.4. Настройка УК',
+            label: '5.2.4. Настройка УК',
             collapsed: true,
             items: [
+              // {
+              //   type: 'doc',
+              //   label: '5.2.4.1. ETCD',
+              //   id: 'tech-docs/kubernetes/components/etcd/etcd-static-pods',
+              // },
               {
                 type: 'doc',
-                label: '5.1.4.1. ETCD',
-                id: 'tech-docs/kubernetes/components/etcd/etcd-static-pods',
-              },
-              {
-                type: 'doc',
-                label: '5.1.4.2. API',
+                label: '5.2.4.2. API',
                 id: 'tech-docs/kubernetes/components/kubeAPI/api-static-pods',
               },
               {
                 type: 'doc',
-                label: '5.1.4.3. Controller',
+                label: '5.2.4.3. Controller',
                 id: 'tech-docs/kubernetes/components/controllerManager/controller-static-pods',
               },
               {
                 type: 'doc',
-                label: '5.1.4.4. Scheduler',
+                label: '5.2.4.4. Scheduler',
                 id: 'tech-docs/kubernetes/components/scheduler/scheduler-static-pods',
               },
             ]
           },
           {
             type: 'doc',
-            label: '5.1.5. Запуск УК',
+            label: '5.2.5. Запуск УК',
             id: 'tech-docs/kubernetes-thw/k8s-start',
           },
           {
             type: 'category',
-            label: '5.1.6. Сеть',
+            label: '5.2.6. Сеть',
             collapsed: true,
             items: [
               {
                 type: 'category',
-                label: '5.1.6.1. Сервисная',
+                label: '5.2.6.1. Сервисная',
                 collapsed: true,
                 items: [
                   {
                     type: 'doc',
-                    label: '5.1.6.1.1. Концепт',
+                    label: '5.2.6.1.1. Концепт',
                     id: 'tech-docs/kubernetes-network/base-load-balancer-principal',
                   },
                   // {
@@ -265,7 +366,7 @@ export const kubernetesTHW = [
                   // },
                   {
                     type: 'doc',
-                    label: '5.1.6.1.2. Metallb',
+                    label: '5.2.6.1.2. Metallb',
                     id: 'tech-docs/kubernetes-network/metallb/base-load-balancer-metallb',
                   },
                   // {
@@ -277,24 +378,24 @@ export const kubernetesTHW = [
               },
               {
                 type: 'category',
-                label: '5.1.6.2. Подовая',
+                label: '5.2.6.2. Подовая',
                 collapsed: true,
                 items: [
                   {
                     type: 'doc',
-                    label: '5.1.6.2.1. Концепт',
+                    label: '5.2.6.2.1. Концепт',
                     id: 'tech-docs/kubernetes-network/base-pod-principal',
                   },
                   {
                     type: 'doc',
-                    label: '5.1.6.2.2. CNI Cilium',
+                    label: '5.2.6.2.2. CNI Cilium',
                     id: 'tech-docs/kubernetes-network/base-pod-cni-cilium',
                   },
                 ],
               },
               {
                 type: 'doc',
-                label: '5.1.6.3. NAG',
+                label: '5.2.6.3. NAG',
                 id: 'tech-docs/kubernetes-network/base-network-access-group-principal',
               },
             ],
@@ -302,56 +403,12 @@ export const kubernetesTHW = [
 
           {
             type: 'doc',
-            label: '5.1.6. Диагностика',
+            label: '5.2.6. Диагностика',
             id: 'tech-docs/kubernetes-thw/k8s-troubleshooting',
           },
         ]
       },
-      {
-        type: 'category',
-        label: '5.2. Etcd',
-        collapsed: false,
-        items: [
-          {
-            type: 'doc',
-            label: '5.2.1. Окружение',
-            id: 'tech-docs/etcd/etcd-environments',
-          },
-          {
-            type: 'category',
-            label: '5.2.2. Аутентификация',
-            collapsed: true,
-            items: [
-              {
-                type: 'doc',
-                label: '5.2.2.1. ЦА',
-                id: 'tech-docs/etcd/certificates/all-center-authority',
-              },
-              {
-                type: 'doc',
-                label: '5.2.2.2. Сертификаты',
-                id: 'tech-docs/etcd/certificates/all-certificates',
-              },
-            ],
-          },
-          {
-            type: 'doc',
-            label: '5.2.3. Настройка',
-            id: 'tech-docs/etcd/etcd-get-started',
-          },
-          {
-            type: 'doc',
-            label: '5.2.4. Тюнинг',
-            id: 'tech-docs/etcd/etcd-tuning',
-          },
-          {
-            type: 'doc',
-            label: '5.2.5. Диагностика',
-            id: 'tech-docs/etcd/etcd-main',
-          },
-  
-        ]
-      },
+
       {
         type: 'category',
         label: '5.3. B-Cloud',

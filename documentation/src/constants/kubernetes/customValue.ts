@@ -10,11 +10,11 @@ export const CUSTOM_VALUE: TCustomValueItems = {
   kubernetesBaseDomain: {
     value: 'example.com',
   },
-  kubernetesClusterName: {
+  clusterName: {
     value: 'example',
   },
   kubernetesClusterDomain: {
-    value: '${KUBERNETES_CLUSTER_NAME}.${KUBERNETES_BASE_DOMAIN}',
+    value: '${CLUSTER_NAME}.${BASE_DOMAIN}',
   },
   kuberneteBaseFolderPath: {
     value: '/etc/kubernetes',
@@ -38,6 +38,6 @@ export const CUSTOM_VALUE: TCustomValueItems = {
     value: "$(ip -4 addr show scope global | awk '/inet/ {print $2; exit}' | cut -d/ -f1)",
   },
   virtualMachineFullName: {
-    value: "${HOST_NAME}.${KUBERNETES_CLUSTER_DOMAIN}",
+    value: "${HOST_NAME}.${CLUSTER_DOMAIN}",
   },
 }

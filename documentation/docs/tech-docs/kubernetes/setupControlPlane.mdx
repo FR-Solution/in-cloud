@@ -9,14 +9,14 @@ import { CUSTOM_VALUE }         from '@site/src/constants/kubernetes/customValue
 
 > Статичные поды в Kubernetes — это особый вид подов, которые запускаются и управляются напрямую демоном kubelet на каждом узле, без участия API-сервера и контроллеров Kubernetes. Чтобы создать статический под, вы размещаете файл-манифест в определённой директории на узле (по умолчанию это **{CUSTOM_VALUE.kuberneteBaseFolderPath.value}**). Kubelet постоянно следит за этой директорией и автоматически запускает или перезапускает поды при обнаружении изменений в этих файлах.
 
-{/* ## 5.1.4.1. Настройка ETCD 
+{/* ## 5.2.4.1. Настройка ETCD 
 <ETCDSetup /> */}
 
-## 5.1.4.2. Настройка Kube-API 
+## 5.2.4.2. Настройка Kube-API 
 <KubeAPISetup />
 
-## 5.1.4.3. Настройка Kube Controller Manager 
+## 5.2.4.3. Настройка Kube Controller Manager 
 <ControllerManagerSetup />
 
-## 5.1.4.4. Настройка Kube Scheduler 
+## 5.2.4.4. Настройка Kube Scheduler 
 <SchedulerSetup />

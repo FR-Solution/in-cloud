@@ -7,7 +7,7 @@ import { KUBE_API_ARGS }      from '@site/src/constants/kubernetes/kubeAPIArgs'
 import CodeBlock              from '@theme/CodeBlock'
 import dedent                 from 'dedent'
 
-## 5.1.4.2.1. Перменные окружения
+## 5.2.4.2.1. Перменные окружения
 
 <CodeBlock language="bash">
     {dedent`
@@ -24,10 +24,10 @@ import dedent                 from 'dedent'
 <CodeBlock language="bash">
     {dedent`
       export BASE_K8S_PATH="${CUSTOM_VALUE.kuberneteBaseFolderPath.value}"
-      export KUBERNETES_BASE_DOMAIN="${CUSTOM_VALUE.kubernetesBaseDomain.value}"
-      export KUBERNETES_CLUSTER_NAME="${CUSTOM_VALUE.kubernetesClusterName.value}"
+      export BASE_DOMAIN="${CUSTOM_VALUE.kubernetesBaseDomain.value}"
+      export CLUSTER_NAME="${CUSTOM_VALUE.clusterName.value}"
       export KUBERNETES_VERSION="${COMPONENTS_VERSION.kubernetes.value}"
-      export KUBERNETES_CLUSTER_DOMAIN="${CUSTOM_VALUE.kubernetesClusterDomain.value}"
+      export CLUSTER_DOMAIN="${CUSTOM_VALUE.kubernetesClusterDomain.value}"
       export BASE_DOCKER_REGISTRY="${CUSTOM_VALUE.baseDockerRegistry.value}"
     `}
 </CodeBlock>
@@ -51,14 +51,14 @@ import dedent                 from 'dedent'
     `}
 </CodeBlock>
 
-## 5.1.4.2.2. Рабочая директория
+## 5.2.4.2.2. Рабочая директория
 <CodeBlock language="bash">
     {dedent`
         mkdir -p $\{BASE_K8S_PATH}/manifests
     `}
 </CodeBlock>
 
-## 5.1.4.2.3. Конфигурация
+## 5.2.4.2.3. Конфигурация
 <CodeBlock language="bash">
   {dedent
     `cat <<EOF > $\{BASE_K8S_PATH}/manifests/kube-apiserver.yaml

@@ -47,7 +47,7 @@ export const KUBE_API_ARGS: TCustomValueItems = {
     value: '${FRONT_PROXY_CA_CRT_PATH}',
   },
   serviceAccountIssuer: {
-    value: 'https://kubernetes.default.svc.${KUBERNETES_CLUSTER_DOMAIN}',
+    value: 'https://kubernetes.default.svc.${CLUSTER_DOMAIN}',
   },
   serviceAccountKeyFile: {
     value: '${KUBERNETES_SERVICE_ACCOUNT_CRT_PATH}',

@@ -13,9 +13,9 @@ import { CERTIFICATES }         from '@site/src/constants/kubernetes/certs'
         export BASE_KUBELET_PATH="${CUSTOM_VALUE.kuberneteKubeletFolderPath.value}"
         export KUBERNETES_CA_CRT_PATH="${CERTIFICATES.kubernetesCA.crtPath}"
         export SERVICE_DNS="${CUSTOM_VALUE.kubernetesDNSAddress.value}"
-        export KUBERNETES_CLUSTER_NAME="${CUSTOM_VALUE.kubernetesClusterName.value}"
-        export KUBERNETES_BASE_DOMAIN="${CUSTOM_VALUE.kubernetesBaseDomain.value}"
-        export KUBERNETES_CLUSTER_DOMAIN="${CUSTOM_VALUE.kubernetesClusterDomain.value}"
+        export CLUSTER_NAME="${CUSTOM_VALUE.clusterName.value}"
+        export BASE_DOMAIN="${CUSTOM_VALUE.kubernetesBaseDomain.value}"
+        export CLUSTER_DOMAIN="${CUSTOM_VALUE.kubernetesClusterDomain.value}"
         export KUBELET_CURRENT_SERVER_CRT_PATH="${CERTIFICATES.kubeletCurrentServer.crtPath}"
     `}
 </CodeBlock>
@@ -42,7 +42,7 @@ import { CERTIFICATES }         from '@site/src/constants/kubernetes/certs'
         cgroupDriver: systemd
         clusterDNS:
         - $\{SERVICE_DNS}
-        clusterDomain: $\{KUBERNETES_CLUSTER_DOMAIN}
+        clusterDomain: $\{CLUSTER_DOMAIN}
         tlsCertFile: "$\{KUBELET_CURRENT_SERVER_CRT_PATH}"
         tlsPrivateKeyFile: "$\{KUBELET_CURRENT_SERVER_CRT_PATH}"
         containerLogMaxSize: "50Mi"

@@ -4,22 +4,22 @@ import { CUSTOM_VALUE } from '@site/src/constants/kubernetes/customValue'
 import CodeBlock        from '@theme/CodeBlock'
 import dedent           from 'dedent'
 
-### 5.1.3.2.6.1. Переменные окружения PKI
+### 5.2.3.2.4.1. Переменные окружения PKI
 <CodeBlock language="bash">
-{dedent`
-    export BASE_K8S_PATH="${CUSTOM_VALUE.kuberneteBaseFolderPath.value}"
-    export KUBERNETES_KUBELET_CLIENT_CN="${CERTIFICATES.kubernetesKubeletClient.cname}"
-    export KUBERNETES_KUBELET_CLIENT_CRT_CONF="${CERTIFICATES.kubernetesKubeletClient.crtConf}"
-    export KUBERNETES_KUBELET_CLIENT_CRT_PATH="${CERTIFICATES.kubernetesKubeletClient.crtPath}"
-    export KUBERNETES_KUBELET_CLIENT_CSR_PATH="${CERTIFICATES.kubernetesKubeletClient.csrPath}"
-    export KUBERNETES_KUBELET_CLIENT_KEY_PATH="${CERTIFICATES.kubernetesKubeletClient.keyPath}"
-    export KUBERNETES_KUBELET_CLIENT_KEY_SIZE=${CERTIFICATES.kubernetesKubeletClient.keySize}
-    export KUBERNETES_CA_CRT_PATH="${CERTIFICATES.kubernetesCA.crtPath}"
-    export KUBERNETES_CA_KEY_PATH="${CERTIFICATES.kubernetesCA.keyPath}"
-`}
+    {dedent`
+        export BASE_K8S_PATH="${CUSTOM_VALUE.kuberneteBaseFolderPath.value}"
+        export KUBERNETES_KUBELET_CLIENT_CN="${CERTIFICATES.kubernetesKubeletClient.cname}"
+        export KUBERNETES_KUBELET_CLIENT_CRT_CONF="${CERTIFICATES.kubernetesKubeletClient.crtConf}"
+        export KUBERNETES_KUBELET_CLIENT_CRT_PATH="${CERTIFICATES.kubernetesKubeletClient.crtPath}"
+        export KUBERNETES_KUBELET_CLIENT_CSR_PATH="${CERTIFICATES.kubernetesKubeletClient.csrPath}"
+        export KUBERNETES_KUBELET_CLIENT_KEY_PATH="${CERTIFICATES.kubernetesKubeletClient.keyPath}"
+        export KUBERNETES_KUBELET_CLIENT_KEY_SIZE=${CERTIFICATES.kubernetesKubeletClient.keySize}
+        export KUBERNETES_CA_CRT_PATH="${CERTIFICATES.kubernetesCA.crtPath}"
+        export KUBERNETES_CA_KEY_PATH="${CERTIFICATES.kubernetesCA.keyPath}"
+    `}
 </CodeBlock>
 
-### 5.1.3.2.6.2. Рабочая директория для PKI
+### 5.2.3.2.4.2. Рабочая директория для PKI
 <CodeBlock language="bash">
     {dedent`
         mkdir -p $\{BASE_K8S_PATH}/pki
@@ -27,7 +27,7 @@ import dedent           from 'dedent'
     `}
 </CodeBlock>
 
-### 5.1.3.2.6.3. Конфигурация PKI
+### 5.2.3.2.4.3. Конфигурация PKI
 ```bash
 cat <<EOF > ${KUBERNETES_KUBELET_CLIENT_CRT_CONF}
 [ req ]
@@ -49,13 +49,13 @@ EOF
 ```
 
 
-### 5.1.3.2.6.4. Генерация приватного ключа
+### 5.2.3.2.4.4. Генерация приватного ключа
 ```bash
 openssl genrsa \
     -out "${KUBERNETES_KUBELET_CLIENT_KEY_PATH}" ${KUBERNETES_KUBELET_CLIENT_KEY_SIZE}
 ```
 
-### 5.1.3.2.6.5. Генерация CSR
+### 5.2.3.2.4.5. Генерация CSR
 ```bash
 openssl req \
     -new \
@@ -64,7 +64,7 @@ openssl req \
     -config "${KUBERNETES_KUBELET_CLIENT_CRT_CONF}"
 ```
 
-### 5.1.3.2.6.6. Подпись CSR
+### 5.2.3.2.4.6. Подпись CSR
 ```bash
 openssl x509 \
     -req \
