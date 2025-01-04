@@ -98,17 +98,22 @@ export const etcd = [
       },
       {
         type: 'doc',
-        label: '5.1.5.4. Дефрагментация',
+        label: '5.1.5.5. Уплотнение',
+        id: 'tech-docs/etcd/trubleshooting/compaction',
+      },
+      {
+        type: 'doc',
+        label: '5.1.5.6. Дефраг-ция',
         id: 'tech-docs/etcd/trubleshooting/defrag',
       },
       {
         type: 'doc',
-        label: '5.1.5.5. Бекапы',
+        label: '5.1.5.7. Бекапы',
         id: 'tech-docs/etcd/trubleshooting/backups',
       },
       {
         type: 'doc',
-        label: '5.1.5.6. Восстановление',
+        label: '5.1.5.8. Восстановление',
         id: 'tech-docs/etcd/trubleshooting/restore',
       },
     ]

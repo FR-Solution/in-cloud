@@ -1,6 +1,9 @@
 
-import { etcd } from './etcd'
+import { etcd }       from './etcd'
 import { kubernetes } from './kubernetes'
+import { monitoring } from './monitoring'
+import { vault }      from './vault'
+import { harbor }     from './harbor'
 
 export const main = [
   {
@@ -98,20 +101,19 @@ export const main = [
       {
         type: 'category',
         label: '5.1. Etcd',
-        collapsed: false,
+        collapsed: true,
         items: etcd
       },
       {
         type: 'category',
         label: '5.2. Kubernetes',
-        collapsed: false,
+        collapsed: true,
         items: kubernetes
       },
-
       {
         type: 'category',
         label: '5.3. B-Cloud',
-        collapsed: false,
+        collapsed: true,
         items: [
           {
             type: 'category',
@@ -229,7 +231,25 @@ export const main = [
             ],
           },
         ]
-      }
+      },
+      {
+        type: 'category',
+        label: '5.4. Harbor',
+        collapsed: true,
+        items: harbor
+      },
+      {
+        type: 'category',
+        label: '5.5. Monitoring',
+        collapsed: true,
+        items: monitoring
+      },
+      {
+        type: 'category',
+        label: '5.6. Vault',
+        collapsed: true,
+        items: vault
+      },
     ]
   },
 

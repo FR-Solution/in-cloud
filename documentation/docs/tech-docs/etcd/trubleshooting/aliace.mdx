@@ -1,5 +1,7 @@
 ---
 id: aliace
+toc_min_heading_level: 2
+toc_max_heading_level: 2
 ---
 
 import TabItem                  from '@theme/TabItem'
@@ -58,13 +60,7 @@ cpidsearch() {
     `}
 </CodeBlock>
 
-```bash
-alias etcdctl='etcdctl \
-  --cert=${ETCD_PEER_CRT_PATH} \
-  --key=${ETCD_PEER_KEY_PATH} \
-  --cacert=${ETCD_CA_CRT_PATH}'
-```
-
+### Список участников кластера
 ```bash
 etcdctlMembers() {
   etcdctl member list \
@@ -72,6 +68,40 @@ etcdctlMembers() {
   jq \
   -r '[.members[].clientURLs[]] | join(",")'
 }
+```
+
+### Актуальная ревизия
+```bash
+etcdctlRevision() {
+  etcdctl \
+    --endpoints=$(etcdctlMembers) \
+    endpoint status \
+    -w json | 
+    jq \
+    -r .[].Status.header.revision
+}
+```
+
+### Подключение
+```bash
+alias etcdctl='etcdctl \
+  --cert=${ETCD_PEER_CRT_PATH} \
+  --key=${ETCD_PEER_KEY_PATH} \
+  --cacert=${ETCD_CA_CRT_PATH}'
+```
+
+### Уплотение
+```bash
+alias etcdctlCompaction='etcdctl \
+  --endpoints=$(etcdctlMembers) \
+  compaction $(etcdctlRevision)'
+```
+
+### Дефрагментация
+```bash
+alias etcdctlDefrag='etcdctl \
+  --endpoints=$(etcdctlMembers) \
+  defrag'
 ```
 
 ## 5.1.5.2.4. Подключение через crictl
@@ -97,16 +127,7 @@ etcdctlMembers() {
     `}
 </CodeBlock>
 
-
-```bash
-alias ectl='crictl exec \
-  -ti $(cidsearch ${SEARCH_CONTAINER_NAME} ${SEARCH_NAMESPACE}) \
-  etcdctl \
-  --cert=${ETCD_PEER_CRT_PATH} \
-  --key=${ETCD_PEER_KEY_PATH} \
-  --cacert=${ETCD_CA_CRT_PATH}'
-```
-
+### Список участников кластера
 ```bash
 ectlMembers() {
   ectl member list \
@@ -116,6 +137,41 @@ ectlMembers() {
 }
 ```
 
+### Актуальная ревизия
+```bash
+ectlRevision() {
+  ectl \
+    --endpoints=$(ectlMembers) \
+    endpoint status \
+    -w json | 
+    jq \
+    -r .[].Status.header.revision
+}
+```
+
+### Подключение
+```bash
+alias ectl='crictl exec \
+  -ti $(cidsearch ${SEARCH_CONTAINER_NAME} ${SEARCH_NAMESPACE}) \
+  etcdctl \
+  --cert=${ETCD_PEER_CRT_PATH} \
+  --key=${ETCD_PEER_KEY_PATH} \
+  --cacert=${ETCD_CA_CRT_PATH}'
+```
+
+### Уплотение
+```bash
+alias ectlCompaction='ectl \
+  --endpoints=$(ectlMembers) \
+  compaction $(ectlRevision)'
+```
+
+### Дефрагментация
+```bash
+alias ectlDefrag='ectl \
+  --endpoints=$(etcdctlMembers) \
+  defrag'
+```
 
 ## 5.1.5.2.5. Подключение через nsenter
 > Для использования etcdctl, который находится внутри пространства имен процесса запущенного контейнера, необходимо сначала получить CONTAINER_ID. На основе этого идентификатора можно определить PID процесса. Далее создадим псевдоним nectl (чтобы избежать конфликтов с другими псевдонимами). При каждом вызове этого псевдонима будем обновлять данные о текущем контейнере и процессе. Также важно указать путь к сертификатам.
@@ -140,6 +196,29 @@ ectlMembers() {
     `}
 </CodeBlock>
 
+### Список участников кластера
+```bash
+nectlMembers() {
+  nectl member list \
+  --write-out=json | 
+  jq \
+  -r '[.members[].clientURLs[]] | join(",")'
+}
+```
+
+### Актуальная ревизия
+```bash
+nectlRevision() {
+  nectl \
+    --endpoints=$(nectlMembers) \
+    endpoint status \
+    -w json | 
+    jq \
+    -r .[].Status.header.revision
+}
+```
+
+### Подключение
 ```bash
 alias nectl='nsenter \
   -m -n -t \
@@ -150,13 +229,18 @@ alias nectl='nsenter \
   --cacert=${ETCD_CA_CRT_PATH}'
 ```
 
+### Уплотение
 ```bash
-nectlMembers() {
-  nectl member list \
-  --write-out=json | 
-  jq \
-  -r '[.members[].clientURLs[]] | join(",")'
-}
+alias nectlCompaction='nectl \
+  --endpoints=$(nectlMembers) \
+  compaction $(nectlRevision)'
+```
+
+### Дефрагментация
+```bash
+alias nectlDefrag='nectl \
+  --endpoints=$(nectlMembers) \
+  defrag'
 ```
 
 
