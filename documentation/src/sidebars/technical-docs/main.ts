@@ -1,4 +1,5 @@
 
+import { cilium }     from './cilium'
 import { etcd }       from './etcd'
 import { kubernetes } from './kubernetes'
 import { monitoring } from './monitoring'
@@ -303,6 +304,12 @@ export const main = [
         label: '5.6. Vault',
         collapsed: true,
         items: vault
+      },
+      {
+        type: 'category',
+        label: '5.7. cilium',
+        collapsed: true,
+        items: cilium
       },
     ]
   },
