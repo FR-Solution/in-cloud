@@ -116,7 +116,7 @@ export const etcd = [
       {
         type: 'doc',
         label: '5.1.5.2. Алиасы',
-        id: 'tech-docs/etcd/trubleshooting/aliace',
+        id: 'tech-docs/etcd/trubleshooting/alias',
       },
       {
         type: 'doc',
