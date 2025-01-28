@@ -80,4 +80,11 @@ export const ETCD_ARGS: TCustomValueItems = {
   advertiseClientUrls: {
     value: 'https://${MACHINE_LOCAL_ADDRESS}:${ETCD_SERVER_PORT}',
   },
+
+  workDir: {
+    value: '/tmp/etcd'
+  },
+  dbPath: {
+    value: '/var/lib/etcd/member/snap/db'
+  },
 }
