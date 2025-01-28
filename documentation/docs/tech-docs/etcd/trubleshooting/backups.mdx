@@ -69,7 +69,28 @@ import { ETCD_ARGS }            from '@site/src/constants/kubernetes/etcdArgs'
 
   </TabItem>
   <TabItem value='nectl'>
-    TODO Описать процесс с пробросом mount (положить бекап).
+    Рабочий вариант, когда нет исполняемого файла под рукой. Дамп будет сохранен внутри
+    файловой системы контейнера. Поэтому рекомендуется указывать путь в примонтированные области.
+
+    <CodeBlock language="bash">
+        {dedent`
+            nectl snapshot save ${ETCD_ARGS.dataDir.value}/backup.db
+        `}
+    </CodeBlock>
+
+    :::note
+    В кластерах B-Cloud файлы ETCD по умолчанию хранятся на мастере по одноименному пути <code>{ETCD_ARGS.dataDir.value}</code>
+    :::
+
+    Теперь на хостовой машине вы можете скопировать файл <code>{ETCD_ARGS.dataDir.value}/backup.db</code>
+    в другое место, чтобы сохранить его. Например:
+
+    <CodeBlock language="bash">
+        {`
+            cp ${ETCD_ARGS.dataDir.value}/backup.db ${ETCD_ARGS.workDir.value}/backup.db
+        `}
+    </CodeBlock>
+
   </TabItem>
   <TabItem value='kectl'>
     Нерекомендуемый вариант. Т.к. файл будет сохранен внутри контейнера и даже если сохранить в
