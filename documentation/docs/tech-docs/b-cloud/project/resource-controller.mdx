@@ -13,7 +13,7 @@ import dedent                       from 'dedent'
 ## Архитектура
 <div className="center">![Описание изображения](/img/controllers/project-cotroller.drawio.svg)</div>
 
-## Функциионал
+## Функционал
 
 - **Создание пространств имен**: предоставляет возможность создавать и настраивать пространства имен для организации и изоляции ресурсов в системе.
 
@@ -101,7 +101,7 @@ import dedent                       from 'dedent'
 
     <TabItem value='RoleBinding'>
         При создании ресурса `Project` автоматически устанавливается ряд связей между группами пользователей и заранее подготовленными ролевыми моделями.
-        
+
         `g-developer` - права доступа для разрабочиков проекта.
         <CodeBlock language="yaml">
           {dedent`
@@ -175,6 +175,16 @@ import dedent                       from 'dedent'
               name: '$\{RESOURCE_PROJECT.metadata.name}'
             spec:
               quotas:
+                k8s:
+                  limits:
+                    cpu: '$\{RESOURCE_PROJECT.spec.quotas.k8s.limits.cpu}'
+                    memory: '$\{RESOURCE_PROJECT.spec.quotas.k8s.limits.memory}'
+                  requests:
+                    cpu: '$\{RESOURCE_PROJECT.spec.quotas.k8s.requests.cpu}'
+                    memory: '$\{RESOURCE_PROJECT.spec.quotas.k8s.requests.memory}'
+                    storage: '$\{RESOURCE_PROJECT.spec.quotas.k8s.requests.storage}'
+            status:
+              quotasLeft:
                 k8s:
                   limits:
                     cpu: '$\{RESOURCE_PROJECT.spec.quotas.k8s.limits.cpu}'

@@ -13,7 +13,7 @@ import dedent                       from 'dedent'
 ## Архитектура
 <div className="center">![Описание изображения](/img/controllers/instance-cotroller.drawio.svg)</div>
 
-## Функциионал
+## Функционал
 
 - **Создание пространств имен**: предоставляет возможность создавать и настраивать пространства имен для организации и изоляции ресурсов в системе.
 
@@ -45,6 +45,8 @@ import dedent                       from 'dedent'
      - RoleBinding
      - ResourceQuota
      - ApplicationSet
+     - InstanceLegacy
+     - Secret
 
 6. Действия процесса реконсиляции при удалении:
    - В ответ на события удаления процесс реконсиляции должен удалять все ресурсы, созданные контроллером, связанные с удаленным ресурсом Project.
@@ -87,7 +89,7 @@ import dedent                       from 'dedent'
               name: bcloud-sandbox-instance
               namespace: '$\{RESOURCE_PROJECT.metadata.name}'
             spec:
-              description: Тестовый Instance в Project: bcloud-sandbox
+              description: Тестовый Instance в Project bcloud-sandbox
               quotas:
                 k8s:
                   limits:
@@ -128,7 +130,7 @@ import dedent                       from 'dedent'
 
     <TabItem value='RoleBinding'>
         При создании ресурса `Instance` автоматически устанавливается ряд связей между группами пользователей и заранее подготовленными ролевыми моделями.
-        
+
         `all-architect-namespacescope-view` - базовые права групповые права для `архитекторов` в рамках instance namespaces.
         <CodeBlock language="yaml">
           {dedent`
@@ -249,26 +251,6 @@ import dedent                       from 'dedent'
           `}
         </CodeBlock>
 
-        `devops-namespacescope-edit` - базовые права групповые права `devopschamp` в рамках instance namespaces.
-        <CodeBlock language="yaml">
-          {dedent`
-            ---
-            apiVersion: rbac.authorization.k8s.io/v1
-            kind: RoleBinding
-            metadata:
-              name: devopschamp-namespacescope-edit
-              namespace: '$\{RESOURCE_INSTANCE.metadata.name}'
-            roleRef:
-              apiGroup: rbac.authorization.k8s.io
-              kind: ClusterRole
-              name: edit
-            subjects:
-            - apiGroup: rbac.authorization.k8s.io
-              kind: Group
-              name: 'g-devopschamp-$\{RESOURCE_PROJECT.metadata.name}'
-          `}
-        </CodeBlock>
-
         `qa-namespacescope-edit` - базовые права групповые права `тестировщиков` в рамках instance namespaces.
         <CodeBlock language="yaml">
           {dedent`
@@ -287,7 +269,7 @@ import dedent                       from 'dedent'
               kind: Group
               name: 'g-qa-$\{RESOURCE_PROJECT.metadata.name}'
           `}
-        </CodeBlock> 
+        </CodeBlock>
     </TabItem>
 
     <TabItem value='ResourceQuota'>
@@ -370,5 +352,34 @@ import dedent                       from 'dedent'
 
           `}
         </CodeBlock>
+    </TabItem>
+    <TabItem value='InstanceLegacy'>
+      При создании ресурса `Instance` автоматически генерируется ресурс `InstanceLegacy`, который впоследствии будет отвечать интеграцию с внешними системами.
+      <CodeBlock language="yaml">
+        {dedent`
+              ---
+              apiVersion: v1
+              kind: InstanceLegacy
+              metadata:
+                name: '$\{RESOURCE_INSTANCE.metadata.name}-quotas'
+                namespace: '$\{RESOURCE_INSTANCE.metadata.name}'
+              spec:
+                description: '$\{RESOURCE_INSTANCE.spec.description}'
+            `}
+      </CodeBlock>
+    </TabItem>
+    <TabItem value='Secret'>
+      При создании ресурса `Instance` автоматически генерируется ресурс `Secret`, который
+      TODO @Колбин - проверить и ддописать!.
+      <CodeBlock language="yaml">
+        {dedent`
+                ---
+                apiVersion: v1
+                kind: Secret
+                metadata:
+                  name: '$\{RESOURCE_INSTANCE.metadata.name}-quotas'
+                  namespace: '$\{RESOURCE_INSTANCE.metadata.name}'
+              `}
+      </CodeBlock>
     </TabItem>
 </Tabs>

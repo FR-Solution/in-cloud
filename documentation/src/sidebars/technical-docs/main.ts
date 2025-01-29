@@ -228,6 +228,60 @@ export const main = [
                   },
                 ],
               },
+              {
+                type: 'category',
+                label: '5.3.1.5. InstanceLegacy',
+                collapsed: true,
+                items: [
+                  {
+                    type: 'doc',
+                    label: '5.3.1.5.1. Ресурс',
+                    id: 'tech-docs/b-cloud/instance-legacy/resource',
+                  },
+                  {
+                    type: 'doc',
+                    label: '5.3.1.5.2. Контроллер',
+                    id: 'tech-docs/b-cloud/instance-legacy/resource-controller',
+                  },
+                  {
+                    type: 'doc',
+                    label: '5.3.1.5.3. Установка',
+                    id: 'tech-docs/b-cloud/instance-legacy/install',
+                  },
+                  {
+                    type: 'doc',
+                    label: '5.3.1.5.4. Диагностика',
+                    id: 'tech-docs/b-cloud/instance-legacy/troubleshooting',
+                  },
+                ],
+              },
+              {
+                type: 'category',
+                label: '5.3.1.6. Repository',
+                collapsed: true,
+                items: [
+                  {
+                    type: 'doc',
+                    label: '5.3.1.6.1. Ресурс',
+                    id: 'tech-docs/b-cloud/repository/resource',
+                  },
+                  {
+                    type: 'doc',
+                    label: '5.3.1.6.2. Контроллер',
+                    id: 'tech-docs/b-cloud/repository/resource-controller',
+                  },
+                  {
+                    type: 'doc',
+                    label: '5.3.1.6.3. Установка',
+                    id: 'tech-docs/b-cloud/repository/install',
+                  },
+                  {
+                    type: 'doc',
+                    label: '5.3.1.6.4. Диагностика',
+                    id: 'tech-docs/b-cloud/repository/troubleshooting',
+                  },
+                ],
+              },
             ],
           },
         ]
