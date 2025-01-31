@@ -82,9 +82,9 @@ export const ETCD_ARGS: TCustomValueItems = {
   },
 
   workDir: {
-    value: '/tmp/etcd'
+    value: '/tmp/etcd',
   },
   dbPath: {
-    value: '/var/lib/etcd/member/snap/db'
+    value: '/var/lib/etcd/member/snap/db',
   },
 }
