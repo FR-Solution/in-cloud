@@ -25,7 +25,7 @@ import { CUSTOM_VALUE }         from '@site/src/constants/kubernetes/customValue
 Просьба обратить внимание, что все команды вводятся на узлах, где размещается ETCD инстанс.
 :::
 
-## 5.1.5.2.1. Поиск ID контейнера
+## 5.1.5.1.1. Поиск ID контейнера
 > Данный алиас поможет быстро найти ID контейнера по меткам `io.kubernetes.container.name` и `io.kubernetes.pod.namespace`
 
 ```bash
@@ -64,7 +64,7 @@ cpidsearch() {
 ```bash
 etcdctlMembers() {
   etcdctl member list \
-  --write-out=json | 
+  --write-out=json |
   jq \
   -r '[.members[].clientURLs[]] | join(",")'
 }
@@ -76,7 +76,7 @@ etcdctlRevision() {
   etcdctl \
     --endpoints=$(etcdctlMembers) \
     endpoint status \
-    -w json | 
+    -w json |
     jq \
     -r .[].Status.header.revision
 }
@@ -131,7 +131,7 @@ alias etcdctlDefrag='etcdctl \
 ```bash
 ectlMembers() {
   ectl member list \
-  --write-out=json | 
+  --write-out=json |
   jq \
   -r '[.members[].clientURLs[]] | join(",")'
 }
@@ -143,7 +143,7 @@ ectlRevision() {
   ectl \
     --endpoints=$(ectlMembers) \
     endpoint status \
-    -w json | 
+    -w json |
     jq \
     -r .[].Status.header.revision
 }
@@ -200,7 +200,7 @@ alias ectlDefrag='ectl \
 ```bash
 nectlMembers() {
   nectl member list \
-  --write-out=json | 
+  --write-out=json |
   jq \
   -r '[.members[].clientURLs[]] | join(",")'
 }
@@ -212,7 +212,7 @@ nectlRevision() {
   nectl \
     --endpoints=$(nectlMembers) \
     endpoint status \
-    -w json | 
+    -w json |
     jq \
     -r .[].Status.header.revision
 }

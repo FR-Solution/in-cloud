@@ -1,12 +1,12 @@
 export const etcd = [
   {
     type: 'category',
-    label: '5.2.1. Окружение',
+    label: '5.1.1. Окружение',
     collapsed: true,
     items: [
       {
         type: 'doc',
-        label: '5.2.1.1. Настройка ОС',
+        label: '5.1.1.1. Настройка ОС',
         id: 'tech-docs/etcd/setupEnvironments/os-setup',
       },
       {
@@ -32,9 +32,26 @@ export const etcd = [
         ]
       },
       {
-        type: 'doc',
+        type: 'category',
         label: '5.1.1.3. Проверка',
-        id: 'tech-docs/etcd/components/components-ready',
+        collapsed: true,
+        items: [
+          {
+            type: 'doc',
+            label: '5.1.1.3.1. Etcd',
+            id: 'tech-docs/etcd/components/etcd/check',
+          },
+          {
+            type: 'doc',
+            label: '5.1.1.3.2. Etcdctl',
+            id: 'tech-docs/etcd/components/etcdctl/check',
+          },
+          {
+            type: 'doc',
+            label: '5.1.1.3.3. Etcdutl',
+            id: 'tech-docs/etcd/components/etcdutl/check',
+          },
+        ]
       },
     ]
   },
@@ -64,6 +81,16 @@ export const etcd = [
         type: 'doc',
         label: '5.1.3.1. Инициализация',
         id: 'tech-docs/kubernetes/components/etcd/etcd-init-static-pods',
+      },
+      {
+        type: 'doc',
+        label: '5.1.3.2. Добавление узла',
+        id: 'tech-docs/etcd/components/etcd/add-members',
+      },
+      {
+        type: 'doc',
+        label: '5.1.3.3. Удаление узла',
+        id: 'tech-docs/etcd/components/etcd/remove-members',
       },
     ]
   },
