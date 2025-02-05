@@ -31,7 +31,7 @@ import { CUSTOM_VALUE }         from '@site/src/constants/kubernetes/customValue
 ```bash
 cidsearch() {
   crictl ps \
-    --label io.kubernetes.container.name="$1" \
+    --label io.kubernetes.pod.name="$1" \
     --label io.kubernetes.pod.namespace="$2" \
     -o json | jq -r '.containers[].id'
 }
@@ -46,7 +46,6 @@ cpidsearch() {
     $(cidsearch "$1" "$2") | jq .info.pid
 }
 ```
-
 
 ## 5.1.5.2.3. Прямое подключение
 > Прямое подключение подходит в ситуациях, когда мы знаем на каком узле находится ETCD инстанс, и сертификаты лежат в хостовой файловой системе.
@@ -107,25 +106,62 @@ alias etcdctlDefrag='etcdctl \
 ## 5.1.5.2.4. Подключение через crictl
 > Подключение через контейнер нам подходит в ситуациях, когда приклад запущен в виде контейнера, и все данные примонтированы внутрь контейнерной файловой системы.
 
+> Нужно указать NAMESPACE и NAME pod-а.
+
+```
+export SEARCH_NAMESPACE="kube-system"
+export SEARCH_POD_NAME="etcd"
+```
+
 :::info
-Просьба обратить на зависимость от alias=(`cidsearch`)
+Просьба обратить на зависимость от alias=(`cidsearch`, `ectlflagsearch`) указанных ниже
 :::
 
-<CodeBlock language="bash">
-    {dedent`
-        export SEARCH_NAMESPACE="kube-system"
-        export SEARCH_CONTAINER_NAME="etcd"
-    `}
-</CodeBlock>
+### Поиск ID контейнера
 
-<CodeBlock language="bash">
-    {dedent`
-        export BASE_K8S_PATH="${CUSTOM_VALUE.kuberneteBaseFolderPath.value}"
-        export ETCD_PEER_CRT_PATH="${CERTIFICATES.etcdPeer.crtPath}"
-        export ETCD_PEER_KEY_PATH="${CERTIFICATES.etcdPeer.keyPath}"
-        export ETCD_CA_CRT_PATH="${CERTIFICATES.etcdCA.crtPath}"
-    `}
-</CodeBlock>
+```bash
+cidsearch() {
+  crictl ps \
+    --label io.kubernetes.pod.name="$1" \
+    --label io.kubernetes.pod.namespace="$2" \
+    -o json | jq -r '.containers[].id'
+}
+```
+
+### Флаги для подключения к etcdctl
+
+> alias функции, которая подставляет флаги с указанием PEER-сертификата, PEER-ключа , CA-сертификата ETCD кластера и ENDPOINT-а.
+
+```
+ectlflagsearch() {
+  ETCD_ARGS=$( \
+    crictl inspect $(cidsearch "$1" "$2") |
+      jq -r \
+        '.info.runtimeSpec.process.args[]' ) ; \
+  echo -n \
+    '--cert='$(grep --\
+      '--peer-cert-file=' <<< $ETCD_ARGS |
+      sed 's/[^=]*=//') \
+    '--key='$(grep --\
+      '--peer-key-file=' <<< $ETCD_ARGS |
+      sed 's/[^=]*=//') \
+    '--cacert='$(grep --\
+      '--trusted-ca-file=' <<< $ETCD_ARGS |
+      sed 's/[^=]*=//') \
+    '--endpoints='$(grep --\
+      '--advertise-client-urls=' <<< $ETCD_ARGS |
+      sed 's/[^=]*=//')
+}
+```
+
+### Подключение
+
+```bash
+alias ectl='crictl exec \
+  -ti $(cidsearch ${SEARCH_POD_NAME} ${SEARCH_NAMESPACE}) \
+  etcdctl \
+  $(certpathssearch ${SEARCH_POD_NAME} ${SEARCH_NAMESPACE})'
+```
 
 ### Список участников кластера
 ```bash
@@ -141,36 +177,26 @@ ectlMembers() {
 ```bash
 ectlRevision() {
   ectl \
-    --endpoints=$(ectlMembers) \
     endpoint status \
+    --cluster \
     -w json |
-    jq \
-    -r .[].Status.header.revision
+    jq -r  \
+    '[.[].Status.header.revision] | join(" ")'
 }
-```
-
-### Подключение
-```bash
-alias ectl='crictl exec \
-  -ti $(cidsearch ${SEARCH_CONTAINER_NAME} ${SEARCH_NAMESPACE}) \
-  etcdctl \
-  --cert=${ETCD_PEER_CRT_PATH} \
-  --key=${ETCD_PEER_KEY_PATH} \
-  --cacert=${ETCD_CA_CRT_PATH}'
 ```
 
 ### Уплотение
 ```bash
 alias ectlCompaction='ectl \
-  --endpoints=$(ectlMembers) \
-  compaction $(ectlRevision)'
+  compaction $(ectlRevision) \
+  --cluster'
 ```
 
 ### Дефрагментация
 ```bash
 alias ectlDefrag='ectl \
-  --endpoints=$(etcdctlMembers) \
-  defrag'
+  defrag \
+  --cluster'
 ```
 
 ## 5.1.5.2.5. Подключение через nsenter
@@ -245,4 +271,91 @@ alias nectlDefrag='nectl \
 
 
 ## 5.1.5.2.6. Подключение через kubectl
-TODO
+> Подключение через kubectl нам подходит в ситуациях, когда приклад запущен в виде пода в k8s кластере, все данные примонтированы внутрь контейнерной файловой системы, а манипуляции выполняются через kube-api.
+
+> Нужно указать NAMESPACE и NAME pod-а.
+
+```
+export SEARCH_NAMESPACE="kube-system"
+export SEARCH_POD_NAME="etcd"
+```
+
+:::info
+Просьба обратить на зависимость от alias=(`kectlflagsearch`) указанной ниже
+:::
+
+### Флаги для подключения к kectl
+
+> alias функции, которая подставляет флаги с указанием PEER-сертификата, PEER-ключа , CA-сертификата ETCD кластера и ENDPOINT-а.
+
+```
+kectlflagsearch() {
+  ETCD_ARGS=$( \
+    kubectl get pod \
+    -n ${SEARCH_NAMESPACE} \
+    ${SEARCH_POD_NAME} \
+    -o yaml) ; \
+  echo -n \
+    '--cert='$(grep --\
+      '--peer-cert-file=' <<< $ETCD_ARGS |
+      sed 's/[^=]*=//') \
+    '--key='$(grep --\
+      '--peer-key-file=' <<< $ETCD_ARGS |
+      sed 's/[^=]*=//') \
+    '--cacert='$(grep --\
+      '--trusted-ca-file=' <<< $ETCD_ARGS |
+      sed 's/[^=]*=//') \
+    '--endpoints='$(grep --\
+      '--advertise-client-urls=' <<< $ETCD_ARGS |
+      sed 's/[^=]*=//' |
+      sed 's/$(POD_NAME)/'${SEARCH_POD_NAME}'/' |
+      sed 's/$(POD_NAMESPACE)/'${SEARCH_NAMESPACE}'/')
+}
+```
+
+### Подключение
+
+```bash
+alias kectl='kubectl exec -it \
+  -n ${SEARCH_NAMESPACE} \
+  ${SEARCH_POD_NAME} \
+  -- \
+  etcdctl \
+  $(kectlflagsearch ${SEARCH_POD_NAME} ${SEARCH_NAMESPACE})'
+```
+
+### Список участников кластера
+```bash
+ectlMembers() {
+  kectl member list \
+  --write-out=json |
+  jq \
+  -r '[.members[].clientURLs[]] | join(",")'
+}
+```
+
+### Актуальная ревизия
+```bash
+ectlRevision() {
+  kectl \
+    endpoint status \
+    --cluster \
+    -w json |
+    jq -r  \
+    '[.[].Status.header.revision] | join(" ")'
+}
+```
+
+### Уплотение
+```bash
+alias kectlCompaction='ectl \
+  compaction $(ectlRevision) \
+  --cluster'
+```
+
+### Дефрагментация
+```bash
+alias kectlDefrag='ectl \
+  defrag \
+  --cluster'
+```
