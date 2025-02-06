@@ -22,11 +22,11 @@ import { CUSTOM_VALUE } from '@site/src/constants/kubernetes/customValue'
 - (alias=**kectl**) Подключение через kubelet
 
 :::warning
-Просьба обратить внимание, что все команды вводятся на узлах, где размещается ETCD инстанс.
+Просьба обратить внимание, что все команды кроме пункта 5.1.5.2.6 (Подключение через kubectl) вводятся на узлах, где размещается ETCD инстанс.
 :::
 
-## 5.1.5.1.1. Поиск ID контейнера
-> Данный алиас поможет быстро найти ID контейнера по меткам `io.kubernetes.container.name` и `io.kubernetes.pod.namespace`
+## 5.1.5.2.1. Поиск ID контейнера
+> Данный алиас поможет быстро найти ID контейнера по меткам `io.kubernetes.pod.name` и `io.kubernetes.pod.namespace`
 
 ```bash
 cidsearch() {
@@ -60,6 +60,15 @@ cpidsearch() {
         export ETCD_CA_CRT_PATH="${CERTIFICATES.etcdCA.crtPath}"
     `}
 </CodeBlock>
+
+
+### Подключение
+```bash
+alias etcdctl='etcdctl \
+  --cert=${ETCD_PEER_CRT_PATH} \
+  --key=${ETCD_PEER_KEY_PATH} \
+  --cacert=${ETCD_CA_CRT_PATH}'
+```
 
 ### Список участников кластера
 
