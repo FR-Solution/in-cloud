@@ -1,3 +1,4 @@
+/* eslint-disable no-template-curly-in-string */
 import { TCustomValueItems } from '../../customTypes/customValue'
 
 export const KUBE_API_ARGS: TCustomValueItems = {

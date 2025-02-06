@@ -4,22 +4,21 @@ toc_min_heading_level: 2
 toc_max_heading_level: 2
 ---
 
-import TabItem                  from '@theme/TabItem'
-import Tabs                     from '@theme/Tabs'
-import dedent                   from 'dedent'
-import CodeBlock                from '@theme/CodeBlock'
-import { CERTIFICATES }         from '@site/src/constants/kubernetes/certs'
-import { CUSTOM_VALUE }         from '@site/src/constants/kubernetes/customValue'
+import dedent from 'dedent'
+import CodeBlock from '@theme/CodeBlock'
+import { CodeAndInputKectl } from '@site/src/components/commonBlocks'
+import { CERTIFICATES } from '@site/src/constants/kubernetes/certs'
+import { CUSTOM_VALUE } from '@site/src/constants/kubernetes/customValue'
 
 # 5.1.5.2. Алиасы
 
 > Данный блок нам будет полезен с точки зрения оптимизации запросов на подключение. Рассмотрим несколько вариантов подключения к ETCD кластеру.
 
-- (alias=**cidsearch**)    Поиск ID контейнера
-- (alias=**cpidsearch**)   Поиск PID контейнера
-- (alias=**etcdctl**)      Прямое подключение
-- (alias=**ectl**)         Подключение через crictl
-- (alias=**nectl**)        Подключение через nsenter
+- (alias=**cidsearch**) Поиск ID контейнера
+- (alias=**cpidsearch**) Поиск PID контейнера
+- (alias=**etcdctl**) Прямое подключение
+- (alias=**ectl**) Подключение через crictl
+- (alias=**nectl**) Подключение через nsenter
 
 :::warning
 Просьба обратить внимание, что все команды вводятся на узлах, где размещается ETCD инстанс.
@@ -38,6 +37,7 @@ cidsearch() {
 ```
 
 ## 5.1.5.2.2. Поиск PID контейнера
+
 > Данный алиас поможет быстро найти PID контейнера по меткам `io.kubernetes.container.name` и `io.kubernetes.pod.namespace`
 
 ```bash
@@ -48,10 +48,11 @@ cpidsearch() {
 ```
 
 ## 5.1.5.2.3. Прямое подключение
+
 > Прямое подключение подходит в ситуациях, когда мы знаем на каком узле находится ETCD инстанс, и сертификаты лежат в хостовой файловой системе.
 
 <CodeBlock language="bash">
-    {dedent`
+  {dedent`
         export BASE_K8S_PATH="${CUSTOM_VALUE.kuberneteBaseFolderPath.value}"
         export ETCD_PEER_CRT_PATH="${CERTIFICATES.etcdPeer.crtPath}"
         export ETCD_PEER_KEY_PATH="${CERTIFICATES.etcdPeer.keyPath}"
@@ -60,6 +61,7 @@ cpidsearch() {
 </CodeBlock>
 
 ### Список участников кластера
+
 ```bash
 etcdctlMembers() {
   etcdctl member list \
@@ -70,6 +72,7 @@ etcdctlMembers() {
 ```
 
 ### Актуальная ревизия
+
 ```bash
 etcdctlRevision() {
   etcdctl \
@@ -82,6 +85,7 @@ etcdctlRevision() {
 ```
 
 ### Подключение
+
 ```bash
 alias etcdctl='etcdctl \
   --cert=${ETCD_PEER_CRT_PATH} \
@@ -90,6 +94,7 @@ alias etcdctl='etcdctl \
 ```
 
 ### Уплотение
+
 ```bash
 alias etcdctlCompaction='etcdctl \
   --endpoints=$(etcdctlMembers) \
@@ -97,6 +102,7 @@ alias etcdctlCompaction='etcdctl \
 ```
 
 ### Дефрагментация
+
 ```bash
 alias etcdctlDefrag='etcdctl \
   --endpoints=$(etcdctlMembers) \
@@ -104,6 +110,7 @@ alias etcdctlDefrag='etcdctl \
 ```
 
 ## 5.1.5.2.4. Подключение через crictl
+
 > Подключение через контейнер нам подходит в ситуациях, когда приклад запущен в виде контейнера, и все данные примонтированы внутрь контейнерной файловой системы.
 
 > Нужно указать NAMESPACE и NAME pod-а.
@@ -164,6 +171,7 @@ alias ectl='crictl exec \
 ```
 
 ### Список участников кластера
+
 ```bash
 ectlMembers() {
   ectl member list \
@@ -174,6 +182,7 @@ ectlMembers() {
 ```
 
 ### Актуальная ревизия
+
 ```bash
 ectlRevision() {
   ectl \
@@ -186,6 +195,7 @@ ectlRevision() {
 ```
 
 ### Уплотение
+
 ```bash
 alias ectlCompaction='ectl \
   compaction $(ectlRevision) \
@@ -193,6 +203,7 @@ alias ectlCompaction='ectl \
 ```
 
 ### Дефрагментация
+
 ```bash
 alias ectlDefrag='ectl \
   defrag \
@@ -200,6 +211,7 @@ alias ectlDefrag='ectl \
 ```
 
 ## 5.1.5.2.5. Подключение через nsenter
+
 > Для использования etcdctl, который находится внутри пространства имен процесса запущенного контейнера, необходимо сначала получить CONTAINER_ID. На основе этого идентификатора можно определить PID процесса. Далее создадим псевдоним nectl (чтобы избежать конфликтов с другими псевдонимами). При каждом вызове этого псевдонима будем обновлять данные о текущем контейнере и процессе. Также важно указать путь к сертификатам.
 
 :::info
@@ -207,14 +219,14 @@ alias ectlDefrag='ectl \
 :::
 
 <CodeBlock language="bash">
-    {dedent`
+  {dedent`
         export SEARCH_NAMESPACE="kube-system"
         export SEARCH_CONTAINER_NAME="etcd"
     `}
 </CodeBlock>
 
 <CodeBlock language="bash">
-    {dedent`
+  {dedent`
         export BASE_K8S_PATH="${CUSTOM_VALUE.kuberneteBaseFolderPath.value}"
         export ETCD_PEER_CRT_PATH="${CERTIFICATES.etcdPeer.crtPath}"
         export ETCD_PEER_KEY_PATH="${CERTIFICATES.etcdPeer.keyPath}"
@@ -223,6 +235,7 @@ alias ectlDefrag='ectl \
 </CodeBlock>
 
 ### Список участников кластера
+
 ```bash
 nectlMembers() {
   nectl member list \
@@ -233,6 +246,7 @@ nectlMembers() {
 ```
 
 ### Актуальная ревизия
+
 ```bash
 nectlRevision() {
   nectl \
@@ -245,6 +259,7 @@ nectlRevision() {
 ```
 
 ### Подключение
+
 ```bash
 alias nectl='nsenter \
   -m -n -t \
@@ -256,6 +271,7 @@ alias nectl='nsenter \
 ```
 
 ### Уплотение
+
 ```bash
 alias nectlCompaction='nectl \
   --endpoints=$(nectlMembers) \
@@ -263,14 +279,15 @@ alias nectlCompaction='nectl \
 ```
 
 ### Дефрагментация
+
 ```bash
 alias nectlDefrag='nectl \
   --endpoints=$(nectlMembers) \
   defrag'
 ```
 
-
 ## 5.1.5.2.6. Подключение через kubectl
+
 > Подключение через kubectl нам подходит в ситуациях, когда приклад запущен в виде пода в k8s кластере, все данные примонтированы внутрь контейнерной файловой системы, а манипуляции выполняются через kube-api.
 
 > Нужно указать NAMESPACE и NAME pod-а.
@@ -288,30 +305,7 @@ export SEARCH_POD_NAME="etcd"
 
 > alias функции, которая подставляет флаги с указанием PEER-сертификата, PEER-ключа , CA-сертификата ETCD кластера и ENDPOINT-а.
 
-```
-kectlflagsearch() {
-  ETCD_ARGS=$( \
-    kubectl get pod \
-    -n ${SEARCH_NAMESPACE} \
-    ${SEARCH_POD_NAME} \
-    -o yaml) ; \
-  echo -n \
-    '--cert='$(grep --\
-      '--peer-cert-file=' <<< $ETCD_ARGS |
-      sed 's/[^=]*=//') \
-    '--key='$(grep --\
-      '--peer-key-file=' <<< $ETCD_ARGS |
-      sed 's/[^=]*=//') \
-    '--cacert='$(grep --\
-      '--trusted-ca-file=' <<< $ETCD_ARGS |
-      sed 's/[^=]*=//') \
-    '--endpoints='$(grep --\
-      '--advertise-client-urls=' <<< $ETCD_ARGS |
-      sed 's/[^=]*=//' |
-      sed 's/$(POD_NAME)/'${SEARCH_POD_NAME}'/' |
-      sed 's/$(POD_NAMESPACE)/'${SEARCH_NAMESPACE}'/')
-}
-```
+<CodeAndInputKectl />
 
 ### Подключение
 
@@ -325,6 +319,7 @@ alias kectl='kubectl exec -it \
 ```
 
 ### Список участников кластера
+
 ```bash
 ectlMembers() {
   kectl member list \
@@ -335,6 +330,7 @@ ectlMembers() {
 ```
 
 ### Актуальная ревизия
+
 ```bash
 ectlRevision() {
   kectl \
@@ -347,6 +343,7 @@ ectlRevision() {
 ```
 
 ### Уплотение
+
 ```bash
 alias kectlCompaction='ectl \
   compaction $(ectlRevision) \
@@ -354,6 +351,7 @@ alias kectlCompaction='ectl \
 ```
 
 ### Дефрагментация
+
 ```bash
 alias kectlDefrag='ectl \
   defrag \

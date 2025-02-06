@@ -1,24 +1,7 @@
+import TabItem from '@theme/TabItem'
+import Tabs from '@theme/Tabs'
 
-import { FancyboxDiagram }      from '@site/src/components/commonBlocks/FancyboxDiagram'
-import TabItem                  from '@theme/TabItem'
-import Tabs                     from '@theme/Tabs'
-
-
-import StatusCluster            from '@site/docs/tech-docs/kubernetes/statusCluster.mdx'
-
-
-import CodeBlock                from '@theme/CodeBlock'
-
-import { CUSTOM_VALUE }         from '@site/src/constants/kubernetes/customValue'
-import { CERTIFICATES }         from '@site/src/constants/kubernetes/certs'
-import { PORTS }                from '@site/src/constants/kubernetes/ports'
-
-import Arch                     from '@site/docs/tech-docs/kubernetes/flowcharts/arch.mdx'
-import TopologyInfra            from '@site/docs/tech-docs/kubernetes/flowcharts/topologyInfra.mdx'
-
-import StagesOfCreation         from '@site/docs/tech-docs/kubernetes/stagesOfCreation.mdx'
-
-import {KUBE_API_ARGS}          from '@site/src/constants/kubernetes/kubeAPIArgs'
+import CodeBlock from '@theme/CodeBlock'
 
 ## 5.1.1.2.5.3. Подгона K8S-THW к kubeadm
 1. Маркировка узла
@@ -30,240 +13,268 @@ import {KUBE_API_ARGS}          from '@site/src/constants/kubernetes/kubeAPIArgs
 <Tabs groupId="install-type">
 
   <TabItem value='HardWay'>
-    > Данный блок маркирует узлы управляющего контура, что бы пользовательская нагрузка на них не падала.
-    ```bash
-    kubectl label node ${FULL_HOST_NAME} node-role.kubernetes.io/control-plane="" \
-      --kubeconfig=${BASE_K8S_PATH}/super-admin.conf
-    ```
-    ```bash
-    kubectl taint node ${FULL_HOST_NAME} node-role.kubernetes.io/control-plane="":NoSchedule \
-      --overwrite \
-      --kubeconfig=${BASE_K8S_PATH}/super-admin.conf
-    ```
-  </TabItem>
+    <quote>Данный блок маркирует узлы управляющего контура, что бы пользовательская нагрузка на них не падала.</quote>
 
-  <TabItem value='Kubeadm'>
-    > Данный блок маркирует узлы управляющего контура, что бы пользовательская нагрузка на них не падала.
-    ```bash
-    kubeadm init phase mark-control-plane
-    ```
-    :::note
-    ```
-    [mark-control-plane] Marking the node master-1.example.example.com as control-plane by adding the labels: [node-role.kubernetes.io/control-plane node.kubernetes.io/exclude-from-external-load-balancers]
-    [mark-control-plane] Marking the node master-1.example.example.com as control-plane by adding the taints [node-role.kubernetes.io/control-plane:NoSchedule]
-    ```
-    :::
-  </TabItem>
+```bash
+  kubectl label node ${FULL_HOST_NAME} node-role.kubernetes.io/control-plane="" \
+    --kubeconfig=${BASE_K8S_PATH}/super-admin.conf
+```
+
+```bash
+kubectl taint node ${FULL_HOST_NAME} node-role.kubernetes.io/control-plane="":NoSchedule \
+  --overwrite \
+  --kubeconfig=${BASE_K8S_PATH}/super-admin.conf
+```
+
+</TabItem>
+
+<TabItem value='Kubeadm'>
+  <quote>Данный блок маркирует узлы управляющего контура, что бы пользовательская нагрузка на них не падала.</quote>
+
+```bash
+kubeadm init phase mark-control-plane
+```
+
+:::note
+
+```
+[mark-control-plane] Marking the node master-1.example.example.com as control-plane by adding the labels: [node-role.kubernetes.io/control-plane node.kubernetes.io/exclude-from-external-load-balancers]
+[mark-control-plane] Marking the node master-1.example.example.com as control-plane by adding the taints [node-role.kubernetes.io/control-plane:NoSchedule]
+```
+
+:::
+
+</TabItem>
 
 </Tabs>
 
 ### 5.1.1.2.5.3.2. Настройка ролевой модели
 <Tabs groupId="install-type">
 
-  <TabItem value='HardWay'>
-    > Данный блок настраивает ролевую модель и создает бутстрап токен, для того, что бы можно было добавить следующий узел в кластер.
-    <details open>
-    <summary>Role bindings</summary>
-    ```bash
-    export AUTH_EXTRA_GROUPS="system:bootstrappers:kubeadm:default-node-token"
+<TabItem value='HardWay'>
+  <quote>Данный блок настраивает ролевую модель и создает бутстрап токен, для того, что бы можно было добавить следующий узел в кластер.</quote>
+  <details open>
+  <summary>Role bindings</summary>
 
-    kubectl --kubeconfig=${BASE_K8S_PATH}/super-admin.conf apply -f - <<EOF
-    ---
-    apiVersion: rbac.authorization.k8s.io/v1
-    kind: ClusterRole
-    metadata:
-      name: kubeadm:get-nodes
-    rules:
-    - apiGroups:
-      - ""
-      resources:
-      - nodes
-      verbs:
-      - get
+```bash
+export AUTH_EXTRA_GROUPS="system:bootstrappers:kubeadm:default-node-token"
 
-    ---
-    apiVersion: rbac.authorization.k8s.io/v1
-    kind: Role
-    metadata:
-      name: kubeadm:bootstrap-signer-clusterinfo
-      namespace: kube-public
-    rules:
-    - apiGroups:
-      - ""
-      resourceNames:
-      - cluster-info
-      resources:
-      - configmaps
-      verbs:
-      - get
+kubectl --kubeconfig=${BASE_K8S_PATH}/super-admin.conf apply -f - <<EOF
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kubeadm:get-nodes
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - nodes
+  verbs:
+  - get
 
-    ---
-    apiVersion: rbac.authorization.k8s.io/v1
-    kind: RoleBinding
-    metadata:
-      name: kubeadm:bootstrap-signer-clusterinfo
-      namespace: kube-public
-    roleRef:
-      apiGroup: rbac.authorization.k8s.io
-      kind: Role
-      name: kubeadm:bootstrap-signer-clusterinfo
-    subjects:
-    - apiGroup: rbac.authorization.k8s.io
-      kind: User
-      name: system:anonymous
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: kubeadm:bootstrap-signer-clusterinfo
+  namespace: kube-public
+rules:
+- apiGroups:
+  - ""
+  resourceNames:
+  - cluster-info
+  resources:
+  - configmaps
+  verbs:
+  - get
 
-    ---
-    apiVersion: rbac.authorization.k8s.io/v1
-    kind: ClusterRoleBinding
-    metadata:
-      name: kubeadm:cluster-admins
-    roleRef:
-      apiGroup: rbac.authorization.k8s.io
-      kind: ClusterRole
-      name: cluster-admin
-    subjects:
-    - apiGroup: rbac.authorization.k8s.io
-      kind: Group
-      name: kubeadm:cluster-admins
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: kubeadm:bootstrap-signer-clusterinfo
+  namespace: kube-public
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: kubeadm:bootstrap-signer-clusterinfo
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: system:anonymous
 
-    ---
-    apiVersion: rbac.authorization.k8s.io/v1
-    kind: ClusterRoleBinding
-    metadata:
-      name: kubeadm:get-nodes
-    roleRef:
-      apiGroup: rbac.authorization.k8s.io
-      kind: ClusterRole
-      name: kubeadm:get-nodes
-    subjects:
-    - apiGroup: rbac.authorization.k8s.io
-      kind: Group
-      name: ${AUTH_EXTRA_GROUPS}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kubeadm:cluster-admins
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: Group
+  name: kubeadm:cluster-admins
 
-    ---
-    apiVersion: rbac.authorization.k8s.io/v1
-    kind: ClusterRoleBinding
-    metadata:
-      name: kubeadm:kubelet-bootstrap
-    roleRef:
-      apiGroup: rbac.authorization.k8s.io
-      kind: ClusterRole
-      name: system:node-bootstrapper
-    subjects:
-    - apiGroup: rbac.authorization.k8s.io
-      kind: Group
-      name: ${AUTH_EXTRA_GROUPS}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kubeadm:get-nodes
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kubeadm:get-nodes
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: Group
+  name: ${AUTH_EXTRA_GROUPS}
 
-    ---
-    apiVersion: rbac.authorization.k8s.io/v1
-    kind: ClusterRoleBinding
-    metadata:
-      name: kubeadm:node-autoapprove-bootstrap
-    roleRef:
-      apiGroup: rbac.authorization.k8s.io
-      kind: ClusterRole
-      name: system:certificates.k8s.io:certificatesigningrequests:nodeclient
-    subjects:
-    - apiGroup: rbac.authorization.k8s.io
-      kind: Group
-      name: ${AUTH_EXTRA_GROUPS}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kubeadm:kubelet-bootstrap
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:node-bootstrapper
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: Group
+  name: ${AUTH_EXTRA_GROUPS}
 
-    ---
-    apiVersion: rbac.authorization.k8s.io/v1
-    kind: ClusterRoleBinding
-    metadata:
-      name: kubeadm:node-autoapprove-certificate-rotation
-    roleRef:
-      apiGroup: rbac.authorization.k8s.io
-      kind: ClusterRole
-      name: system:certificates.k8s.io:certificatesigningrequests:selfnodeclient
-    subjects:
-    - apiGroup: rbac.authorization.k8s.io
-      kind: Group
-      name: system:nodes
-    EOF
-    ```
-    </details>
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kubeadm:node-autoapprove-bootstrap
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:certificates.k8s.io:certificatesigningrequests:nodeclient
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: Group
+  name: ${AUTH_EXTRA_GROUPS}
 
-    <details open>
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kubeadm:node-autoapprove-certificate-rotation
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:certificates.k8s.io:certificatesigningrequests:selfnodeclient
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: Group
+  name: system:nodes
+EOF
+```
+
+  </details>
+
+  <details open>
     <summary>Bootstrap tokens</summary>
     <CodeBlock>
+
 {`export AUTH_EXTRA_GROUPS="system:bootstrappers:kubeadm:default-node-token"
-  export DESCRIPTION="kubeadm bootstrap token"
-  export EXPIRATION=$(date -d '24 hours' "+%Y-%m-%dT%H:%M:%SZ")
-  export TOKEN_ID="fjt9ex"
-  export TOKEN_SECRET="lwzqgdlvoxtqk4yw"
-  export USAGE_BOOTSTRAP_AUTHENTIFICATION="true"
-  export USAGE_BOOTSTRAP_SIGNING="true"
+export DESCRIPTION="kubeadm bootstrap token"
+export EXPIRATION=$(date -d '24 hours' "+%Y-%m-%dT%H:%M:%SZ")
+export TOKEN_ID="fjt9ex"
+export TOKEN_SECRET="lwzqgdlvoxtqk4yw"
+export USAGE_BOOTSTRAP_AUTHENTIFICATION="true"
+export USAGE_BOOTSTRAP_SIGNING="true"
 
-  kubectl apply -f - <<EOF
-  ---
-  apiVersion: v1
-  kind: Secret
-  metadata:
-    name: bootstrap-token-$\{TOKEN_ID\}
-    namespace: kube-system
-  data:
-    auth-extra-groups:              $(echo -n "$AUTH_EXTRA_GROUPS"                | base64)
-    description:                    $(echo -n "$DESCRIPTION"                      | base64)
-    expiration:                     $(echo -n "$EXPIRATION"                       | base64)
-    token-id:                       $(echo -n "$TOKEN_ID"                         | base64)
-    token-secret:                   $(echo -n "$TOKEN_SECRET"                     | base64)
-    usage-bootstrap-authentication: $(echo -n "$USAGE_BOOTSTRAP_AUTHENTIFICATION" | base64)
-    usage-bootstrap-signing:        $(echo -n "$USAGE_BOOTSTRAP_SIGNING"          | base64)
-  type: bootstrap.kubernetes.io/token
+kubectl apply -f - <<EOF
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+name: bootstrap-token-$\{TOKEN_ID}
+  namespace: kube-system
+data:
+  auth-extra-groups:              $(echo -n "$AUTH_EXTRA_GROUPS" | base64)
+description: $(echo -n "$DESCRIPTION" | base64)
+expiration: $(echo -n "$EXPIRATION" | base64)
+token-id: $(echo -n "$TOKEN_ID" | base64)
+token-secret: $(echo -n "$TOKEN_SECRET" | base64)
+usage-bootstrap-authentication: $(echo -n "$USAGE_BOOTSTRAP_AUTHENTIFICATION" | base64)
+usage-bootstrap-signing: $(echo -n "$USAGE_BOOTSTRAP_SIGNING" | base64)
+type: bootstrap.kubernetes.io/token
 EOF
 `}
-    </CodeBlock>
-    </details>
 
-    <details open>
+    </CodeBlock>
+
+  </details>
+
+  <details open>
     <summary>Cluster-Info</summary>
-    <CodeBlock>
-{`kubectl --kubeconfig=$\{BASE_K8S_PATH}/super-admin.conf apply -f - <<EOF
-  ---
-  apiVersion: v1
-  kind: ConfigMap
-  metadata:
-    name: cluster-info
-    namespace: kube-public
-  data:
-    kubeconfig: |
-      apiVersion: v1
-      clusters:
-      - cluster:
-          certificate-authority-data: $(cat /etc/kubernetes/pki/ca.crt | base64 | tr -d '\n')
-          server: https://api.$\{CLUSTER_NAME}.$\{BASE_DOMAIN}:$\{KUBE_API_ARGS.securePort.value}
-        name: ""
-      contexts: null
-      current-context: ""
-      kind: Config
-      preferences: {}
-      users: null
+
+```
+kubectl --kubeconfig=$\{BASE_K8S_PATH}/super-admin.conf apply -f - <<EOF
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+name: cluster-info
+namespace: kube-public
+data:
+kubeconfig: |
+apiVersion: v1
+clusters: - cluster:
+certificate-authority-data: $(cat /etc/kubernetes/pki/ca.crt | base64 | tr -d '\n')
+        server: https://api.$\{CLUSTER_NAME}.$\{BASE_DOMAIN}:$\{KUBE_API_ARGS.securePort.value}
+name: ""
+contexts: null
+current-context: ""
+kind: Config
+preferences: {}
+users: null
 EOF
-`}
-    </CodeBlock>
+```
+
     </details>
+
   </TabItem>
 
-  <TabItem value='Kubeadm'>
-  > Данный блок настраивает ролевую модель и создает бутстрап токен, для того, что бы можно было добавить следующий узел в кластер.
-  ```bash
-  kubeadm init phase bootstrap-token \
-    --config=${BASE_K8S_PATH}/kubeadm.conf
-  ```
-  :::note
-  ```bash
-  [bootstrap-token] Using token: fjt9ex.lwzqgdlvoxtqk4yw
-  [bootstrap-token] Configuring bootstrap tokens, cluster-info ConfigMap, RBAC Roles
-  [bootstrap-token] Configured RBAC rules to allow Node Bootstrap tokens to get nodes
-  [bootstrap-token] Configured RBAC rules to allow Node Bootstrap tokens to post CSRs in order for nodes to get long term certificate credentials
-  [bootstrap-token] Configured RBAC rules to allow the csrapprover controller automatically approve CSRs from a Node Bootstrap Token
-  [bootstrap-token] Configured RBAC rules to allow certificate rotation for all node client certificates in the cluster
-  [bootstrap-token] Creating the "cluster-info" ConfigMap in the "kube-public" namespace
-  ```
-  :::
-  </TabItem>
+  <TabItem value="Kubeadm">
+  <quote>Данный блок настраивает ролевую модель и создает бутстрап токен, для того, что бы можно было добавить следующий узел
+    в кластер.</quote>
+
+```bash
+kubeadm init phase bootstrap-token \
+--config=${BASE_K8S_PATH}/kubeadm.conf
+```
+
+:::note
+
+```bash
+[bootstrap-token] Using token: fjt9ex.lwzqgdlvoxtqk4yw [bootstrap-token] Configuring bootstrap tokens, cluster-info
+ConfigMap, RBAC Roles
+[bootstrap-token] Configured RBAC rules to allow Node Bootstrap tokens to get nodes
+[bootstrap-token] Configured RBAC rules to allow Node Bootstrap tokens to post CSRs in order for nodes to get long
+term certificate credentials
+[bootstrap-token] Configured RBAC rules to allow the csrapprover controller automatically
+approve CSRs from a Node Bootstrap Token
+[bootstrap-token] Configured RBAC rules to allow certificate rotation for all
+node client certificates in the cluster
+[bootstrap-token] Creating the "cluster-info" ConfigMap in the "kube-public"
+namespace
+```
+
+:::
+
+</TabItem>
 
 </Tabs>
 
@@ -271,22 +282,27 @@ EOF
 ### 5.1.1.2.5.3.3. Загрузка `kubelet-conf` и `kubeadm-conf` в кластер
 <Tabs groupId="install-type">
 
-  <TabItem value='HardWay'>
-  </TabItem>
+<TabItem value="HardWay"></TabItem>
 
-  <TabItem value='Kubeadm'>
-  > Данный блок загружает актуальный kubeadm config и kubelet config, что бы последующие узлы брали актуальный из кластера.
-  ```bash
-  kubeadm init phase upload-config all \
-    --config=${BASE_K8S_PATH}/kubeadm.conf
-  ```
-  :::note
-  ```bash
-  [upload-config] Storing the configuration used in ConfigMap "kubeadm-config" in the "kube-system" Namespace
-  [kubelet] Creating a ConfigMap "kubelet-config" in namespace kube-system with the configuration for the kubelets in the cluster
-  ```
-  :::
-  </TabItem>
+<TabItem value="Kubeadm">
+  <quote> Данный блок загружает актуальный kubeadm config и kubelet config, что бы последующие узлы брали актуальный из
+  кластера.</quote>
+
+```bash
+kubeadm init phase upload-config all \
+--config=${BASE_K8S_PATH}/kubeadm.conf
+```
+
+:::note
+
+```bash
+[upload-config] Storing the configuration used in ConfigMap "kubeadm-config" in the "kube-system" Namespace [kubelet]
+Creating a ConfigMap "kubelet-config" in namespace kube-system with the configuration for the kubelets in the cluster
+```
+
+:::
+
+</TabItem>
 
 </Tabs>
 
@@ -294,23 +310,31 @@ EOF
 <Tabs groupId="install-type">
 
   <TabItem value='HardWay'>
-  > Данный блок загружает корневые сертификаты и шифрует ключем, указанный в kubeadm config `certificateKey`, для того, что бы можно было выгрузить на следующем узле управляющего контура.
+  <quote>Данный блок загружает корневые сертификаты и шифрует ключем, указанный в kubeadm config `certificateKey`, для того, что бы можно было выгрузить на следующем узле управляющего контура.</quote>
 
   </TabItem>
 
-  <TabItem value='Kubeadm'>
-  > Данный блок загружает корневые сертификаты и шифрует ключем, указанный в kubeadm config `certificateKey`, для того, что бы можно было выгрузить на следующем узле управляющего контура.
-  ```bash
-  kubeadm init phase upload-certs \
-    --config=${BASE_K8S_PATH}/kubeadm.conf \
-    --upload-certs
-  ```
-  :::note
-  ```bash
-  [upload-certs] Storing the certificates in Secret "kubeadm-certs" in the "kube-system" Namespace
-  [upload-certs] Using certificate key: `0c00c2fd5c67c37656c00d78a9d7e1f2eb794ef8e4fc3e2a4b532eb14323cd59`
-  ```
-  :::
-  </TabItem>
+<TabItem value="Kubeadm">
+  <quote>Данный блок загружает корневые сертификаты и шифрует ключем, указанный в kubeadm config `certificateKey`, для того,
+  что бы можно было выгрузить на следующем узле управляющего контура.</quote>
+
+```bash
+kubeadm init phase upload-certs \
+--config=${BASE_K8S_PATH}/kubeadm.conf \
+--upload-certs
+```
+
+:::note
+
+```bash
+[upload-certs] Storing the certificates in
+Secret "kubeadm-certs" in the "kube-system" Namespace
+[upload-certs] Using certificate key:
+`0c00c2fd5c67c37656c00d78a9d7e1f2eb794ef8e4fc3e2a4b532eb14323cd59`
+```
+
+:::
+
+</TabItem>
 
 </Tabs>

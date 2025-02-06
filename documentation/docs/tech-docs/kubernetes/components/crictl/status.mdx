@@ -1,11 +1,8 @@
-import dedent                   from 'dedent'
-import CodeBlock                from '@theme/CodeBlock'
-
-import { DOWNLOAD_VERSION }     from '@site/src/constants/kubernetes/downloads'
-import { COMPONENTS_VERSION }   from '@site/src/constants/kubernetes/componentsVersion'
+import dedent from 'dedent'
+import CodeBlock from '@theme/CodeBlock'
 
 <CodeBlock language="bash">
-    {dedent`
+  {dedent`
         crictl ps -a
     `}
 </CodeBlock>
@@ -19,5 +16,6 @@ import { COMPONENTS_VERSION }   from '@site/src/constants/kubernetes/componentsV
         CONTAINER           IMAGE               CREATED             STATE               NAME                ATTEMPT             POD ID              POD
 
     `}
+
 </CodeBlock>
 :::

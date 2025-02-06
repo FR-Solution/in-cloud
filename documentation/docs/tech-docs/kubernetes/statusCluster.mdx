@@ -1,18 +1,11 @@
-
-import CodeBlock                from '@theme/CodeBlock'
-import { CERTIFICATES }         from '@site/src/constants/kubernetes/certs'
-import { PORTS }                from '@site/src/constants/kubernetes/ports'
-import { CUSTOM_VALUE }         from '@site/src/constants/kubernetes/customValue'
-import TabItem                  from '@theme/TabItem'
-import Tabs                     from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import Tabs from '@theme/Tabs'
 
 **Чтобы убедиться, что установка проходит успешно, давайте выполним несколько важных проверок:**
+
 1. Проверим состояние ETCD.
 2. Проверим состояние API-сервера.
 3. Убедимся, что нода зарегистрировалась в кластере.
-
-
-
 
 <Tabs groupId="current-master">
   <TabItem value='master-1'>
@@ -42,6 +35,7 @@ import Tabs                     from '@theme/Tabs'
     NAME                              STATUS     ROLES            AGE   VERSION   INTERNAL-IP     EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION     CONTAINER-RUNTIME
     master-1.example.example.com   NotReady   control-plane    1m    v1.30.4   192.168.10.26   <none>        Ubuntu 24.04.1 LTS   6.8.0-47-generic   containerd://1.7.19
     ```
+
   </TabItem>
 
   <TabItem value='master-2'>
@@ -74,6 +68,7 @@ import Tabs                     from '@theme/Tabs'
     master-1.example.example.com   NotReady   control-plane    5m    v1.30.4   192.168.10.26   <none>        Ubuntu 24.04.1 LTS   6.8.0-47-generic   containerd://1.7.19
     master-2.example.example.com   NotReady   <none>           1m    v1.30.4   192.168.10.18   <none>        Ubuntu 24.04.1 LTS   6.8.0-47-generic   containerd://1.7.19
     ```
+
   </TabItem>
 
   <TabItem value='master-3'>
@@ -107,11 +102,10 @@ import Tabs                     from '@theme/Tabs'
     master-2.example.example.com   NotReady   control-plane    5m    v1.30.4   192.168.10.18   <none>        Ubuntu 24.04.1 LTS   6.8.0-47-generic   containerd://1.7.19
     master-3.example.example.com   NotReady   <none>           1m    v1.30.4   192.168.10.9    <none>        Ubuntu 24.04.1 LTS   6.8.0-47-generic   containerd://1.7.19
     ```
+
   </TabItem>
 
 </Tabs>
-
-
 
 > **В этой конфигурации узел находится в состоянии `NotReady` из-за отсутствия установленного `CNI-плагина`. После его установки узел автоматически перейдет в состояние Ready.**
 
@@ -125,6 +119,7 @@ kubectl describe no ${FULL_HOST_NAME}
 ```
 
 После выполнения команд мы получаем следующий вывод.
+
 ```bash
 ********
 Conditions:
@@ -135,4 +130,5 @@ Conditions:
   PIDPressure      False   Wed, 23 Oct 2024 22:32:12 +0000   Wed, 23 Oct 2024 22:11:17 +0000   KubeletHasSufficientPID      kubelet has sufficient PID available
   Ready            False   Wed, 23 Oct 2024 22:32:12 +0000   Wed, 23 Oct 2024 22:11:17 +0000   KubeletNotReady              container runtime network not ready: NetworkReady=false reason:NetworkPluginNotReady message:Network plugin returns error: cni plugin not initialized
 ```
+
 :::

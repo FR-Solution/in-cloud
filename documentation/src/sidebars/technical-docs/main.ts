@@ -1,10 +1,9 @@
-
-import { cilium }     from './cilium'
-import { etcd }       from './etcd'
+import { cilium } from './cilium'
+import { etcd } from './etcd'
 import { kubernetes } from './kubernetes'
 import { monitoring } from './monitoring'
-import { vault }      from './vault'
-import { harbor }     from './harbor'
+import { vault } from './vault'
+import { harbor } from './harbor'
 
 export const main = [
   {
@@ -77,7 +76,7 @@ export const main = [
         label: '2.11. Интеграции',
         id: 'tech-docs/kubernetes/requirements/integrations',
       },
-    ]
+    ],
   },
   {
     type: 'doc',
@@ -103,13 +102,13 @@ export const main = [
         type: 'category',
         label: '5.1. Etcd',
         collapsed: true,
-        items: etcd
+        items: etcd,
       },
       {
         type: 'category',
         label: '5.2. Kubernetes',
         collapsed: true,
-        items: kubernetes
+        items: kubernetes,
       },
       {
         type: 'category',
@@ -285,33 +284,32 @@ export const main = [
               },
             ],
           },
-        ]
+        ],
       },
       {
         type: 'category',
         label: '5.4. Harbor',
         collapsed: true,
-        items: harbor
+        items: harbor,
       },
       {
         type: 'category',
         label: '5.5. Monitoring',
         collapsed: true,
-        items: monitoring
+        items: monitoring,
       },
       {
         type: 'category',
         label: '5.6. Vault',
         collapsed: true,
-        items: vault
+        items: vault,
       },
       {
         type: 'category',
         label: '5.7. cilium',
         collapsed: true,
-        items: cilium
+        items: cilium,
       },
-    ]
+    ],
   },
-
 ]

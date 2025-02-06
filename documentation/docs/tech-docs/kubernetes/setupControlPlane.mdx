@@ -1,11 +1,8 @@
+import ControllerManagerSetup from '@site/docs/tech-docs/kubernetes/components/controllerManager/staticPod.mdx'
+import SchedulerSetup from '@site/docs/tech-docs/kubernetes/components/scheduler/staticPod.mdx'
+import KubeAPISetup from '@site/docs/tech-docs/kubernetes/components/kubeAPI/staticPod.mdx'
 
-import ETCDSetup                from '@site/docs/tech-docs/kubernetes/components/etcd/staticPod.mdx'
-import ControllerManagerSetup   from '@site/docs/tech-docs/kubernetes/components/controllerManager/staticPod.mdx'
-import SchedulerSetup           from '@site/docs/tech-docs/kubernetes/components/scheduler/staticPod.mdx'
-import KubeAPISetup             from '@site/docs/tech-docs/kubernetes/components/kubeAPI/staticPod.mdx'
-
-import { CUSTOM_VALUE }         from '@site/src/constants/kubernetes/customValue'
-
+import { CUSTOM_VALUE } from '@site/src/constants/kubernetes/customValue'
 
 > Статичные поды в Kubernetes — это особый вид подов, которые запускаются и управляются напрямую демоном kubelet на каждом узле, без участия API-сервера и контроллеров Kubernetes. Чтобы создать статический под, вы размещаете файл-манифест в определённой директории на узле (по умолчанию это **{CUSTOM_VALUE.kuberneteBaseFolderPath.value}**). Kubelet постоянно следит за этой директорией и автоматически запускает или перезапускает поды при обнаружении изменений в этих файлах.
 

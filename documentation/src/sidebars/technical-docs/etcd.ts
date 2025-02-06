@@ -29,7 +29,7 @@ export const etcd = [
             label: '5.1.1.2.3. Etcdutl',
             id: 'tech-docs/etcd/components/etcdutl/lifecycle',
           },
-        ]
+        ],
       },
       {
         type: 'category',
@@ -53,7 +53,7 @@ export const etcd = [
           },
         ]
       },
-    ]
+    ],
   },
   {
     type: 'category',
@@ -143,6 +143,6 @@ export const etcd = [
         label: '5.1.5.8. Восстановление',
         id: 'tech-docs/etcd/trubleshooting/restore',
       },
-    ]
+    ],
   },
 ]

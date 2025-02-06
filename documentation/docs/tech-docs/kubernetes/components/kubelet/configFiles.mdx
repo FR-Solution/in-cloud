@@ -1,14 +1,13 @@
-import dedent                   from 'dedent'
-import CodeBlock                from '@theme/CodeBlock'
-import { CUSTOM_VALUE }         from '@site/src/constants/kubernetes/customValue'
-import { COMPONENTS_VERSION }   from '@site/src/constants/kubernetes/componentsVersion'
-import { CERTIFICATES }         from '@site/src/constants/kubernetes/certs'
+import dedent from 'dedent'
+import CodeBlock from '@theme/CodeBlock'
+import { CUSTOM_VALUE } from '@site/src/constants/kubernetes/customValue'
+import { CERTIFICATES } from '@site/src/constants/kubernetes/certs'
 
 ### Конфигурационные файлы
 
 <h4>Переменные окружния</h4>
 <CodeBlock language="bash">
-    {dedent`
+  {dedent`
         export BASE_K8S_PATH="${CUSTOM_VALUE.kuberneteBaseFolderPath.value}"
         export BASE_KUBELET_PATH="${CUSTOM_VALUE.kuberneteKubeletFolderPath.value}"
         export KUBERNETES_CA_CRT_PATH="${CERTIFICATES.kubernetesCA.crtPath}"
@@ -20,10 +19,9 @@ import { CERTIFICATES }         from '@site/src/constants/kubernetes/certs'
     `}
 </CodeBlock>
 
-
 <h4>Кастомный конфигурационный файл kubelet</h4>
 <CodeBlock language="bash">
-    {dedent`
+  {dedent`
         cat <<EOF > $\{BASE_KUBELET_PATH}/config-custom.yaml
         apiVersion: kubelet.config.k8s.io/v1beta1
         authentication:

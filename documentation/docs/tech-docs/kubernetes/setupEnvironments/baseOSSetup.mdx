@@ -2,24 +2,22 @@
 id: base-os-setup
 ---
 
-import { CERTIFICATES } from '@site/src/constants/kubernetes/certs'
 import { CUSTOM_VALUE } from '@site/src/constants/kubernetes/customValue'
-import MastersTabs      from '@site/docs/tech-docs/kubernetes/setupEnvironments/allMasterTabs.mdx'
+import MastersTabs from '@site/docs/tech-docs/kubernetes/setupEnvironments/allMasterTabs.mdx'
 
-import CodeBlock        from '@theme/CodeBlock'
-import dedent           from 'dedent'
+import CodeBlock from '@theme/CodeBlock'
+import dedent from 'dedent'
 
 # 5.1. Настройка ОС
 
-<h3>Базовые настройки узлов</h3>
-- Настройка имени узла.
+<h3>Базовые настройки узлов</h3>- Настройка имени узла.
 
 ## 5.1.1. Переменные окружения узла
 
-<MastersTabs/>
+<MastersTabs />
 
 <CodeBlock language="bash">
-    {dedent`
+  {dedent`
         export CLUSTER_NAME="${CUSTOM_VALUE.clusterName.value}"
         export BASE_DOMAIN="${CUSTOM_VALUE.kubernetesBaseDomain.value}"
         export CLUSTER_DOMAIN="${CUSTOM_VALUE.kubernetesClusterDomain.value}"
@@ -28,15 +26,17 @@ import dedent           from 'dedent'
 </CodeBlock>
 
 ## 5.1.2. Изменение имени узла
+
 <CodeBlock language="bash">
-    {dedent`
+  {dedent`
         hostnamectl set-hostname $\{FULL_HOST_NAME}
     `}
 </CodeBlock>
 
 ## 5.1.3. Установка базовых пакетов
+
 <CodeBlock language="bash">
-    {dedent`
+  {dedent`
         apt install wget tree net-tools conntrack socat -y
     `}
 </CodeBlock>

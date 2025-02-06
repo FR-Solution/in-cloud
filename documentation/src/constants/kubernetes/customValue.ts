@@ -1,3 +1,4 @@
+/* eslint-disable no-template-curly-in-string */
 import { TCustomValueItems } from '../customTypes/customValue'
 
 export const CUSTOM_VALUE: TCustomValueItems = {
@@ -38,6 +39,6 @@ export const CUSTOM_VALUE: TCustomValueItems = {
     value: "$(ip -4 addr show scope global | awk '/inet/ {print $2; exit}' | cut -d/ -f1)",
   },
   virtualMachineFullName: {
-    value: "${HOST_NAME}.${CLUSTER_DOMAIN}",
+    value: '${HOST_NAME}.${CLUSTER_DOMAIN}',
   },
 }

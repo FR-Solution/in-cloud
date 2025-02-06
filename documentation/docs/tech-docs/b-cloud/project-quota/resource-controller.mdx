@@ -2,18 +2,20 @@
 id: resource-controller
 ---
 
-import TabItem                      from '@theme/TabItem'
-import Tabs                         from '@theme/Tabs'
-import CodeBlock                    from '@theme/CodeBlock'
-import dedent                       from 'dedent'
+import TabItem from '@theme/TabItem'
+import Tabs from '@theme/Tabs'
+import CodeBlock from '@theme/CodeBlock'
+import dedent from 'dedent'
 
 # Контроллер
+
 `ProjectQuota controller` — это контроллер, разработанный для реализации подсчета управляемой квоты проекта.
 
-
 ## Архитектура
-<div className="center">![Описание изображения](/img/controllers/project-quota-controller.drawio.svg)</div>
 
+<div className="center">
+  <img src="/img/controllers/project-quota-controller.drawio.svg" />
+</div>
 
 ## Функционал
 
@@ -22,18 +24,23 @@ import dedent                       from 'dedent'
 ## Функциональные требования
 
 1. Публикация событий при изменении ресурсов `Instance` и `Project`:
+
    - При создании, изменении или удалении ресурсов типа `Instance` и `Project` должно автоматически публиковаться событие, на которое реагирует контроллер.
 
 2. Публикация событий при изменении контролируемых ресурсов:
+
    - При создании, изменении или удалении ресурсов, созданных контроллером, также должно публиковаться событие, на которое контроллер реагирует.
 
 3. Подписка контроллера на изменения созданных ресурсов:
+
    - Контроллер обязан подписываться на изменения всех ресурсов, которые он создает, чтобы отслеживать их состояние.
 
 4. Запуск процесса реконсиляции при получении событий:
+
    - При получении любого из указанных событий должен запускаться процесс реконсиляции ресурсов.
 
 5. Действия процесса реконсиляции при создании и изменении:
+
    - В ответ на события создания или изменения, процесс реконсиляции должен пересчитывать квоту основываясь на том, какая общая квота и сколько уже зарезервировали
 
 6. Действия процесса реконсиляции при удалении:
@@ -87,9 +94,9 @@ import dedent                       from 'dedent'
 ## Дочерние ресурсы
 
 <Tabs>
-    <TabItem value='RESOURCE_PROJECT'>
-        <CodeBlock language="yaml">
-          {dedent`
+  <TabItem value="RESOURCE_PROJECT">
+    <CodeBlock language="yaml">
+      {dedent`
             ---
             apiVersion: b-cloud.io/v1alpha
             kind: Project
@@ -110,8 +117,8 @@ import dedent                       from 'dedent'
                     storage: 1G
               state: pilot
           `}
-        </CodeBlock>
-    </TabItem>
+    </CodeBlock>
+  </TabItem>
 </Tabs>
 
 При создании, изменении или удалении ресурсов типа `Instance` или `Project`, контроллер должен пересчитывать квоту проекта и записать остаток в блок status.

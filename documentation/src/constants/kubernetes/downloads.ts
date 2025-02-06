@@ -1,3 +1,4 @@
+/* eslint-disable no-template-curly-in-string */
 import { TDownloadItems } from '../customTypes/downloads'
 
 export const DOWNLOAD_VERSION: TDownloadItems = {

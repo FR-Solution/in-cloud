@@ -1,3 +1,4 @@
+/* eslint-disable no-template-curly-in-string */
 import { TCertsItems } from '../customTypes/certs'
 
 export const CERTIFICATES: TCertsItems = {
@@ -137,7 +138,7 @@ export const CERTIFICATES: TCertsItems = {
     keySize: '2048',
     cname: '',
   },
-  
+
   kubeletNowClient: {
     keyPath: '',
     crtPath: "${BASE_KUBELET_PATH}/pki/kubelet-client-$(date '+%Y-%m-%d-%H-%M-%S').pem",

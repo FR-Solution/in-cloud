@@ -15,7 +15,7 @@ export const kubernetes = [
         collapsed: true,
         link: {
           type: 'doc',
-          id: 'tech-docs/kubernetes/components/download'
+          id: 'tech-docs/kubernetes/components/download',
         },
         items: [
           {
@@ -66,14 +66,14 @@ export const kubernetes = [
             label: '5.1.1.2.6. Kubelet',
             id: 'tech-docs/kubernetes/components/kubelet/lifecycle',
           },
-        ]
+        ],
       },
       {
         type: 'doc',
         label: '5.1.1.3. Проверка',
         id: 'tech-docs/kubernetes/components/components-ready',
       },
-    ]
+    ],
   },
   {
     type: 'category',
@@ -133,7 +133,7 @@ export const kubernetes = [
         label: '5.2.4.4. Scheduler',
         id: 'tech-docs/kubernetes/components/scheduler/scheduler-static-pods',
       },
-    ]
+    ],
   },
   {
     type: 'doc',

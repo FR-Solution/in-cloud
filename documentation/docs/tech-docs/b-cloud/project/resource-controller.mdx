@@ -2,16 +2,20 @@
 id: resource-controller
 ---
 
-import TabItem                      from '@theme/TabItem'
-import Tabs                         from '@theme/Tabs'
-import CodeBlock                    from '@theme/CodeBlock'
-import dedent                       from 'dedent'
+import TabItem from '@theme/TabItem'
+import Tabs from '@theme/Tabs'
+import CodeBlock from '@theme/CodeBlock'
+import dedent from 'dedent'
 
 # Контроллер
+
 `Project controller` — это контроллер, разработанный для реализации ряда функций, связанных с ресурсом Project. Основные задачи, которые он выполняет, включают создание базовых ресурсов K8S, необходимых пользователю для взаимодействия с системой.
 
 ## Архитектура
-<div className="center">![Описание изображения](/img/controllers/project-cotroller.drawio.svg)</div>
+
+<div className="center">
+  <img src="/img/controllers/project-cotroller.drawio.svg" />
+</div>
 
 ## Функционал
 
@@ -28,18 +32,23 @@ import dedent                       from 'dedent'
 ## Функциональные требования
 
 1. Публикация событий при изменении ресурса `Project`:
+
    - При создании, изменении или удалении ресурса типа `Project` должно автоматически публиковаться событие, на которое реагирует контроллер.
 
 2. Публикация событий при изменении контролируемых ресурсов:
+
    - При создании, изменении или удалении ресурсов, созданных контроллером, также должно публиковаться событие, на которое контроллер реагирует.
 
 3. Подписка контроллера на изменения созданных ресурсов:
+
    - Контроллер обязан подписываться на изменения всех ресурсов, которые он создает, чтобы отслеживать их состояние.
 
 4. Запуск процесса реконсиляции при получении событий:
+
    - При получении любого из указанных событий должен запускаться процесс реконсиляции ресурсов.
 
 5. Действия процесса реконсиляции при создании и изменении:
+
    - В ответ на события создания или изменения процесс реконсиляции должен создавать новые или обновлять существующие ресурсы следующих типов, приводя их к требуемому состоянию:
      - Namespace
      - Role
@@ -53,9 +62,9 @@ import dedent                       from 'dedent'
 ## Дочерние ресурсы
 
 <Tabs>
-    <TabItem value='RESOURCE_PROJECT'>
-        <CodeBlock language="yaml">
-          {dedent`
+  <TabItem value="RESOURCE_PROJECT">
+    <CodeBlock language="yaml">
+      {dedent`
             ---
             apiVersion: b-cloud.io/v1alpha
             kind: Project
@@ -76,8 +85,8 @@ import dedent                       from 'dedent'
                     storage: 1G
               state: pilot
           `}
-        </CodeBlock>
-    </TabItem>
+    </CodeBlock>
+  </TabItem>
 </Tabs>
 
 При создании, изменении или удалении ресурса типа `Project`, контроллер должен создавать новые или обновлять существующие ресурсы следующих типов:

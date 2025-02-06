@@ -1,12 +1,5 @@
-
-import CodeBlock                from '@theme/CodeBlock';
-import { CERTIFICATES }         from '@site/src/constants/kubernetes/certs'
-import { PORTS }                from '@site/src/constants/kubernetes/ports'
-import { CUSTOM_VALUE }         from '@site/src/constants/kubernetes/customValue'
-import TabItem                  from '@theme/TabItem'
-import Tabs                     from '@theme/Tabs'
-
 **Данный раздел содержит следующие темы:**
+
 1. Введение.
 2. Использования исполняемого файла etcdctl из репозитория.
 3. Определение узлов для подключения.
@@ -68,7 +61,6 @@ kubectl get pod -n [ИМЯ_СЕРВЕРА] -l component=kube-apiserver -o yaml
 kubectl get pod -n [ИМЯ_СЕРВЕРА] -l component=etcd -o wide
 ```
 
-
 Полученные эндпоинты мы будем записывать в переменную ENDPOINTS.
 
 :::note
@@ -77,6 +69,7 @@ kubectl get pod -n [ИМЯ_СЕРВЕРА] -l component=etcd -o wide
 ```bash
 export ENDPOINTS=https://10.10.10.1:2379,https://10.10.10.2:2379,https://10.10.10.3:2379
 ```
+
 :::
 
 :::note
@@ -91,8 +84,8 @@ export ENDPOINTS=$(kubectl get pod -n kube-system -l component=etcd -o custom-co
 ```bash
 https://10.10.10.1:2379,https://10.10.10.2:2379,https://10.10.10.3:2379
 ```
-:::
 
+:::
 
 ## Подключение к etcd
 
@@ -359,4 +352,3 @@ etcdctl endpoint health
 ```bash
 etcdctl member list
 ```
-
