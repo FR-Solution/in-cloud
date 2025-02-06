@@ -3,7 +3,7 @@ import Tabs from '@theme/Tabs'
 import TabItem from '@theme/TabItem'
 import { CommandTable } from './molecules'
 
-export const commands = ['etcdctl', 'ectl', 'nectl'] // Add more commands as needed
+export const commands = ['etcdctl', 'ectl', 'nectl', 'kectl'] // Add more commands as needed
 
 export const EtcdCommandList: FC = () => (
   <Tabs groupId="etcd-alias">

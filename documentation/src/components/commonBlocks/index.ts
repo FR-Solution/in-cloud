@@ -1,3 +1,3 @@
 export * from './Example'
-export * from './CodeAndInputKectl'
+export * from './CodeAndInputExportPods'
 export * from './EtcdCommandList'
