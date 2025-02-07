@@ -21,7 +21,7 @@ import KubeadmJoinConfig from '@site/docs/tech-docs/kubernetes/components/kubead
             #### Загрузка ЦА
             ```bash
             kubeadm join phase control-plane-prepare download-certs \
-                --config=${BASE_K8S_PATH}/kubeadm-join.conf
+                --config=${BASE_K8S_PATH}/kubeadm.conf
             ```
             ```
             [download-certs] Downloading the certificates in Secret "kubeadm-certs" in the "kube-system" Namespace

@@ -1,19 +1,19 @@
 #### Kube API,Scheduler,Controller
 ```bash
 kubeadm join phase control-plane-prepare control-plane \
-    --config=${BASE_K8S_PATH}/kubeadm-join.conf
+    --config=${BASE_K8S_PATH}/kubeadm.conf
 ```
 
 #### Запуск Kubelet
 ```bash
 kubeadm join phase kubelet-start \
-    --config=${BASE_K8S_PATH}/kubeadm-join.conf
+    --config=${BASE_K8S_PATH}/kubeadm.conf
 ```
 
 #### Добавление нового узла в кластер ETCD
 ```bash
 kubeadm join phase control-plane-join etcd \
-    --config=${BASE_K8S_PATH}/kubeadm-join.conf
+    --config=${BASE_K8S_PATH}/kubeadm.conf
 ```
 
 :::note
