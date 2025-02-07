@@ -1,5 +1,5 @@
 /* eslint-disable no-template-curly-in-string */
-import { TDownloadItems } from '../customTypes/downloads'
+import { TDownloadItems } from '@site/src/customTypes/downloads'
 
 export const DOWNLOAD_VERSION: TDownloadItems = {
   kubelet: {

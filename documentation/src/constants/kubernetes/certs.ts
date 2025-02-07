@@ -1,5 +1,5 @@
 /* eslint-disable no-template-curly-in-string */
-import { TCertsItems } from '../customTypes/certs'
+import { TCertsItems } from '@site/src/customTypes/certs'
 
 export const CERTIFICATES: TCertsItems = {
   etcdCA: {

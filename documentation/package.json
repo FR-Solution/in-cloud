@@ -16,7 +16,7 @@
     "lint:css": "stylelint ./src/**/*.{css,scss} --fix",
     "lint:js": "eslint . --ext js,ts,tsx",
     "lint:mdx": "eslint . --ext md,mdx",
-    "lint": "npm run lint:js && npm run lint:mdx && npm run lint:css && npm run typecheck"
+    "lint": "npm run lint:js && npm run typecheck && npm run lint:css && npm run lint:mdx"
   },
   "dependencies": {
     "@docusaurus/core": "^3.5.2",

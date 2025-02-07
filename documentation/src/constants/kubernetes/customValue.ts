@@ -1,5 +1,5 @@
 /* eslint-disable no-template-curly-in-string */
-import { TCustomValueItems } from '../customTypes/customValue'
+import { TCustomValueItems } from '@site/src/customTypes/customValue'
 
 export const CUSTOM_VALUE: TCustomValueItems = {
   baseDockerRegistry: {
