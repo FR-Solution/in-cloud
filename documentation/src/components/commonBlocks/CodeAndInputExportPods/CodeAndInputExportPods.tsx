@@ -4,9 +4,8 @@ import CodeBlock from '@theme/CodeBlock'
 import dedent from 'dedent'
 
 export const CodeAndInputExportPods: FC = () => {
-  const [searchNamespace, setSearchNamespace] = useState()
-  const [searchPodName, setSearchPodName] = useState()
-
+  const [searchNamespace, setSearchNamespace] = useState<string>()
+  const [searchPodName, setSearchPodName] = useState<string>()
 
   return (
     <Flex vertical gap="small">
@@ -16,8 +15,7 @@ export const CodeAndInputExportPods: FC = () => {
         {dedent`
           export SEARCH_NAMESPACE=${searchNamespace}
           export SEARCH_POD_NAME=${searchPodName}
-          `
-        }
+          `}
       </CodeBlock>
     </Flex>
   )
