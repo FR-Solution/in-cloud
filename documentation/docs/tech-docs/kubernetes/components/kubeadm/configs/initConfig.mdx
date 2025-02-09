@@ -116,7 +116,6 @@ import { CERTIFICATES }         from '@site/src/constants/kubernetes/certs'
 
       apiServer:
         extraArgs:
-          advertise-address: "${KUBE_API_ARGS.advertiseAddress.value}"
           allow-privileged: "${KUBE_API_ARGS.allowPrivileged.value}"
           anonymous-auth: "${KUBE_API_ARGS.anonymousAuth.value}"
           authorization-mode: "${KUBE_API_ARGS.authorizationMode.value}"

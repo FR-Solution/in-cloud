@@ -39,32 +39,48 @@ export const kubernetes = [
             id: 'tech-docs/kubernetes/components/kubectl/lifecycle',
           },
           {
-            type: 'category',
+            type: 'doc',
             label: '5.1.1.2.5. Kubeadm',
-            collapsed: true,
-            items: [
-              {
-                type: 'doc',
-                label: '5.1.1.2.5.2. Фазы',
-                id: 'tech-docs/kubernetes/components/kubeadm/phases/phases',
-              },
-              {
-                type: 'doc',
-                label: '5.1.1.2.5.1. Установка',
-                id: 'tech-docs/kubernetes/components/kubeadm/lifecycle',
-              },
-              {
-                type: 'doc',
-                label: '5.1.1.2.5.3. Пост обработка',
-                id: 'tech-docs/kubernetes-thw/step-by-step-kubeadm-aditional',
-              },
-            ],
+            // collapsed: true,
+            id: 'tech-docs/kubernetes/components/kubeadm/lifecycle',
+            // items: [
+            //   // {
+            //   //   type: 'doc',
+            //   //   label: '5.1.1.2.5.2. Фазы',
+            //   //   id: 'tech-docs/kubernetes/components/kubeadm/phases/phases',
+            //   // },
+            //   // {
+            //   //   type: 'doc',
+            //   //   label: '5.1.1.2.5.1. Установка',
+            //   //   id: 'tech-docs/kubernetes/components/kubeadm/lifecycle',
+            //   // },
+            //   // {
+            //   //   type: 'doc',
+            //   //   label: '5.1.1.2.5.3. Пост обработка',
+            //   //   id: 'tech-docs/kubernetes-thw/step-by-step-kubeadm-aditional',
+            //   // },
+            // ],
           },
 
           {
             type: 'doc',
             label: '5.1.1.2.6. Kubelet',
             id: 'tech-docs/kubernetes/components/kubelet/lifecycle',
+          },
+          {
+            type: 'doc',
+            label: '5.1.1.2.7. Kube-API',
+            id: 'tech-docs/kubernetes/components/kubeAPI/api-static-pods',
+          },
+          {
+            type: 'doc',
+            label: '5.1.1.2.8. Kube-Controller',
+            id: 'tech-docs/kubernetes/components/controllerManager/controller-static-pods',
+          },
+          {
+            type: 'doc',
+            label: '5.1.1.2.9. Kube-Scheduler',
+            id: 'tech-docs/kubernetes/components/scheduler/scheduler-static-pods',
           },
         ],
       },
@@ -113,26 +129,12 @@ export const kubernetes = [
     label: '5.2.4. Настройка УК',
     collapsed: true,
     items: [
-      // {
-      //   type: 'doc',
-      //   label: '5.1.3.1. ETCD',
-      //   id: 'tech-docs/kubernetes/components/etcd/etcd-static-pods',
-      // },
       {
         type: 'doc',
-        label: '5.2.4.2. API',
-        id: 'tech-docs/kubernetes/components/kubeAPI/api-static-pods',
+        label: '5.2.4.1. Пост обработка',
+        id: 'tech-docs/kubernetes-thw/step-by-step-kubeadm-aditional',
       },
-      {
-        type: 'doc',
-        label: '5.2.4.3. Controller',
-        id: 'tech-docs/kubernetes/components/controllerManager/controller-static-pods',
-      },
-      {
-        type: 'doc',
-        label: '5.2.4.4. Scheduler',
-        id: 'tech-docs/kubernetes/components/scheduler/scheduler-static-pods',
-      },
+
     ],
   },
   {

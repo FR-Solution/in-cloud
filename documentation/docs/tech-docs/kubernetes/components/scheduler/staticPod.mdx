@@ -5,7 +5,7 @@ import { COMPONENTS_VERSION } from '@site/src/constants/kubernetes/componentsVer
 import CodeBlock              from '@theme/CodeBlock'
 import dedent                 from 'dedent'
 
-## 5.2.4.4.1. Перменные окружения
+## 5.1.1.2.9.1. Перменные окружения
 
 <CodeBlock language="bash">
     {dedent`
@@ -15,14 +15,14 @@ import dedent                 from 'dedent'
     `}
 </CodeBlock>
 
-## 5.2.4.4.2. Рабочая директория
+## 5.1.1.2.9.2. Рабочая директория
 <CodeBlock language="bash">
     {dedent`
         mkdir -p $\{BASE_K8S_PATH}/manifests
     `}
 </CodeBlock>
 
-## 5.2.4.4.3. Конфигурация
+## 5.1.1.2.9.3. Конфигурация
 ```bash
 cat <<EOF > ${BASE_K8S_PATH}/manifests/kube-scheduler.yaml
 apiVersion: v1
