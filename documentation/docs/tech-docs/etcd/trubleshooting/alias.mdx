@@ -412,3 +412,42 @@ alias kectlDefrag='kectl \
   defrag \
   --cluster'
 ```
+
+### Получение пути `data-dir`
+
+```bash
+kgdatadirpath() {
+  jq -r '.spec.containers[0].command[], .spec.containers[0].args[]? | select(startswith("--data-dir"))' <<< "$(kubectl get pod -n "$1" "$2" -o json)" |
+    awk -F= '{print $2}' | head -n1
+}
+```
+
+### Загрузка файла резервной копии
+
+Данная функция загрузит файл бэкапа из data-dir на локальную машину в текущий каталог.
+
+<CodeBlock language="bash">
+  {dedent`
+    dlbackupfile() {
+      local POD_JSON=$(kubectl get pod -n "$1" "$2" -o json)
+      local DATA_DIR_PATH=$(jq -r '.spec.containers[0].command[], .spec.containers[0].args[]? | select(startswith("--data-dir"))' <<< "$POD_JSON" |
+        awk -F= '{print $2}' | head -n1)
+      local MOUNT_PATH=$DATA_DIR_PATH
+      while [[ -n "$MOUNT_PATH" ]]; do
+        local MOUNT_NAME=$(jq -r --arg path "$MOUNT_PATH" '.spec.containers[0].volumeMounts[] | select(.mountPath==$path) | .name' <<< "$POD_JSON") ;
+        [[ -n "$MOUNT_NAME" ]] && break
+        MOUNT_PATH=\${MOUNT_PATH%/*}
+      done
+      local VOLUME_JSON=$(jq -r --arg name "$MOUNT_NAME" '.spec.volumes[] | select(.name==$name)' <<< "$POD_JSON")
+      local NODE_IP=$(kubectl get node "$(jq -r .spec.nodeName <<< "$POD_JSON")" -o json | jq -r '.status.addresses[] | select(.type=="ExternalIP") | .address')
+      if jq -e '.hostPath' <<< "$VOLUME_JSON" > /dev/null; then
+        local PVC_MOUNT_PATH=$(jq -r '.hostPath.path' <<< "$VOLUME_JSON")
+      else
+        local PVC_NAME=$(jq -r '.persistentVolumeClaim.claimName' <<< "$VOLUME_JSON")
+        local VOLUME_NAME=$(kubectl get pvc -n "$1" "$PVC_NAME" -o json | jq -r .spec.volumeName)
+        local PVC_MOUNT_PATH=$(ssh "$3@$NODE_IP" "sudo lsblk -o MOUNTPOINT | grep '$VOLUME_NAME'")
+      fi
+      rsync  --rsync-path="sudo rsync" $3@$NODE_IP:\${PVC_MOUNT_PATH}\${DATA_DIR_PATH#"$MOUNT_PATH"}/$4 ./
+    }
+  `}
+</CodeBlock>
