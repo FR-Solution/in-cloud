@@ -31,18 +31,18 @@ const Context = createContext<ContextProps | undefined>(undefined);
 export const Provider: FC<{ children: ReactNode }> = ({ children }) => {
   const [testNamespace, setTestNamespace] = useState<string>('');
   const [testPodName, setTestPodName] = useState<string>('');
-  const [nodeName1, setNodeName1] = useState<string>("etcd-main-1")
-  const [nodeName2, setNodeName2] = useState<string>("etcd-main-2")
-  const [nodeName3, setNodeName3] = useState<string>("etcd-main-3")
-  const [nodeAddress1, setNodeAddress1] = useState<string>("10.10.10.3")
-  const [nodeAddress2, setNodeAddress2] = useState<string>("10.10.10.4")
-  const [nodeAddress3, setNodeAddress3] = useState<string>("10.10.10.5")
-  const [k8sNodeAddress1, setK8sNodeAddress1] = useState<string>("10.10.10.3")
-  const [k8sNodeAddress2, setK8sNodeAddress2] = useState<string>("10.10.10.4")
-  const [k8sNodeAddress3, setK8sNodeAddress3] = useState<string>("10.10.10.5")
-  const [clientPort, setClientPort] = useState<string>("2379")
-  const [peerPort, setPeerPort] = useState<string>("2380")
-  const [nodeUser, setNodeUser] = useState<string>("admin")
+  const [nodeName1, setNodeName1] = useState<string>("")
+  const [nodeName2, setNodeName2] = useState<string>("")
+  const [nodeName3, setNodeName3] = useState<string>("")
+  const [nodeAddress1, setNodeAddress1] = useState<string>("")
+  const [nodeAddress2, setNodeAddress2] = useState<string>("")
+  const [nodeAddress3, setNodeAddress3] = useState<string>("")
+  const [k8sNodeAddress1, setK8sNodeAddress1] = useState<string>("")
+  const [k8sNodeAddress2, setK8sNodeAddress2] = useState<string>("")
+  const [k8sNodeAddress3, setK8sNodeAddress3] = useState<string>("")
+  const [clientPort, setClientPort] = useState<string>("")
+  const [peerPort, setPeerPort] = useState<string>("")
+  const [nodeUser, setNodeUser] = useState<string>("")
 
   return (
     <Context.Provider value={{
@@ -96,18 +96,18 @@ export const Input1: FC = () => {
       <Input placeholder="testPodName" value={testPodName} onChange={e => setTestPodName(e.target.value)} />
 
       Для начала задайте переменные:
-      <Input placeholder="nodeName1" value={nodeName1} onChange={e => setNodeName1(e.target.value)} />
-      <Input placeholder="nodeName2" value={nodeName2} onChange={e => setNodeName2(e.target.value)} />
-      <Input placeholder="nodeName3" value={nodeName3} onChange={e => setNodeName3(e.target.value)} />
-      <Input placeholder="nodeAddress1" value={nodeAddress1} onChange={e => setNodeAddress1(e.target.value)} />
-      <Input placeholder="nodeAddress2" value={nodeAddress2} onChange={e => setNodeAddress2(e.target.value)} />
-      <Input placeholder="nodeAddress3" value={nodeAddress3} onChange={e => setNodeAddress3(e.target.value)} />
-      <Input placeholder="k8sNodeAddress1" value={k8sNodeAddress1} onChange={e => setK8sNodeAddress1(e.target.value)} />
-      <Input placeholder="k8sNodeAddress2" value={k8sNodeAddress2} onChange={e => setK8sNodeAddress2(e.target.value)} />
-      <Input placeholder="k8sNodeAddress3" value={k8sNodeAddress3} onChange={e => setK8sNodeAddress3(e.target.value)} />
-      <Input placeholder="clientPort" value={clientPort} onChange={e => setClientPort(e.target.value)} />
-      <Input placeholder="peerPort" value={peerPort} onChange={e => setPeerPort(e.target.value)} />
-      <Input placeholder="nodeUser" value={nodeUser} onChange={e => setNodeUser(e.target.value)} />
+      <Input placeholder="Имя 1й ноды ETCD кластера" value={nodeName1} onChange={e => setNodeName1(e.target.value)} />
+      <Input placeholder="Имя 2й ноды ETCD кластера" value={nodeName2} onChange={e => setNodeName2(e.target.value)} />
+      <Input placeholder="Имя 3й ноды ETCD кластера" value={nodeName3} onChange={e => setNodeName3(e.target.value)} />
+      <Input placeholder="IP адрес 1й ноды ETCD кластера" value={nodeAddress1} onChange={e => setNodeAddress1(e.target.value)} />
+      <Input placeholder="IP адрес 2й ноды ETCD кластера" value={nodeAddress2} onChange={e => setNodeAddress2(e.target.value)} />
+      <Input placeholder="IP адрес 3й ноды ETCD кластера" value={nodeAddress3} onChange={e => setNodeAddress3(e.target.value)} />
+      <Input placeholder="IP адрес 1й ноды K8s кластер" value={k8sNodeAddress1} onChange={e => setK8sNodeAddress1(e.target.value)} />
+      <Input placeholder="IP адрес 2й ноды K8s кластер" value={k8sNodeAddress2} onChange={e => setK8sNodeAddress2(e.target.value)} />
+      <Input placeholder="IP адрес 3й ноды K8s кластер" value={k8sNodeAddress3} onChange={e => setK8sNodeAddress3(e.target.value)} />
+      <Input placeholder="Порт для подключения клиентами к ETCD кластеру" value={clientPort} onChange={e => setClientPort(e.target.value)} />
+      <Input placeholder="Порт для подключения нод ETCD кластера между собой" value={peerPort} onChange={e => setPeerPort(e.target.value)} />
+      <Input placeholder="Имя пользователя для подключения к нода K8s кластера по SSH" value={nodeUser} onChange={e => setNodeUser(e.target.value)} />
     </Flex>
   );
 };
