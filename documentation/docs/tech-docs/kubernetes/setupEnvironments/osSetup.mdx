@@ -21,8 +21,9 @@ import dedent from 'dedent'
 
 <CodeBlock language="bash">
   {dedent`
-        sudo modprobe overlay
-        sudo modprobe br_netfilter
+        sudo -i
+        modprobe overlay
+        modprobe br_netfilter
     `}
 </CodeBlock>
 

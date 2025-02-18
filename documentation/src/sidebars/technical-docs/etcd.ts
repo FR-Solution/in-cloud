@@ -19,16 +19,6 @@ export const etcd = [
             label: '5.1.1.2.1. Etcd',
             id: 'tech-docs/etcd/components/etcd/lifecycle',
           },
-          {
-            type: 'doc',
-            label: '5.1.1.2.2. Etcdctl',
-            id: 'tech-docs/etcd/components/etcdctl/lifecycle',
-          },
-          {
-            type: 'doc',
-            label: '5.1.1.2.3. Etcdutl',
-            id: 'tech-docs/etcd/components/etcdutl/lifecycle',
-          },
         ],
       },
       {
@@ -40,16 +30,6 @@ export const etcd = [
             type: 'doc',
             label: '5.1.1.3.1. Etcd',
             id: 'tech-docs/etcd/components/etcd/check',
-          },
-          {
-            type: 'doc',
-            label: '5.1.1.3.2. Etcdctl',
-            id: 'tech-docs/etcd/components/etcdctl/check',
-          },
-          {
-            type: 'doc',
-            label: '5.1.1.3.3. Etcdutl',
-            id: 'tech-docs/etcd/components/etcdutl/check',
           },
         ]
       },
