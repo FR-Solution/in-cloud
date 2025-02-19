@@ -4,7 +4,7 @@ import { CUSTOM_VALUE } from '@site/src/constants/kubernetes/customValue'
 import CodeBlock        from '@theme/CodeBlock'
 import dedent           from 'dedent'
 
-### 5.2.3.2.2.1. Переменные окружения PKI
+<h4>Переменные окружения</h4>
 <CodeBlock language="bash">
     {dedent`
         export CLUSTER_NAME="${CUSTOM_VALUE.clusterName.value}"
@@ -32,7 +32,7 @@ import dedent           from 'dedent'
     `}
 </CodeBlock>
 
-### 5.2.3.2.2.2. Рабочая директория для PKI
+<h4>Рабочая директория</h4>
 <CodeBlock language="bash">
     {dedent`
         mkdir -p $\{BASE_K8S_PATH}/pki
@@ -41,7 +41,7 @@ import dedent           from 'dedent'
     `}
 </CodeBlock>
 
-### 5.2.3.2.2.3. Конфигурация PKI
+<h4>Конфигурация</h4>
 ```bash
 cat <<EOF > ${KUBELET_SERVER_CRT_CONF}
 [ req ]
@@ -75,13 +75,13 @@ subjectAltName=@alt_names
 EOF
 ```
 
-### 5.2.3.2.2.4. Генерация приватного ключа
+<h4>Генерация приватного ключа</h4>
 ```bash
 openssl genrsa \
     -out "${KUBELET_SERVER_KEY_PATH}" ${KUBELET_SERVER_KEY_SIZE}
 ```
 
-### 5.2.3.2.2.5. Генерация CSR
+<h4>Генерация CSR</h4>
 ```bash
 openssl req \
     -new \
@@ -90,7 +90,7 @@ openssl req \
     -config "${KUBELET_SERVER_CRT_CONF}"
 ```
 
-### 5.2.3.2.2.6. Подпись CSR
+<h4>Подпись CSR</h4>
 ```bash
 openssl x509 \
     -req \

@@ -4,7 +4,7 @@ import { CUSTOM_VALUE } from '@site/src/constants/kubernetes/customValue'
 import CodeBlock        from '@theme/CodeBlock'
 import dedent           from 'dedent'
 
-### 5.1.2.2.1.1. Переменные окружения PKI
+<h4>Переменные окружения</h4>
 <CodeBlock language="bash">
     {dedent`
         export BASE_K8S_PATH="${CUSTOM_VALUE.kuberneteBaseFolderPath.value}"
@@ -19,7 +19,7 @@ import dedent           from 'dedent'
     `}
 </CodeBlock>
 
-### 5.1.2.2.1.2. Рабочая директория для PKI
+<h4>Рабочая директория</h4>
 <CodeBlock language="bash">
     {dedent`
         mkdir -p $\{BASE_K8S_PATH}/pki/etcd
@@ -28,7 +28,7 @@ import dedent           from 'dedent'
 </CodeBlock>
 
 
-### 5.1.2.2.1.3. Конфигурация PKI
+<h4>Конфигурация</h4>
 ```bash
 cat <<EOF > ${ETCD_CLIENT_CRT_CONF}
 [ req ]
@@ -48,13 +48,13 @@ extendedKeyUsage=clientAuth
 EOF
 ```
 
-### 5.1.2.2.1.4. Генерация приватного ключа
+<h4>Генерация приватного ключа</h4>
 ```bash
 openssl genrsa \
     -out "${ETCD_CLIENT_KEY_PATH}" ${ETCD_CLIENT_KEY_SIZE}
 ```
 
-### 5.1.2.2.1.5. Генерация CSR
+<h4>Генерация CSR</h4>
 ```bash
 openssl req \
     -new \
@@ -63,7 +63,7 @@ openssl req \
     -config "${ETCD_CLIENT_CRT_CONF}"
 ```
 
-### 5.1.2.2.1.6. Подпись CSR
+<h4>Подпись CSR</h4>
 ```bash
 openssl x509 \
     -req \
