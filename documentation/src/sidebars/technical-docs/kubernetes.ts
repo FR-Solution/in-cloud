@@ -101,9 +101,61 @@ export const kubernetes = [
         ],
       },
       {
-        type: 'doc',
-        label: '5.2.1.4. Проверка',
-        id: 'tech-docs/kubernetes/components/components-ready',
+        type: 'category',
+        label: '5.2.1.4. Проверка ПО',
+        // id: 'tech-docs/kubernetes/components/components-ready',
+        items: [
+          {
+            type: 'doc',
+            label: '5.2.1.4.1. Containerd',
+            id: 'tech-docs/kubernetes/components/containerd/component-ready',
+          },
+          {
+            type: 'doc',
+            label: '5.2.1.4.2. Runc',
+            id: 'tech-docs/kubernetes/components/runc/component-ready',
+          },
+          {
+            type: 'doc',
+            label: '5.2.1.4.3. Crictl',
+            id: 'tech-docs/kubernetes/components/crictl/component-ready',
+          },
+          {
+            type: 'doc',
+            label: '5.2.1.4.4. Kubectl',
+            id: 'tech-docs/kubernetes/components/kubectl/component-ready',
+          },
+          {
+            type: 'doc',
+            label: '5.2.1.4.5. Kubeadm',
+            id: 'tech-docs/kubernetes/components/kubeadm/component-ready',
+          },
+          {
+            type: 'doc',
+            label: '5.2.1.4.6. Kubelet',
+            id: 'tech-docs/kubernetes/components/kubelet/component-ready',
+          },
+          {
+            type: 'doc',
+            label: '5.2.1.4.7. API',
+            id: 'tech-docs/kubernetes/components/kubeAPI/component-ready',
+          },
+          {
+            type: 'doc',
+            label: '5.2.1.4.8. Controller',
+            id: 'tech-docs/kubernetes/components/controllerManager/component-ready',
+          },
+          {
+            type: 'doc',
+            label: '5.2.1.4.9. Scheduler',
+            id: 'tech-docs/kubernetes/components/scheduler/component-ready',
+          },
+          {
+            type: 'doc',
+            label: '5.2.1.4.10. ETCD',
+            id: 'tech-docs/kubernetes/components/etcd/component-ready',
+          },
+        ],
       },
     ],
   },
