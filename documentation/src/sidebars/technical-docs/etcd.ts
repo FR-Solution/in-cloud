@@ -60,7 +60,7 @@ export const etcd = [
       {
         type: 'doc',
         label: '5.1.3.1. Инициализация',
-        id: 'tech-docs/kubernetes/components/etcd/etcd-init-static-pods',
+        id: 'tech-docs/kubernetes/components/etcd/etcd-settings',
       },
       {
         type: 'doc',

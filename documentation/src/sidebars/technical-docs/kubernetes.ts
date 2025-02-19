@@ -13,10 +13,6 @@ export const kubernetes = [
         type: 'category',
         label: '5.2.1.2. Установка ПО',
         collapsed: true,
-        link: {
-          type: 'doc',
-          id: 'tech-docs/kubernetes/components/download',
-        },
         items: [
           {
             type: 'doc',
@@ -84,18 +80,23 @@ export const kubernetes = [
           },
           {
             type: 'doc',
-            label: '5.2.1.3.5. Kube-API',
-            id: 'tech-docs/kubernetes/components/kubeAPI/api-static-pods',
+            label: '5.2.1.3.5. API',
+            id: 'tech-docs/kubernetes/components/kubeAPI/api-settings',
           },
           {
             type: 'doc',
-            label: '5.2.1.3.6. Kube-Controller',
-            id: 'tech-docs/kubernetes/components/controllerManager/controller-static-pods',
+            label: '5.2.1.3.6. Controller',
+            id: 'tech-docs/kubernetes/components/controllerManager/controller-settings',
           },
           {
             type: 'doc',
-            label: '5.2.1.3.7. Kube-Scheduler',
-            id: 'tech-docs/kubernetes/components/scheduler/scheduler-static-pods',
+            label: '5.2.1.3.7. Scheduler',
+            id: 'tech-docs/kubernetes/components/scheduler/scheduler-settings',
+          },
+          {
+            type: 'doc',
+            label: '5.2.1.3.8. ETCD',
+            id: 'tech-docs/kubernetes/components/etcd/etcd-settings',
           },
         ],
       },

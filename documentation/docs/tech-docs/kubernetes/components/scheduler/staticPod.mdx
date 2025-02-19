@@ -1,11 +1,11 @@
-import { CUSTOM_VALUE }     from '@site/src/constants/kubernetes/customValue'
-import { PORTS }     from '@site/src/constants/kubernetes/ports'
+import { CUSTOM_VALUE } from '@site/src/constants/kubernetes/customValue'
+import { PORTS } from '@site/src/constants/kubernetes/ports'
 import { COMPONENTS_VERSION } from '@site/src/constants/kubernetes/componentsVersion'
 
-import CodeBlock              from '@theme/CodeBlock'
-import dedent                 from 'dedent'
+import CodeBlock from '@theme/CodeBlock'
+import dedent from 'dedent'
 
-## 5.1.1.2.9.1. Перменные окружения
+<h4>Переменные окружния</h4>
 
 <CodeBlock language="bash">
     {dedent`
@@ -15,14 +15,16 @@ import dedent                 from 'dedent'
     `}
 </CodeBlock>
 
-## 5.1.1.2.9.2. Рабочая директория
+<h4>Рабочая директория</h4>
+
 <CodeBlock language="bash">
     {dedent`
         mkdir -p $\{BASE_K8S_PATH}/manifests
     `}
 </CodeBlock>
 
-## 5.1.1.2.9.3. Конфигурация
+<h4>Генерация манифеста</h4>
+
 ```bash
 cat <<EOF > ${BASE_K8S_PATH}/manifests/kube-scheduler.yaml
 apiVersion: v1

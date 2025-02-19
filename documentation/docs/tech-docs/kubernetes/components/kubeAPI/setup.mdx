@@ -1,17 +1,23 @@
 ---
-id: api-static-pods
+id: api-settings
 ---
 
-import TabItem                  from '@theme/TabItem'
-import Tabs                     from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import Tabs from '@theme/Tabs'
 
-import StaticPodHW              from '@site/docs/tech-docs/kubernetes/components/kubeAPI/staticPod.mdx'
-import StaticPodKubeadm         from '@site/docs/tech-docs/kubernetes/components/kubeAPI/kubeadm.mdx'
+import StaticPodHW from '@site/docs/tech-docs/kubernetes/components/kubeAPI/staticPod.mdx'
+import StaticPodKubeadm from '@site/docs/tech-docs/kubernetes/components/kubeAPI/kubeadm.mdx'
 
-# 5.1.1.2.7. Настройка API
+# 5.2.1.3.5. Kube-Apiserver
+
+:::warning
+Обратите внимание: данный раздел является опциональным и предназначен только для случаев, когда необходимо настроить данный ресурс отдельно от остальных.
+:::
+
+
 <Tabs groupId="install-type">
 
-    <TabItem value='HardWay'>
+    <TabItem value='Static Pod'>
         <StaticPodHW />
     </TabItem>
 
