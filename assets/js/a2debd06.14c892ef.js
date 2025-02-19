@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocumentation=self.webpackChunkdocumentation||[]).push([[1055],{88716:t=>{t.exports=JSON.parse('{"metadata":{"permalink":"/infrastructure/bcloud-docs/blog","page":1,"postsPerPage":10,"totalPages":1,"totalCount":1,"blogDescription":"Blog","blogTitle":"Blog"}}')}}]);

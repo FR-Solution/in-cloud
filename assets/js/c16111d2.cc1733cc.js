@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocumentation=self.webpackChunkdocumentation||[]).push([[7256],{38494:e=>{e.exports=JSON.parse('{"tags":[{"label":"certs","permalink":"/infrastructure/bcloud-docs/blog/tags/certs","count":1},{"label":"kubernetes","permalink":"/infrastructure/bcloud-docs/blog/tags/kubernetes","count":1}]}')}}]);
