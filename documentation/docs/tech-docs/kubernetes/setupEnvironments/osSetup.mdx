@@ -5,11 +5,11 @@ id: os-setup
 import CodeBlock from '@theme/CodeBlock'
 import dedent from 'dedent'
 
-# 5.1.1.1. Настройка ОС
+# 5.2.1.1. Настройка ОС
 
 <h3>Базовые настройки узлов</h3>- Загрузка модулей ядра. - Настройка sysctl.
 
-## 5.1.1.1.3. Загрузка модулей ядра
+## 5.2.1.1.1. Загрузка модулей ядра
 <CodeBlock language="bash">
   {dedent`
         cat <<EOF >> /etc/modules-load.d/k8s.conf
@@ -33,11 +33,11 @@ import dedent from 'dedent'
 Модуль `br_netfilter` интегрирует сетевые мосты (bridges) с подсистемой netfilter в ядре Linux. Это означает, что трафик, проходящий через мосты, можно обрабатывать с помощью iptables.
 :::
 
-## 5.1.1.1.4. Настройка Sysctl
+## 5.2.1.1.2. Настройка Sysctl
 
 :::warning
 
-### 5.1.1.1.4.1. Настройка сети
+### 5.2.1.1.2.1. Настройка сети
 
 После загрузки модуля br_netfilter часто требуется установить системные параметры, чтобы убедиться, что бриджированный трафик обрабатывается iptables.
 
@@ -61,7 +61,7 @@ import dedent from 'dedent'
 </CodeBlock>
 
 
-### 5.1.1.1.4.2. Примененме конфигурации
+### 5.2.1.1.2.2. Примененме конфигурации
 <CodeBlock language="bash">
   {dedent`
         sysctl --system

@@ -1,37 +1,37 @@
 export const kubernetes = [
   {
     type: 'category',
-    label: '5.1.1. Окружение',
+    label: '5.2.1. Окружение',
     collapsed: true,
     items: [
       {
         type: 'doc',
-        label: '5.1.1.1. Настройка ОС',
+        label: '5.2.1.1. Настройка ОС',
         id: 'tech-docs/kubernetes/setupEnvironments/os-setup',
       },
       {
         type: 'category',
-        label: '5.1.1.2. Установка ПО',
+        label: '5.2.1.2. Установка ПО',
         collapsed: true,
         items: [
           {
             type: 'doc',
-            label: '5.1.1.2.1. Containerd',
+            label: '5.2.1.2.1. Containerd',
             id: 'tech-docs/kubernetes/components/containerd/lifecycle',
           },
           {
             type: 'doc',
-            label: '5.1.1.2.2. Runc',
+            label: '5.2.1.2.2. Runc',
             id: 'tech-docs/kubernetes/components/runc/lifecycle',
           },
           {
             type: 'doc',
-            label: '5.1.1.2.3. Crictl',
+            label: '5.2.1.2.3. Crictl',
             id: 'tech-docs/kubernetes/components/crictl/lifecycle',
           },
           {
             type: 'doc',
-            label: '5.1.1.2.4. Kubectl',
+            label: '5.2.1.2.4. Kubectl',
             id: 'tech-docs/kubernetes/components/kubectl/lifecycle',
           },
           {
@@ -42,7 +42,7 @@ export const kubernetes = [
 
           {
             type: 'doc',
-            label: '5.1.1.2.6. Kubelet',
+            label: '5.2.1.2.6. Kubelet',
             id: 'tech-docs/kubernetes/components/kubelet/lifecycle',
           },
           {
@@ -117,11 +117,7 @@ export const kubernetes = [
         label: '5.2.3.1. Иниц-я ЦА',
         id: 'tech-docs/kubernetes/certificates/all-center-authority',
       },
-      {
-        type: 'doc',
-        label: '5.2.3.1.  Тираж-е ЦА',
-        id: 'tech-docs/kubernetes/certificates/download-center-authority',
-      },
+
 
       {
         type: 'doc',
@@ -137,6 +133,11 @@ export const kubernetes = [
         type: 'doc',
         label: '5.2.3.4. Проверка',
         id: 'tech-docs/kubernetes/certificates/examination',
+      },
+      {
+        type: 'doc',
+        label: '5.2.3.5.  Тираж-е ЦА',
+        id: 'tech-docs/kubernetes/certificates/download-center-authority',
       },
     ],
   },

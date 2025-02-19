@@ -7,13 +7,13 @@ import {KUBE_API_ARGS} from '@site/src/constants/kubernetes/kubeAPIArgs'
 import { PORTS } from '@site/src/constants/kubernetes/ports'
 
 
-## 5.1.1.2.5.3. Подгона K8S-THW к kubeadm
+## 5.2.4.1.1. Подгона K8S-THW к kubeadm
 1. Маркировка узла
 2. Настройка ролевой модели
 3. Загрузка `kubelet-conf` и `kubeadm-conf` в кластер
 4. Загрузка корневых сертификатов в кластер
 
-### 5.1.1.2.5.3.1. Labels  и Taints
+### 5.2.4.1.1.1. Labels  и Taints
 <Tabs groupId="install-type">
 
   <TabItem value='HardWay'>
@@ -52,7 +52,7 @@ kubeadm init phase mark-control-plane
 
 </Tabs>
 
-### 5.1.1.2.5.3.2. Настройка ролевой модели
+### 5.2.4.1.1.2. Настройка ролевой модели
 <Tabs groupId="install-type">
 
 <TabItem value='HardWay'>
@@ -289,7 +289,7 @@ namespace
 </Tabs>
 
 
-### 5.1.1.2.5.3.3. Загрузка `kubelet-conf` и `kubeadm-conf` в кластер
+### 5.2.4.1.1.3. Загрузка `kubelet-conf` и `kubeadm-conf` в кластер
 <Tabs groupId="install-type">
 
 <TabItem value="HardWay"></TabItem>
@@ -316,7 +316,7 @@ Creating a ConfigMap "kubelet-config" in namespace kube-system with the configur
 
 </Tabs>
 
-### 5.1.1.2.5.3.4. Загрузка корневых сертификатов в кластер
+### 5.2.4.1.1.4. Загрузка корневых сертификатов в кластер
 <Tabs groupId="install-type">
 
   <TabItem value='HardWay'>
