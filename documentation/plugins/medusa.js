@@ -9,7 +9,7 @@ export default function () {
             tagName: 'script',
             attributes: {
               charset: 'utf-8',
-              src: '/infrastructure/bcloud-docs/js/header-enabler.js',
+              src: '/in-cloud/js/header-enabler.js',
             },
           },
         ],

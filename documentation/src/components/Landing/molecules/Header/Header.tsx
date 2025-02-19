@@ -7,7 +7,7 @@ export const Header: FC = () => (
       <h1>B-Cloud</h1>
       <h2>Облако которое мы заслужили</h2>
 
-      <a href="/infrastructure/bcloud-docs/tech-docs/kubernetes/about">
+      <a href="/in-cloud/tech-docs/kubernetes/about">
         <button className={styles.button} type="button">
           Начать
         </button>
