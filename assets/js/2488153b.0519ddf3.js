@@ -76,7 +76,6 @@
           etcd-servers: "${l.L.etcdServers.value}"
           kubelet-client-certificate: "${l.L.kubeletClientCertificate.value}"
           kubelet-client-key: "${l.L.kubeletClientKey.value}"
-          kubelet-preferred-address-types: InternalIP,ExternalIP,Hostname
           proxy-client-cert-file: "${l.L.proxyClientCertFile.value}"
           proxy-client-key-file: "${l.L.proxyClientKeyFile.value}"
           requestheader-allowed-names: "${l.L.requestheaderAllowedNames.value}"
@@ -91,6 +90,30 @@
           service-cluster-ip-range: "${l.L.serviceClusterIPRange.value}"
           tls-cert-file: "${l.L.tlsCertFile.value}"
           tls-private-key-file: "${l.L.tlsPrivateKeyFile.value}"
+          kubelet-preferred-address-types: InternalIP,ExternalIP,Hostname
+          cloud-provider: external
+          v: "2"
+          event-ttl: "1h0m0s"
+          kubernetes-service-node-port: "0"
+          max-connection-bytes-per-sec: "0"
+          max-requests-inflight: "400"
+          min-request-timeout: "1800"
+          profiling: "false"
+          feature-gates: "RotateKubeletServerCertificate=true"
+          audit-log-maxage: "30"
+          audit-log-maxbackup: "10"
+          audit-log-maxsize: "1000"
+          audit-log-mode: "batch"
+          runtime-config: "api/all=true"
+          enable-aggregator-routing: "true"
+          api-audiences: "konnectivity-server"
+          oidc-client-id: paas-client
+          oidc-username-prefix: "-"
+          oidc-username-claim: email
+          oidc-groups-claim: groups
+          kubelet-timeout: "5s"
+          etcd-prefix: /registry
+
         extraVolumes:
         - name: "k8s-audit"
           hostPath: "/var/log/kubernetes/audit/"
@@ -101,7 +124,9 @@
           - "$\{MACHINE_LOCAL_ADDRESS}"
           - "api.$\{CLUSTER_NAME}.$\{BASE_DOMAIN}"
           - "127.0.0.1"
+
         timeoutForControlPlane: 4m0s
+
       controllerManager:
         extraArgs:
           authentication-kubeconfig: "$\{BASE_K8S_PATH}/controller-manager.conf"
@@ -125,11 +150,29 @@
           leader-elect: "true"
           namespace-sync-period: "2m0s"
           node-startup-grace-period: "10s"
-          terminated-pod-gc-threshold: "12500"
           v: "2"
+          cloud-provider: external
+          allocate-node-cidrs: "false"
+          concurrent-deployment-syncs: "5"
+          concurrent-endpoint-syncs: "5"
+          concurrent-namespace-syncs: "10"
+          concurrent-resource-quota-syncs: "5"
+          horizontal-pod-autoscaler-sync-period: "30s"
+          leader-elect-lease-duration: "15s"
+          leader-elect-renew-deadline: "10s"
+          leader-elect-retry-period: "2s"
+          node-monitor-grace-period: "40s"
+          node-monitor-period: "5s"
+          profiling: "false"
+          resource-quota-sync-period: "5m0s"
+          terminated-pod-gc-threshold: "0"
+          cluster-signing-duration: "720h"
+          use-service-account-credentials: "true"
+
       scheduler:
         extraArgs:
           bind-address: 0.0.0.0
+          leader-elect: "true"
     `}},h={},A=void 0,k={},b=[];function S(e){const t={admonition:"admonition",code:"code",p:"p",...(0,s.R)(),...e.components},{Details:r}=t;return r||function(e,t){throw new Error("Expected "+(t?"component":"object")+" `"+e+"` to be defined: you likely forgot to import, pass, or provide it.")}("Details",!0),(0,a.jsxs)(r,{children:[(0,a.jsx)("summary",{children:"\u041a\u043e\u043d\u0444\u0438\u0433\u0443\u0440\u0430\u0446\u0438\u044f Kubeadm \u0434\u043b\u044f \u0438\u043d\u0438\u0446\u0438\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u0438 \u043a\u043b\u0430\u0441\u0442\u0435\u0440\u0430"}),(0,a.jsx)("h4",{children:"\u041f\u0435\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u0435 \u043e\u043a\u0440\u0443\u0436\u043d\u0438\u044f \u0434\u043b\u044f \u0448\u0430\u0431\u043b\u043e\u043d\u0430 \u043a\u043e\u043d\u0444\u0438\u0433\u0443\u0440\u0430\u0446\u0438\u043e\u043d\u043d\u043e\u0433\u043e \u0444\u0430\u0439\u043b\u0430"}),(0,a.jsx)(c.A,{language:"bash",children:o.A`
       export KUBELET_SERVER_PORT=${u.h.kubeletServer.portNumber}
       export KUBELET_READ_ONLY_PORT=${u.h.kubeletReadOnlyPort.portNumber}
@@ -175,7 +218,7 @@
   `}),"\n",(0,a.jsx)("h4",{children:"\u0418\u043d\u0441\u0442\u0440\u0443\u043a\u0446\u0438\u044f \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0438"}),"\n",(0,a.jsx)(c.A,{language:"bash",children:o.A`
       wget -O ${i.m.kubeadm.path} ${i.m.kubeadm.templateUrl}
       chmod +x ${i.m.kubeadm.path}
-  `})]})}function m(e={}){const{wrapper:t}={...(0,s.R)(),...e.components};return t?(0,a.jsx)(t,{...e,children:(0,a.jsx)(_,{...e})}):_()}},25292:(e,t,r)=>{r.d(t,{L:()=>n});const n={clientCAFile:{value:"${KUBERNETES_CA_CRT_PATH}"},tlsCertFile:{value:"${KUBERNETES_SERVER_CRT_PATH}"},tlsPrivateKeyFile:{value:"${KUBERNETES_SERVER_KEY_PATH}"},etcdCAFile:{value:"${ETCD_CA_CRT_PATH}"},etcdCertfile:{value:"${KUBERNETES_ETCD_CLIENT_CRT_PATH}"},etcdKeyfile:{value:"${KUBERNETES_ETCD_CLIENT_KEY_PATH}"},etcdServers:{value:"${ETCD_SERVERS}"},kubeletClientCertificate:{value:"${KUBERNETES_KUBELET_CLIENT_CRT_PATH}"},kubeletClientKey:{value:"${KUBERNETES_KUBELET_CLIENT_KEY_PATH}"},kubeletServerPort:{value:"${KUBELET_SERVER_PORT}"},kubeletReadOnlyPort:{value:"${KUBELET_READ_ONLY_PORT}"},proxyClientCertFile:{value:"${KUBERNETES_FRONT_PROXY_CLIENT_CRT_PATH}"},proxyClientKeyFile:{value:"${KUBERNETES_FRONT_PROXY_CLIENT_KEY_PATH}"},requestheaderAllowedNames:{value:"${KUBERNETES_FRONT_PROXY_CLIENT_CN}"},requestheaderClientCAFile:{value:"${FRONT_PROXY_CA_CRT_PATH}"},serviceAccountIssuer:{value:"https://kubernetes.default.svc.${CLUSTER_DOMAIN}"},serviceAccountKeyFile:{value:"${KUBERNETES_SERVICE_ACCOUNT_CRT_PATH}"},serviceAccountSigningKeyFile:{value:"${KUBERNETES_SERVICE_ACCOUNT_KEY_PATH}"},serviceClusterIPRange:{value:"${SERVICE_CIDR}"},advertiseAddress:{value:"${MACHINE_LOCAL_ADDRESS}"},securePort:{value:"${KUBE_APISERVER_PORT}"},anonymousAuth:{value:"true"},authorizationMode:{value:"Node,RBAC"},allowPrivileged:{value:"true"},enableAdmissionPlugins:{value:"NodeRestriction"},enableBootstrapTokenAuth:{value:"true"},requestheaderExtraHeadersPrefix:{value:"X-Remote-Extra-"},requestheaderGroupHeaders:{value:"X-Remote-Group"},requestheaderUsernameHeaders:{value:"X-Remote-User"}}},28702:(e,t,r)=>{r.d(t,{D:()=>n});const n={data:{value:r(53828).A`
+  `})]})}function m(e={}){const{wrapper:t}={...(0,s.R)(),...e.components};return t?(0,a.jsx)(t,{...e,children:(0,a.jsx)(_,{...e})}):_()}},25292:(e,t,r)=>{r.d(t,{L:()=>n});const n={clientCAFile:{value:"${KUBERNETES_CA_CRT_PATH}"},tlsCertFile:{value:"${KUBERNETES_SERVER_CRT_PATH}"},tlsPrivateKeyFile:{value:"${KUBERNETES_SERVER_KEY_PATH}"},etcdCAFile:{value:"${ETCD_CA_CRT_PATH}"},etcdCertfile:{value:"${KUBERNETES_ETCD_CLIENT_CRT_PATH}"},etcdKeyfile:{value:"${KUBERNETES_ETCD_CLIENT_KEY_PATH}"},etcdServers:{value:"${ETCD_SERVERS}"},kubeletClientCertificate:{value:"${KUBERNETES_KUBELET_CLIENT_CRT_PATH}"},kubeletClientKey:{value:"${KUBERNETES_KUBELET_CLIENT_KEY_PATH}"},kubeletServerPort:{value:"${KUBELET_SERVER_PORT}"},kubeletReadOnlyPort:{value:"${KUBELET_READ_ONLY_PORT}"},proxyClientCertFile:{value:"${KUBERNETES_FRONT_PROXY_CLIENT_CRT_PATH}"},proxyClientKeyFile:{value:"${KUBERNETES_FRONT_PROXY_CLIENT_KEY_PATH}"},requestheaderAllowedNames:{value:"${KUBERNETES_FRONT_PROXY_CLIENT_CN}"},requestheaderClientCAFile:{value:"${FRONT_PROXY_CA_CRT_PATH}"},serviceAccountIssuer:{value:"https://kubernetes.default.svc.${CLUSTER_DOMAIN}"},serviceAccountKeyFile:{value:"${KUBERNETES_SERVICE_ACCOUNT_CRT_PATH}"},serviceAccountSigningKeyFile:{value:"${KUBERNETES_SERVICE_ACCOUNT_KEY_PATH}"},serviceClusterIPRange:{value:"${SERVICE_CIDR}"},advertiseAddress:{value:"${MACHINE_LOCAL_ADDRESS}"},securePort:{value:"${KUBE_APISERVER_PORT}"},anonymousAuth:{value:"true"},authorizationMode:{value:"Node,RBAC"},allowPrivileged:{value:"true"},enableAdmissionPlugins:{value:'"NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota,AlwaysPullImages,NodeRestriction,PodSecurity"'},enableBootstrapTokenAuth:{value:"true"},requestheaderExtraHeadersPrefix:{value:"X-Remote-Extra-"},requestheaderGroupHeaders:{value:"X-Remote-Group"},requestheaderUsernameHeaders:{value:"X-Remote-User"}}},28702:(e,t,r)=>{r.d(t,{D:()=>n});const n={data:{value:r(53828).A`
       apiVersion: kubelet.config.k8s.io/v1beta1
       authentication:
         anonymous:
