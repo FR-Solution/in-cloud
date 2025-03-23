@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkdocumentation=self.webpackChunkdocumentation||[]).push([[7472],{55513:e=>{e.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"\u0421\u0435\u0440\u0442\u0438\u0444\u0438\u043a\u0430\u0442\u044b Kubernetes","permalink":"/in-cloud/blog/k8s-cp-certificates","unlisted":false,"date":"2025-02-08T00:00:00.000Z"}]}')}}]);

@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkdocumentation=self.webpackChunkdocumentation||[]).push([[3756],{68408:e=>{e.exports=JSON.parse('{"tags":[{"label":"certs","permalink":"/in-cloud/blog/tags/certs","count":1},{"label":"kubernetes","permalink":"/in-cloud/blog/tags/kubernetes","count":1}]}')}}]);
